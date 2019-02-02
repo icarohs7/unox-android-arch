@@ -18,7 +18,7 @@ https://github.com/icarohs7/unox-android-arch/search?l=kotlin)
 http://hits.dwyl.io/icarohs7/unox-android-arch)
 [![GitHub license](https://img.shields.io/github/license/icarohs7/unox-android-arch.svg)](
 https://github.com/icarohs7/unox-android-arch/blob/master/LICENSE)
-[![Codecov](https://img.shields.io/codecov/c/github/icarohs7/unox-android-arch.svg)](
+[![codecov](https://codecov.io/gh/icarohs7/unox-android-arch/branch/master/graph/badge.svg)](
 https://codecov.io/gh/icarohs7/unox-android-arch)
 
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/icarohs7/unox-android-arch.svg)](

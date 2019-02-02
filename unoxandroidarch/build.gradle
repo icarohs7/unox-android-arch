@@ -1,0 +1,24 @@
+plugins {
+    id("com.android.library")
+    id("kotlin-android")
+    id("kotlin-kapt")
+}
+
+apply(from: commonAndroidSettings)
+android {
+    defaultConfig {
+        versionCode(1)
+        versionName(gitTagVersion)
+    }
+}
+
+dependencies {
+    implementation(fileTree(dir: "libs", include: ["*.jar"]))
+    api(AndroidDeps.unoxAndroid)
+    kapt(AndroidKaptDeps.core)
+}
+
+ext.groupId = "com.github.icarohs7"
+ext.artifactId = "unoxandroidarch"
+apply(from: jacocoAndroidSettings)
+apply(from: mavenAndroidPublish)

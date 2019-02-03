@@ -13,10 +13,9 @@ cache:
   - $HOME/.gradle/wrapper
 
 env:
-  matrix:
-  - ANDROID_TARGET=android-21 ANDROID_ABI=armeabi-v7a
-  - ANDROID_TARGET=android-26 ANDROID_ABI=armeabi-v7a
   global:
+  - ANDROID_TARGET=android-15
+  - ANDROID_ABI=armeabi-v7a
   - ADB_INSTALL_TIMEOUT=10
 
 android:
@@ -26,8 +25,8 @@ android:
   - tools
   - build-tools-28.0.3
   - android-28
-  - sys-img-armeabi-v7a-android-21
-  - sys-img-armeabi-v7a-android-26
+  - extra-android-m2repository
+  - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
 
   licenses:
   - '.+'

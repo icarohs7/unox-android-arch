@@ -8,8 +8,6 @@ import com.github.icarohs7.unoxandroidarch.extensions.showConfirmDialog
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertContains
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import se.lovef.assert.v1.shouldBeFalse
@@ -19,18 +17,18 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class TestActivityTest : BaseActivityTestClass<TestActivity>(TestActivity::class) {
-    @Test
-    fun coroutine_scope_should_restrain_coroutines_lifetime() {
-        //Given
-        launchAct()
-        //When
-        blockingDelay(200)
-        val coroutine = activity.launch { delay(15000) }
-        rule.finishActivity()
-        blockingDelay(2000)
-        //Then
-        coroutine.isCancelled.shouldBeTrue()
-    }
+//    @Test
+//    fun coroutine_scope_should_restrain_coroutines_lifetime() {
+//        //Given
+//        launchAct()
+//        //When
+//        blockingDelay(200)
+//        val coroutine = activity.launch { delay(15000) }
+//        rule.finishActivity()
+//        blockingDelay(2000)
+//        //Then
+//        coroutine.isCancelled.shouldBeTrue()
+//    }
 
     @Test
     fun show_confirm_dialog() {

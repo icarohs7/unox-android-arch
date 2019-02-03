@@ -9,7 +9,6 @@ import org.koin.standalone.StandAloneContext
  * as a singleton
  */
 inline fun <reified T : Any> registerSingletonInDiContainer(noinline definition: (ParameterList) -> T) {
-    // TODO test
     StandAloneContext.loadKoinModules(module { single(override = true, definition = definition) })
 }
 
@@ -18,6 +17,5 @@ inline fun <reified T : Any> registerSingletonInDiContainer(noinline definition:
  * as a factory
  */
 inline fun <reified T : Any> registerFactoryInDiContainer(noinline definition: (ParameterList) -> T) {
-    // TODO test
     StandAloneContext.loadKoinModules(module { factory(override = true, definition = definition) })
 }

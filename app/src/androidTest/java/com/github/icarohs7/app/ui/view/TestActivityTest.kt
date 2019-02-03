@@ -25,9 +25,9 @@ class TestActivityTest : BaseActivityTestClass<TestActivity>(TestActivity::class
         launchAct()
         //When
         blockingDelay(200)
-        val coroutine = activity.launch { delay(5000) }
+        val coroutine = activity.launch { delay(15000) }
         rule.finishActivity()
-        blockingDelay(800)
+        blockingDelay(2000)
         //Then
         coroutine.isCancelled.shouldBeTrue()
     }

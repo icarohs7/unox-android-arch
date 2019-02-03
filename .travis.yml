@@ -30,8 +30,8 @@ android:
   - extra-android-m2repository
 
   # Used by emulator
-  - android-26
-  - sys-img-armeabi-v7a-android-26
+  - android-24
+  - sys-img-armeabi-v7a-android-24
 
   licenses:
   - '.+'
@@ -45,7 +45,7 @@ before_script:
 - android list sdk --extended --no-ui --all
 
 # Create, start and wait emulator
-- echo no | android create avd --force -n test -t android-26 --abi armeabi-v7a
+- echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
 - emulator -avd test -no-skin -no-audio -no-window &
 - android-wait-for-emulator
 - adb shell input keyevent 82 &

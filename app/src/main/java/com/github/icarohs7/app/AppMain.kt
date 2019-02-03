@@ -1,7 +1,7 @@
 package com.github.icarohs7.app
 
 import android.app.Application
-import com.github.icarohs7.unoxandroid.UnoxAndroid
+import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
 
 class AppMain : Application() {
     override fun onCreate() {
@@ -10,6 +10,6 @@ class AppMain : Application() {
     }
 
     private fun setupUnoxAndroid() {
-        UnoxAndroid.setActivityAndFragmentTransitionAnimation(UnoxAndroid.AnimationType.SWIPE_LEFT)
+        UnoxAndroidArch.setActivityAndFragmentTransitionAnimation(UnoxAndroidArch.AnimationType.SWIPE_LEFT)
     }
 }

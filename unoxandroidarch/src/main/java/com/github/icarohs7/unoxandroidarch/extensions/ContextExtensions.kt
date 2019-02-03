@@ -37,8 +37,8 @@ import androidx.core.os.bundleOf
 import arrow.core.Tuple2
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
-import com.github.icarohs7.unoxandroid.UnoxAndroid
-import com.github.icarohs7.unoxandroid.databinding.DialogYesNoBinding
+import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
+import com.github.icarohs7.unoxandroidarch.databinding.DialogYesNoBinding
 import org.jetbrains.anko.layoutInflater
 import java.util.Calendar
 import kotlin.reflect.KClass
@@ -55,8 +55,8 @@ fun <T : AppCompatActivity> Context.navigateTo(
     intent.putExtras(extras)
     startActivity(intent)
     if (this is Activity) {
-        UnoxAndroid.animationType.executeFn(this)
-        if (UnoxAndroid.finishActivityOnNavigate || finishActivity) finish()
+        UnoxAndroidArch.animationType.executeFn(this)
+        if (UnoxAndroidArch.finishActivityOnNavigate || finishActivity) finish()
     }
 }
 
@@ -97,7 +97,7 @@ fun Context.dialogTimePicker(listener: (hour: Int, minute: Int) -> Unit): TimePi
 fun Context.showConfirmDialog(
         title: String = "",
         message: String = "",
-        builder: DialogYesNoBinding.(MaterialDialog) -> Unit
+        builder: com.github.icarohs7.unoxandroidarch.databinding.DialogYesNoBinding.(MaterialDialog) -> Unit
 ) {
     val (binding, dialog) = newConfirmDialog(title, message)
     binding.builder(dialog)

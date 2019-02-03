@@ -4,12 +4,10 @@ import android.view.View
 import com.github.icarohs7.app.testutils.BaseActivityTestClass
 import com.github.icarohs7.app.testutils.blockingDelay
 import com.github.icarohs7.unoxandroid.extensions.coroutines.onForeground
-import com.github.icarohs7.unoxandroid.extensions.views.showConfirmDialog
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertContains
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import se.lovef.assert.v1.shouldBeFalse

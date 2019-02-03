@@ -28,7 +28,7 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
-import com.github.icarohs7.unoxandroid.databinding.DialogYesNoBinding
+import com.github.icarohs7.unoxandroidarch.databinding.DialogYesNoBinding
 import org.jetbrains.anko.inputMethodManager
 
 /**

@@ -30,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.transaction
 import com.github.icarohs7.unoxandroid.UnoxAndroid
+import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
 import org.jetbrains.anko.inputMethodManager
 
 /**
@@ -39,10 +40,10 @@ import org.jetbrains.anko.inputMethodManager
 fun AppCompatActivity.fragmentTransactionAnimated(fn: FragmentTransaction.() -> Unit) {
     supportFragmentManager?.transaction {
         setCustomAnimations(
-                UnoxAndroid.enterAnim,
-                UnoxAndroid.exitAnim,
-                UnoxAndroid.popEnterAnim,
-                UnoxAndroid.popExitAnim)
+                UnoxAndroidArch.enterAnim,
+                UnoxAndroidArch.exitAnim,
+                UnoxAndroidArch.popEnterAnim,
+                UnoxAndroidArch.popExitAnim)
         fn()
     }
 }

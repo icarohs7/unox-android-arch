@@ -36,5 +36,4 @@ dependencies {
 }
 
 ext.groupId = "com.github.icarohs7"
-ext.artifactId = "unoxandroidarch"
 apply(from: jacocoAndroidSettings)

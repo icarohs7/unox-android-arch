@@ -1,27 +1,27 @@
 language: android
 jdk: oraclejdk8
-sudo: required
+sudo: false
 
 env:
   global:
   # 20 minutes timeout to adb (default 2)
   - ADB_INSTALL_TIMEOUT=20
   - QEMU_AUDIO_DRV=none
+  - EMULATOR_API=24
 
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 cache:
   directories:
-  - $HOME/.m2
-  - $HOME/.gradle/daemon
-  - $HOME/.gradle/native
-  - $HOME/.gradle/wrapper
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+  - $HOME/.android/build-cache
 
 android:
   components:
   # Used by build
-  - tools
   - tools
   - platform-tools
   - build-tools-28.0.3
@@ -31,14 +31,19 @@ android:
   - extra-android-m2repository
 
   # Used by emulator
-  - android-24
-  - sys-img-armeabi-v7a-android-24
+  - android-$EMULATOR_API
+  - sys-img-armeabi-v7a-android-$EMULATOR_API
 
   licenses:
   - '.+'
 
+before_install:
+- echo y | android update sdk --no-ui --all --filter "tool,extra-android-m2repository,extra-android-support,extra-google-google_play_services,extra-google-m2repository"
+- echo y | $ANDROID_HOME/tools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
+
 install:
 - echo y | sdkmanager "platforms;android-28"
+- ./gradlew clean assemble assembleAndroidTest --stacktrace
 
 before_script:
 - chmod +x gradlew
@@ -46,18 +51,15 @@ before_script:
 # Update, create and start emulator
 - echo "y" | android update sdk -a --no-ui --filter android-24
 - echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-24
-- android list targets
+- android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}'
 - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
 - emulator -avd test -no-skin -no-window &
-
-script:
-# Run build, unit tests, generate jacoco report and assemble androidTests resources
-- ./gradlew build jacocoTestReport assembleAndroidTest
-
-# Run android tests
 - android-wait-for-emulator
 - adb shell input keyevent 82 &
-- ./gradlew connectedCheck
+
+script:
+# Build, run all tests and generate coverage report
+- ./gradlew check jacocoTestReport connectedCheck --stacktrace
 
 after_success:
 # Send coverage to codecov

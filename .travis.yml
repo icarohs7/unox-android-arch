@@ -5,10 +5,10 @@ sudo: false
 env:
   global:
 
-  # 20 minutes timeout to adb (default 2)
-  - ADB_INSTALL_TIMEOUT=20
+  # 10 minutes timeout to adb (default 2)
+  - ADB_INSTALL_TIMEOUT=10
   - QEMU_AUDIO_DRV=none
-  - EMULATOR_API=24
+  - EMULATOR_API=22
 
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -16,9 +16,7 @@ before_cache:
 
 cache:
   directories:
-  - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
-  - $HOME/.android/build-cache
 
 android:
   components:
@@ -41,29 +39,27 @@ android:
 
 before_install:
 - chmod +x gradlew
-- echo y | android update sdk --no-ui --all --filter "tool,extra-android-m2repository,extra-android-support,extra-google-google_play_services,extra-google-m2repository"
-- echo y | $ANDROID_HOME/tools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
 
 install:
 - echo y | sdkmanager "platforms;android-28"
-- ./gradlew clean assemble assembleAndroidTest --stacktrace
 
 before_script:
 
 # Update, create and start emulator
-- echo "y" | android update sdk -a --no-ui --filter android-24
-- echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-24
+- echo "y" | android update sdk -a --no-ui --filter android-22
+- echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-22
 - android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}'
-- echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
+- echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
 - emulator -avd test -no-skin -no-window &
 
 script:
 
 # Build, run all tests and generate coverage report
-- ./gradlew check jacocoTestReport --stacktrace --continue
+- ./gradlew clean build jacocoTestReport
+- ./gradlew check -PdisablePreDex --continue --stacktrace
 - android-wait-for-emulator
-#- adb shell input keyevent 82 &
-- ./gradlew connectedCheck --stacktrace --continue
+- adb shell input keyevent 82 &
+- ./gradlew connectedCheck -PdisablePreDex --continue --stacktrace
 
 after_success:
 

@@ -4,6 +4,7 @@ sudo: false
 
 env:
   global:
+
   # 20 minutes timeout to adb (default 2)
   - ADB_INSTALL_TIMEOUT=20
   - QEMU_AUDIO_DRV=none
@@ -21,6 +22,7 @@ cache:
 
 android:
   components:
+
   # Used by build
   - tools
   - platform-tools
@@ -54,13 +56,16 @@ before_script:
 - android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}'
 - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
 - emulator -avd test -no-skin -no-window &
-- android-wait-for-emulator
-- adb shell input keyevent 82 &
 
 script:
+
 # Build, run all tests and generate coverage report
-- ./gradlew check jacocoTestReport connectedCheck --stacktrace
+- ./gradlew check jacocoTestReport --stacktrace --continue
+- android-wait-for-emulator
+#- adb shell input keyevent 82 &
+- ./gradlew connectedCheck --stacktrace --continue
 
 after_success:
+
 # Send coverage to codecov
 - bash <(curl -s https://codecov.io/bash)

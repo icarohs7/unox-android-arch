@@ -26,6 +26,7 @@ package com.github.icarohs7.unoxandroidarch.extensions
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -130,3 +131,13 @@ internal fun Context.newConfirmDialog(
     binding.setNoHandler { dialog.dismiss() }
     return Tuple2(binding, dialog)
 }
+
+/** @return A pending intent used to start the given activity */
+fun Context.pendingIntentToActivity(activity: KClass<out AppCompatActivity>): PendingIntent? {
+    val intent = Intent(this, activity.java)
+    return PendingIntent.getActivity(this, 0, intent, 0)
+}
+
+/** Helper used to get reference to the activity */
+val Activity.context: Context
+    get() = this

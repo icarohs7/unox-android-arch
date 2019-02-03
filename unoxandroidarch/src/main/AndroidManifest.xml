@@ -1,1 +1,5 @@
-<manifest package="com.github.icarohs7.unoxandroidarch" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.github.icarohs7.unoxandroidarch">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>

@@ -1,7 +1,9 @@
 package com.github.icarohs7.unoxandroidarch.ui.activities
 
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.github.icarohs7.unoxandroid.extensions.coroutines.cancelCoroutineScope
+import com.github.icarohs7.unoxandroidarch.AppEventBus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 
@@ -11,6 +13,11 @@ import kotlinx.coroutines.MainScope
  * when destroyed
  */
 abstract class BaseScopedActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        AppEventBus.Out.subscribeActivity(this)
+    }
+
     override fun onDestroy() {
         cancelCoroutineScope()
         super.onDestroy()

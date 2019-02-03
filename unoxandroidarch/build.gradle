@@ -15,6 +15,22 @@ android {
 
 dependencies {
     implementation(fileTree(dir: "libs", include: ["*.jar"]))
+    api(Deps.coroutinesRx2)
+    api(Deps.khronos)
+    api(Deps.rxRelay)
+
+    api(AndroidDeps.disposer)
+    api(AndroidDeps.drawableToolbox)
+    api(AndroidDeps.flashbar)
+    api(AndroidDeps.koinAndroidxViewmodel)
+    api(AndroidDeps.pugNotification)
+    api(AndroidDeps.quantum)
+    api(AndroidDeps.quantumLiveData)
+    api(AndroidDeps.reactiveNetwork)
+    api(AndroidDeps.smartScheduler)
+    api(AndroidDeps.spotsDialog)
+    api(AndroidDeps.stateViews)
+    api(AndroidDeps.timber)
     api(AndroidDeps.unoxAndroid)
     kapt(AndroidKaptDeps.core)
 }

@@ -120,3 +120,14 @@ fun View.show() {
 fun View.hide(hiddenState: Int = View.GONE) {
     visibility = hiddenState
 }
+
+/**
+ * Location of the view, recommended to use after the view is drawn
+ * @return A pair with the location of the view on the screen, X and Y, respectively
+ */
+val View.location: Pair<Int, Int>
+    get() {
+        val array = intArrayOf(0, 0)
+        getLocationOnScreen(array)
+        return array[0] to array[1]
+    }

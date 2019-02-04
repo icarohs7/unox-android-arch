@@ -175,6 +175,7 @@ object AndroidDeps {
     const val stateViews = "com.github.kobeumut:StateViews:${Versions.stateViews}"
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
     const val unoxAndroid = "com.github.icarohs7:unox-android:${Versions.unoxAndroid}"
+    const val unoxAndroidArch = "com.github.icarohs7:unox-android-arch:${Versions.unoxAndroidArch}"
 }
 
 object AndroidKaptDeps {
@@ -219,7 +220,7 @@ object Versions {
     const val circularImageView = "1.2"
     const val constraintLayout = "1.1.3"
     const val coroutines = "1.1.1"
-    const val disposer = "2.0.0"
+    const val disposer = "1.0.0"
     const val drawableToolbox = "1.0.7"
     const val expansionPanel = "1.2.2"
     const val flashBar = "1.0.3"
@@ -273,7 +274,8 @@ object Versions {
     const val stetho = "1.5.0"
     const val timber = "4.7.1"
     const val tornadoFx = "1.7.17"
-    const val unoxAndroid = "2.4.6"
+    const val unoxAndroid = "2.4.7"
+    const val unoxAndroidArch = "0.2"
 
     const val barista = "2.7.1"
     const val fixd = "1.0.3"

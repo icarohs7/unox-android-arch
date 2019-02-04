@@ -27,6 +27,7 @@ dependencies {
     api(AndroidDeps.quantum)
     api(AndroidDeps.quantumLiveData)
     api(AndroidDeps.reactiveNetwork)
+    api(AndroidDeps.rxPermission)
     api(AndroidDeps.smartScheduler)
     api(AndroidDeps.spotsDialog)
     api(AndroidDeps.stateViews)

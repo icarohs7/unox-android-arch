@@ -4,8 +4,6 @@ sudo: false
 
 env:
   global:
-
-  # 10 minutes timeout to adb (default 2)
   #  - ADB_INSTALL_TIMEOUT=10
   #  - QEMU_AUDIO_DRV=none
   #  - EMULATOR_API=22
@@ -16,22 +14,18 @@ before_cache:
 
 cache:
   directories:
+  - $HOME/.m2
   - $HOME/.gradle/wrapper/
 
 android:
   components:
-
-  # Used by build
   - tools
   - platform-tools
   - tools
   - build-tools-28.0.3
   - android-28
-  - extra-google-google_play_services
   - extra-google-m2repository
   - extra-android-m2repository
-
-  # Used by emulator
   #  - android-$EMULATOR_API
   #  - sys-img-armeabi-v7a-android-$EMULATOR_API
 
@@ -41,12 +35,7 @@ android:
 before_install:
 - chmod +x gradlew
 
-install:
-- echo y | sdkmanager "platforms;android-28"
-
 before_script:
-
-# Update, create and start emulator
 #- echo "y" | android update sdk -a --no-ui --filter android-22
 #- echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-22
 #- android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}'
@@ -54,8 +43,6 @@ before_script:
 #- emulator -avd test -no-skin -no-window &
 
 script:
-
-# Build, run all tests and generate coverage report
 - ./gradlew clean build jacocoTestReport
 #- ./gradlew check -PdisablePreDex --continue --stacktrace
 #- android-wait-for-emulator
@@ -63,6 +50,4 @@ script:
 #- ./gradlew connectedCheck -PdisablePreDex --continue --stacktrace
 
 after_success:
-
-# Send coverage to codecov
 - bash <(curl -s https://codecov.io/bash)

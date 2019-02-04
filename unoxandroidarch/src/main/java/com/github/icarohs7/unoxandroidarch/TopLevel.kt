@@ -1,12 +1,19 @@
 package com.github.icarohs7.unoxandroidarch
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.os.Bundle
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.UiThread
 import androidx.fragment.app.Fragment
+import arrow.core.Try
 import com.andrognito.flashbar.Flashbar
 import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxandroidarch.state.LoadableState
@@ -14,12 +21,15 @@ import com.github.icarohs7.unoxandroidarch.ui.activities.BaseScopedActivity
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import io.hypertrack.smart_scheduler.Job
 import io.hypertrack.smart_scheduler.SmartScheduler
+import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.rx2.await
+import kotlinx.coroutines.rx2.awaitFirst
 import kotlinx.coroutines.withContext
+import org.jetbrains.anko.locationManager
 import org.koin.standalone.get
 import timber.log.Timber
 import top.defaults.drawabletoolbox.DrawableBuilder
@@ -179,3 +189,36 @@ fun unscheduleOperation(operationId: Int) {
     Timber.i("Operation cancelled")
     Injector.get<SmartScheduler>().removeJob(operationId)
 }
+
+/**
+ * Return the last know location if available or request the
+ * current location using the network provider. **Needs permission**
+ */
+@SuppressLint("MissingPermission")
+@UiThread
+suspend fun getCurrentLocation(context: Context): Try<Location> =
+        Try {
+            val locManager = context.locationManager
+            locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                    ?: locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                    ?: Observable.create<Location> { emitter ->
+                        val locationListener = object : LocationListener {
+                            override fun onLocationChanged(location: Location) {
+                                emitter.onNext(location)
+                                emitter.onComplete()
+                            }
+
+                            override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+
+                            override fun onProviderEnabled(provider: String) {}
+
+                            override fun onProviderDisabled(provider: String) {
+                                emitter.onError(Exception("Provider disabled"))
+                                emitter.onComplete()
+                            }
+                        }
+
+                        context.locationManager
+                                .requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null)
+                    }.awaitFirst()
+        }

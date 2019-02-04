@@ -1,9 +1,12 @@
 package com.github.icarohs7.unoxandroidarch.extensions
 
 import android.content.res.ColorStateList
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 
@@ -131,3 +134,26 @@ val View.location: Pair<Int, Int>
         getLocationOnScreen(array)
         return array[0] to array[1]
     }
+
+/**
+ * Add a text listener to the given [TextView]
+ */
+fun TextView.onTextChange(
+        beforeChange: (s: CharSequence?, start: Int, count: Int, after: Int) -> Unit = { _, _, _, _ -> },
+        afterChange: (s: Editable?) -> Unit = {},
+        onChange: (s: CharSequence?, start: Int, before: Int, count: Int) -> Unit = { _, _, _, _ -> }
+) {
+    addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            afterChange(s)
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            beforeChange(s, start, count, after)
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            onChange(s, start, before, count)
+        }
+    })
+}

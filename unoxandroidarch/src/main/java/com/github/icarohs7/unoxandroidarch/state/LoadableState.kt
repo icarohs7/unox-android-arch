@@ -17,7 +17,7 @@ interface LoadableState : StateManager<LoadingState, NonNullLiveData<LoadingStat
     fun toggleLoadingTo(isLoading: Boolean)
 
     companion object {
-        internal operator fun unaryPlus(): LoadableState = LoadableStateImpl()
+        fun create(): LoadableState = LoadableStateImpl()
     }
 }
 

@@ -72,16 +72,10 @@ abstract class BaseBindingAdapter<T, DB : ViewDataBinding>(
         return BaseBindingViewHolder(binding)
     }
 
-    /**
-     * Setup of the viewholder when going to be visible
-     */
     override fun onBindViewHolder(holder: BaseBindingViewHolder<DB>, position: Int) {
         Try { onBindItemToView(getItem(position), holder.binding) }
     }
 
-    /**
-     * Cancel all coroutines when detached from the recycler view
-     */
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         cancelCoroutineScope()
         super.onDetachedFromRecyclerView(recyclerView)

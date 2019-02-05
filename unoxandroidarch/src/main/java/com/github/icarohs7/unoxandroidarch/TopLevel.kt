@@ -45,12 +45,12 @@ fun onActivity(action: BaseScopedActivity.() -> Unit): Unit =
 
 /** [AppEventBus.In.enqueueActivityOperation] */
 @JvmName("onActivityT")
-fun <T : Activity> onActivity(action: T.() -> Unit): Unit =
-        AppEventBus.In.enqueueActivityOperation { (this as? T)?.action() }
+inline fun <reified T : Activity> onActivity(noinline action: T.() -> Unit): Unit =
+        AppEventBus.In.enqueueActivityOperation { if (this is T) action() }
 
 /** [AppEventBus.In.enqueueFragmentOperation] */
-fun <T : Fragment> onFragment(action: T.() -> Unit): Unit =
-        AppEventBus.In.enqueueFragmentOperation { (this as? T)?.action() }
+inline fun <reified T : Fragment> onFragment(noinline action: T.() -> Unit): Unit =
+        AppEventBus.In.enqueueFragmentOperation { if (this is T) action() }
 
 /**
  * Helper function used to start loading while a request

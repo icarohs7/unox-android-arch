@@ -34,6 +34,7 @@ import org.koin.standalone.get
 import timber.log.Timber
 import top.defaults.drawabletoolbox.DrawableBuilder
 import java.util.Date
+import kotlin.coroutines.CoroutineContext
 
 @Suppress("unused")
 private val LoadingDispatcher: ExecutorCoroutineDispatcher by lazy { newSingleThreadContext("loading_worker") }
@@ -55,15 +56,13 @@ fun <T : Fragment> onFragment(action: T.() -> Unit): Unit =
  * Helper function used to start loading while a request
  * is made and stop when it's done
  */
-suspend fun <T> whileLoading(fn: suspend CoroutineScope.() -> T): T =
-        withContext(LoadingDispatcher) {
-            val stateManager: LoadableState = Injector.get()
-
+suspend fun <T> whileLoading(context: CoroutineContext = LoadingDispatcher, fn: suspend CoroutineScope.() -> T): T =
+        withContext(context) {
             try {
-                stateManager.toggleLoadingTo(true)
+                startLoading()
                 fn()
             } finally {
-                stateManager.toggleLoadingTo(false)
+                stopLoading()
             }
         }
 

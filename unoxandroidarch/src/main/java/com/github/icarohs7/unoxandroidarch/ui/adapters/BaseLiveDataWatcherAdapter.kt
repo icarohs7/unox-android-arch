@@ -31,9 +31,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.icarohs7.unoxandroid.mustRunOnMainThread
-import com.github.icarohs7.unoxandroidarch.Injector
 import kotlinx.coroutines.launch
-import org.koin.standalone.get
 
 /**
  * Adapter based on observability and dynamic lists built using [LiveData]
@@ -41,7 +39,7 @@ import org.koin.standalone.get
 @Suppress("unused")
 abstract class BaseLiveDataWatcherAdapter<T, DB : ViewDataBinding>(
         @LayoutRes itemLayout: Int,
-        private val dataSetObservable: LiveData<List<T>> = Injector.get(),
+        private val dataSetObservable: LiveData<List<T>>,
         diffCallback: DiffUtil.ItemCallback<T>? = null
 ) : BaseBindingAdapter<T, DB>(itemLayout, diffCallback) {
 

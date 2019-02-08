@@ -28,14 +28,12 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.github.icarohs7.unoxandroidarch.Injector
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
-import org.koin.standalone.get
 
 /**
  * Adapter based on observability and dynamic lists built using [org.reactivestreams.Publisher]
@@ -43,7 +41,7 @@ import org.koin.standalone.get
 @Suppress("unused")
 abstract class BaseObservableWatcherAdapter<T, DB : ViewDataBinding>(
         @LayoutRes itemLayout: Int,
-        private val dataSetObservable: Observable<List<T>> = Injector.get(),
+        private val dataSetObservable: Observable<List<T>>,
         diffCallback: DiffUtil.ItemCallback<T>? = null
 ) : BaseBindingAdapter<T, DB>(itemLayout, diffCallback) {
 

@@ -17,6 +17,8 @@ dependencies {
     implementation(fileTree(dir: "libs", include: ["*.jar"]))
     api(Deps.coroutinesRx2)
     api(Deps.khronos)
+    api(Deps.rxJava2)
+    api(Deps.rxKotlin)
     api(Deps.rxRelay)
 
     api(AndroidDeps.bungee)

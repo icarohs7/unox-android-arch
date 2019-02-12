@@ -19,7 +19,7 @@ import org.jetbrains.anko.layoutInflater
  * dialogs
  */
 abstract class BaseMaterialDialog<T : ViewDataBinding>(
-        context: Context,
+        protected val context: Context,
         @LayoutRes dialogLayout: Int
 ) : CoroutineScope by MainScope() {
     val binding: T by lazy {

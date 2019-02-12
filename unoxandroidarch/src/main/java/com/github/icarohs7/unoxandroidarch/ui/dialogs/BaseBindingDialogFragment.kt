@@ -1,4 +1,4 @@
-package com.github.icarohs7.unoxandroidarch.ui.fragments
+package com.github.icarohs7.unoxandroidarch.ui.dialogs
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -60,7 +60,7 @@ abstract class BaseBindingDialogFragment<DB : ViewDataBinding> : DialogFragment(
     override fun onStart() {
         super.onStart()
         dialog?.window?.setLayout(matchParent, matchParent)
-        dialog?.window?.setWindowAnimations(R.style.AppTheme_Slide)
+        dialog?.window?.setWindowAnimations(R.style.SlideTheme)
     }
 
     /**

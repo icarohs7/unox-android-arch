@@ -7,21 +7,27 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.DialogFragment
+import com.github.icarohs7.unoxandroid.extensions.coroutines.cancelCoroutineScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 
 /**
- * Base fragment using databinding
+ * Base implementation of a dialog fragment
+ * with a [CoroutineScope] and using view
+ * binding to inflate its view
  */
-abstract class BaseBindingFragment<B : ViewDataBinding> : BaseScopedFragment() {
+abstract class BaseBindingDialogFragment<DB : ViewDataBinding> : DialogFragment(), CoroutineScope by MainScope() {
     /**
      * Initialized on [onCreateView]
      */
-    lateinit var binding: B
+    lateinit var binding: DB
         private set
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil
-                .inflate<B>(inflater, getLayout(), container, false)
-                .apply { lifecycleOwner = this@BaseBindingFragment }
+                .inflate<DB>(inflater, getLayout(), container, false)
+                .apply { lifecycleOwner = this@BaseBindingDialogFragment }
 
         onBindingCreated(inflater, container, savedInstanceState)
         afterInitialSetup()
@@ -45,4 +51,9 @@ abstract class BaseBindingFragment<B : ViewDataBinding> : BaseScopedFragment() {
      */
     @LayoutRes
     abstract fun getLayout(): Int
+
+    override fun onDestroy() {
+        cancelCoroutineScope()
+        super.onDestroy()
+    }
 }

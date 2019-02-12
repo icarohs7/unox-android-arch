@@ -5,7 +5,7 @@ plugins {
     id("com.github.dcendents.android-maven") version "2.1"
 }
 
-apply(from: commonAndroidSettings)
+apply(from: androidCommonSettings)
 android {
     defaultConfig {
         versionCode(1)
@@ -45,4 +45,4 @@ dependencies {
 }
 
 ext.groupId = "com.github.icarohs7"
-apply(from: jacocoAndroidSettings)
+apply(from: androidJacocoSettings)

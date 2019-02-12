@@ -4,7 +4,7 @@ plugins {
     id("kotlin-kapt")
 }
 
-apply(from: commonAndroidSettings)
+apply(from: androidCommonSettings)
 android {
     defaultConfig {
         applicationId("com.github.icarohs7.app")

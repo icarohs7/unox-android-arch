@@ -27,6 +27,7 @@ dependencies {
     api(AndroidDeps.flashbar)
     api(AndroidDeps.fragmentKtx)
     api(AndroidDeps.koinAndroidxViewmodel)
+    api(AndroidDeps.lifecycleReactiveStreamsKtx)
     api(AndroidDeps.maskedEditText)
     api(AndroidDeps.materialDesign)
     api(AndroidDeps.materialDialogs)

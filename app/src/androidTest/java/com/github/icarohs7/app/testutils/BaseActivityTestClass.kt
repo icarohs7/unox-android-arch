@@ -10,6 +10,7 @@ import kotlin.reflect.KClass
 
 
 abstract class BaseActivityTestClass<T : AppCompatActivity>(clazz: KClass<T>) {
+    @Suppress("BooleanLiteralArgument")
     @get:Rule
     val rule: ActivityTestRule<T> = ActivityTestRule(clazz.java, false, false)
     @get:Rule

@@ -56,7 +56,7 @@ abstract class BaseBindingAdapter<T, DB : ViewDataBinding>(
     /**
      * Function converting an list item to an actual view
      */
-    abstract fun onBindItemToView(item: T, view: DB)
+    abstract fun onBindItemToView(index: Int, item: T, view: DB)
 
     /**
      * Creation of the viewholder
@@ -73,7 +73,7 @@ abstract class BaseBindingAdapter<T, DB : ViewDataBinding>(
     }
 
     override fun onBindViewHolder(holder: BaseBindingViewHolder<DB>, position: Int) {
-        Try { onBindItemToView(getItem(position), holder.binding) }
+        Try { onBindItemToView(position, getItem(position), holder.binding) }
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {

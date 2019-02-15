@@ -29,28 +29,34 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 
 /**
  * Adapter based on observability and dynamic lists built using [org.reactivestreams.Publisher]
  */
+@Suppress("unused")
 abstract class BaseObservableWatcherAdapter<T, DB : ViewDataBinding>(
         @LayoutRes itemLayout: Int,
-        val dataSetObservable: Observable<List<T>>,
+        private val dataSetObservable: Observable<List<T>>,
         diffCallback: DiffUtil.ItemCallback<T>? = null
 ) : BaseBindingAdapter<T, DB>(itemLayout, diffCallback) {
 
     /** Composite disposable storing the current subscriptions of the adapter */
-    val disposables: CompositeDisposable = CompositeDisposable()
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     /**
      * Called to apply the chain of operators on the observable and
      * return the disposable subscription used to handle change events
      */
     open fun onObservableSubscribe(observable: Observable<List<T>>): Disposable {
-        return observable.subscribeOn(Schedulers.computation()).subscribe { onDataSourceChange(it) }
+        return observable
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { onDataSourceChange(it) }
     }
 
     /** Callback invoked when a new list is emmited by the observable */
@@ -61,14 +67,14 @@ abstract class BaseObservableWatcherAdapter<T, DB : ViewDataBinding>(
     /** Start observing the data source when attached to the recycler view */
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        disposables.add(onObservableSubscribe(dataSetObservable))
+        onObservableSubscribe(dataSetObservable).addTo(compositeDisposable)
     }
 
     /** Stop observing the data source when detached from the recycler view */
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
         try {
-            disposables.clear()
+            compositeDisposable.clear()
         } catch (e: Exception) {
             e.printStackTrace()
         }

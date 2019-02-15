@@ -23,20 +23,16 @@
  */
 
 buildscript {
-    ext {
-        scriptsDir = "${project.rootDir}/buildSrc/scripts"
-        commonAndroidSettings = "${scriptsDir}/android-common-settings.gradle"
-        mavenAndroidPublish = "${scriptsDir}/android-publish-settings.gradle"
-        jacocoAndroidSettings = "${scriptsDir}/android-jacoco-settings.gradle"
-    }
+    apply(from: "$rootDir/buildSrc/scripts/register-scripts-extra-props.gradle")
     repositories {
         google()
         jcenter()
     }
     dependencies {
+        classpath("com.android.tools.build:gradle:3.3.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
-        classpath('com.android.tools.build:gradle:3.3.0')
-        classpath("org.jacoco:org.jacoco.core:0.8.2")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}")
+        classpath("android.arch.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}")
     }
 }
 

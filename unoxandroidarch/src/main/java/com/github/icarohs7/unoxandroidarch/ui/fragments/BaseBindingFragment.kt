@@ -21,7 +21,7 @@ abstract class BaseBindingFragment<B : ViewDataBinding> : BaseScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil
                 .inflate<B>(inflater, getLayout(), container, false)
-                .apply { setLifecycleOwner(this@BaseBindingFragment) }
+                .apply { lifecycleOwner = this@BaseBindingFragment }
 
         onBindingCreated(inflater, container, savedInstanceState)
         afterInitialSetup()

@@ -34,6 +34,7 @@ import org.koin.standalone.get
 import timber.log.Timber
 import top.defaults.drawabletoolbox.DrawableBuilder
 import java.util.Date
+import kotlin.coroutines.CoroutineContext
 
 @Suppress("unused")
 private val LoadingDispatcher: ExecutorCoroutineDispatcher by lazy { newSingleThreadContext("loading_worker") }
@@ -44,26 +45,24 @@ fun onActivity(action: BaseScopedActivity.() -> Unit): Unit =
 
 /** [AppEventBus.In.enqueueActivityOperation] */
 @JvmName("onActivityT")
-fun <T : Activity> onActivity(action: T.() -> Unit): Unit =
-        AppEventBus.In.enqueueActivityOperation { (this as? T)?.action() }
+inline fun <reified T : Activity> onActivity(noinline action: T.() -> Unit): Unit =
+        AppEventBus.In.enqueueActivityOperation { if (this is T) action() }
 
 /** [AppEventBus.In.enqueueFragmentOperation] */
-fun <T : Fragment> onFragment(action: T.() -> Unit): Unit =
-        AppEventBus.In.enqueueFragmentOperation { (this as? T)?.action() }
+inline fun <reified T : Fragment> onFragment(noinline action: T.() -> Unit): Unit =
+        AppEventBus.In.enqueueFragmentOperation { if (this is T) action() }
 
 /**
  * Helper function used to start loading while a request
  * is made and stop when it's done
  */
-suspend fun <T> whileLoading(fn: suspend CoroutineScope.() -> T): T =
-        withContext(LoadingDispatcher) {
-            val stateManager: LoadableState = Injector.get()
-
+suspend fun <T> whileLoading(context: CoroutineContext = LoadingDispatcher, fn: suspend CoroutineScope.() -> T): T =
+        withContext(context) {
             try {
-                stateManager.toggleLoadingTo(true)
+                startLoading()
                 fn()
             } finally {
-                stateManager.toggleLoadingTo(false)
+                stopLoading()
             }
         }
 

@@ -31,19 +31,24 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.icarohs7.unoxandroid.mustRunOnMainThread
-import kotlinx.coroutines.launch
 
 /**
  * Adapter based on observability and dynamic lists built using [LiveData]
  */
+@Suppress("unused")
 abstract class BaseLiveDataWatcherAdapter<T, DB : ViewDataBinding>(
         @LayoutRes itemLayout: Int,
-        val dataSetObservable: LiveData<List<T>>,
+        private val dataSetObservable: LiveData<List<T>>,
         diffCallback: DiffUtil.ItemCallback<T>? = null
 ) : BaseBindingAdapter<T, DB>(itemLayout, diffCallback) {
 
     /** Observer responsible of dispatching the liveData changes to the adapter */
-    val observer: Observer<List<T>> = Observer { launch { onDataSourceChange(it ?: emptyList()) } }
+    private val observer: Observer<List<T>> by lazy { onObserverCreate() }
+
+    /** Used to get the observer responding to the emissions of the data source  */
+    open fun onObserverCreate(): Observer<List<T>> {
+        return Observer { onDataSourceChange(it ?: emptyList()) }
+    }
 
     /** Callback invoked when the live data changes */
     open fun onDataSourceChange(items: List<T>) {

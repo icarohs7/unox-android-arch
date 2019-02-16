@@ -36,6 +36,8 @@ dependencies {
     api(AndroidDeps.quantumLiveData)
     api(AndroidDeps.reactiveNetwork)
     api(AndroidDeps.recyclerView)
+    api(AndroidDeps.roomRuntime)
+    api(AndroidDeps.roomRxJava2)
     api(AndroidDeps.rxPermission)
     api(AndroidDeps.smartScheduler)
     api(AndroidDeps.spotsDialog)

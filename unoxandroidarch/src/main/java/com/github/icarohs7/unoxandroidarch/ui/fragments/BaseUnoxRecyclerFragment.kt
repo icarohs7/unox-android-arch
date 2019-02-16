@@ -16,9 +16,8 @@ import io.sellmair.disposer.onDestroy
  * @param T Type of item shown on the recycler view
  * @param DB Type of databinding of the recycler item
  */
-abstract class BaseUnoxRecyclerFragment<T, DB : ViewDataBinding>(
-        private val emptyStateTag: String? = null
-) : BaseRecyclerFragment() {
+abstract class BaseUnoxRecyclerFragment<T, DB : ViewDataBinding> : BaseRecyclerFragment() {
+    open fun getEmptyStateTag(): String? = null
     abstract fun onSetup(builder: UnoxAdapterBuilder<T, DB>)
 
     override fun onRecyclerSetup(recycler: RecyclerView) {
@@ -29,7 +28,7 @@ abstract class BaseUnoxRecyclerFragment<T, DB : ViewDataBinding>(
     }
 
     private fun Flowable<List<T>>.showFeedbackWhenEmpty() {
-        val emptyStateTag = emptyStateTag ?: return
+        val emptyStateTag = getEmptyStateTag() ?: return
         binding.stateView.apply {
             observeOn(AndroidSchedulers.mainThread())
                     .subscribe { items ->

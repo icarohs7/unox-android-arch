@@ -15,6 +15,7 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
+import kotlinx.coroutines.launch
 
 /**
  * Builder used to create a multi purpose adapter
@@ -45,7 +46,7 @@ object DslAdaptersInternal {
 
         val adapter = object : BaseFlowableWatcherAdapter<T, DB>(layout, flowable, diffCallback) {
             override fun onBindItemToView(index: Int, item: T, view: DB) {
-                builder.bindFun(view, index, item)
+                launch { builder.bindFun(view, index, item) }
             }
         }
 
@@ -61,7 +62,7 @@ object DslAdaptersInternal {
      */
     class Builder<T, DB : ViewDataBinding>(val context: Context) {
         internal var flowable: Flowable<List<T>> = Flowable.just(emptyList())
-        internal var bindFun: DB.(index: Int, item: T) -> Unit = { _, _ -> }
+        internal var bindFun: suspend DB.(index: Int, item: T) -> Unit = { _, _ -> }
         internal var itemLayout: Int = 0
         internal var diffCallback: DiffUtil.ItemCallback<T>? = null
         internal var adapterSetup: Reducer<BaseFlowableWatcherAdapter<T, DB>> = { this }
@@ -79,7 +80,7 @@ object DslAdaptersInternal {
          * Define the function used to map an
          * item to a view
          */
-        fun bind(bindFun: DB.(item: T) -> Unit) {
+        fun bind(bindFun: suspend DB.(item: T) -> Unit) {
             this.bindFun = { _, item -> bindFun(item) }
         }
 
@@ -88,7 +89,7 @@ object DslAdaptersInternal {
          * item to a view using the item index
          * in the adapter
          */
-        fun bindIndexed(bindFun: DB.(index: Int, item: T) -> Unit) {
+        fun bindIndexed(bindFun: suspend DB.(index: Int, item: T) -> Unit) {
             this.bindFun = bindFun
         }
 

@@ -10,7 +10,8 @@ import androidx.lifecycle.toPublisher
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.github.icarohs7.unoxandroidarch.state.Reducer
+import com.github.icarohs7.unoxandroid.extensions.coroutines.onForeground
+import com.github.icarohs7.unoxandroidarch.state.SuspendReducer
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -22,13 +23,15 @@ import kotlinx.coroutines.launch
  * and use it on the given [RecyclerView]
  * using a DSL
  */
-@MainThread
-fun <T, DB : ViewDataBinding> RecyclerView.useUnoxAdapter(
-        builderBlock: UnoxAdapterBuilder<T, DB>.() -> Unit
+suspend fun <T, DB : ViewDataBinding> RecyclerView.useUnoxAdapter(
+        builderBlock: suspend UnoxAdapterBuilder<T, DB>.() -> Unit
 ): BaseFlowableWatcherAdapter<T, DB> {
-    val builder = UnoxAdapterBuilder<T, DB>(context)
-    builderBlock(builder)
-    return buildAdapterAndSetupRecycler(this, builder)
+    return onForeground {
+        val builder = UnoxAdapterBuilder<T, DB>(context)
+        builderBlock(builder)
+
+        buildAdapterAndSetupRecycler(this@useUnoxAdapter, builder)
+    }
 }
 
 
@@ -36,7 +39,8 @@ fun <T, DB : ViewDataBinding> RecyclerView.useUnoxAdapter(
  * Function responsible of creating the adapter,
  * applying the builder and returning it
  */
-private fun <T, DB : ViewDataBinding> buildAdapterAndSetupRecycler(
+@MainThread
+private suspend fun <T, DB : ViewDataBinding> buildAdapterAndSetupRecycler(
         recyclerView: RecyclerView,
         builder: UnoxAdapterBuilder<T, DB>
 ): BaseFlowableWatcherAdapter<T, DB> {
@@ -46,12 +50,12 @@ private fun <T, DB : ViewDataBinding> buildAdapterAndSetupRecycler(
         override fun onBindItemToView(index: Int, item: T, view: DB) {
             launch { builder.bindFun(view, index, item) }
         }
-    }
+    }.let { builder.adapterSetup(it) }
 
     recyclerView.layoutManager = builder.layoutManager
     recyclerView.adapter = adapter
 
-    return adapter.run(builder.adapterSetup)
+    return adapter
 }
 
 /**
@@ -63,7 +67,7 @@ class UnoxAdapterBuilder<T, DB : ViewDataBinding>(val context: Context) {
     internal var bindFun: suspend DB.(index: Int, item: T) -> Unit = { _, _ -> }
     internal var itemLayout: Int = 0
     internal var diffCallback: DiffUtil.ItemCallback<T>? = null
-    internal var adapterSetup: Reducer<BaseFlowableWatcherAdapter<T, DB>> = { this }
+    internal var adapterSetup: SuspendReducer<BaseFlowableWatcherAdapter<T, DB>> = { this }
     internal var layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
 
     /**
@@ -143,7 +147,7 @@ class UnoxAdapterBuilder<T, DB : ViewDataBinding>(val context: Context) {
      * Used to modify the default adapter or
      * to use another adapter
      */
-    fun configAdapter(adapterSetup: Reducer<BaseFlowableWatcherAdapter<T, DB>>) {
+    fun configAdapter(adapterSetup: SuspendReducer<BaseFlowableWatcherAdapter<T, DB>>) {
         this.adapterSetup = adapterSetup
     }
 

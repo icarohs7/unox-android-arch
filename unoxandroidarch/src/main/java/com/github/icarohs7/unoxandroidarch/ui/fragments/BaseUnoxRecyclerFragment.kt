@@ -8,6 +8,7 @@ import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.sellmair.disposer.disposeBy
 import io.sellmair.disposer.onDestroy
+import kotlinx.coroutines.launch
 
 /**
  * Derived class of [BaseRecyclerFragment] setup
@@ -18,19 +19,21 @@ import io.sellmair.disposer.onDestroy
  */
 abstract class BaseUnoxRecyclerFragment<T, DB : ViewDataBinding> : BaseRecyclerFragment() {
     open fun getEmptyStateTag(): String? = null
-    abstract fun onSetup(builder: UnoxAdapterBuilder<T, DB>)
+    abstract suspend fun onSetup(builder: UnoxAdapterBuilder<T, DB>)
 
     override fun onRecyclerSetup(recycler: RecyclerView) {
-        recycler.useUnoxAdapter<T, DB> {
-            onSetup(this)
-            flowable.showFeedbackWhenEmpty()
+        launch {
+            recycler.useUnoxAdapter<T, DB> {
+                onSetup(this)
+                showFeedbackWhenEmpty(flowable)
+            }
         }
     }
 
-    private fun Flowable<List<T>>.showFeedbackWhenEmpty() {
+    private fun showFeedbackWhenEmpty(flowable: Flowable<List<T>>) {
         val emptyStateTag = getEmptyStateTag() ?: return
         binding.stateView.apply {
-            observeOn(AndroidSchedulers.mainThread())
+            flowable.observeOn(AndroidSchedulers.mainThread())
                     .subscribe { items ->
                         when (items.isEmpty()) {
                             true -> displayState(emptyStateTag)

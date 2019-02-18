@@ -1,9 +1,10 @@
 package com.github.icarohs7.unoxandroidarch
 
-import com.github.icarohs7.unoxandroid.extensions.subscribeOnComputationObserveOnMainThread
 import com.github.icarohs7.unoxandroidarch.ui.activities.BaseScopedActivity
 import com.github.icarohs7.unoxandroidarch.ui.fragments.BaseScopedFragment
 import com.jakewharton.rxrelay2.PublishRelay
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import io.sellmair.disposer.disposeBy
 import io.sellmair.disposer.onDestroy
 import timber.log.Timber
@@ -47,7 +48,8 @@ object AppEventBus {
         fun subscribeActivity(activity: BaseScopedActivity): Unit =
                 activity.run {
                     activityOperationsStream
-                            .subscribeOnComputationObserveOnMainThread()
+                            .subscribeOn(Schedulers.computation())
+                            .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ action -> action() },
                                        { err -> Timber.e(err) })
                             .disposeBy(onDestroy)
@@ -60,7 +62,8 @@ object AppEventBus {
         fun subscribeFragment(fragment: BaseScopedFragment): Unit =
                 fragment.run {
                     fragmentOperationsStream
-                            .subscribeOnComputationObserveOnMainThread()
+                            .subscribeOn(Schedulers.computation())
+                            .observeOn(AndroidSchedulers.mainThread())
                             .onErrorReturnItem { Unit }
                             .subscribe({ action -> action() },
                                        { err -> Timber.e(err) })

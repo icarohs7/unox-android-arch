@@ -2,6 +2,7 @@ package com.github.icarohs7.unoxandroidarch.ui.fragments
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import com.github.icarohs7.unoxandroidarch.ui.adapters.BaseFlowableWatcherAdapter
 import com.github.icarohs7.unoxandroidarch.ui.adapters.UnoxAdapterBuilder
 import com.github.icarohs7.unoxandroidarch.ui.adapters.useUnoxAdapter
 import io.reactivex.Flowable
@@ -18,12 +19,13 @@ import kotlinx.coroutines.launch
  * @param DB Type of databinding of the recycler item
  */
 abstract class BaseUnoxRecyclerFragment<T, DB : ViewDataBinding> : BaseRecyclerFragment() {
+    lateinit var adapter: BaseFlowableWatcherAdapter<T, DB>
     open fun getEmptyStateTag(): String? = null
     abstract suspend fun onSetup(builder: UnoxAdapterBuilder<T, DB>)
 
     override fun onRecyclerSetup(recycler: RecyclerView) {
         launch {
-            recycler.useUnoxAdapter<T, DB> {
+            adapter = recycler.useUnoxAdapter {
                 onSetup(this)
                 showFeedbackWhenEmpty(flowable)
             }

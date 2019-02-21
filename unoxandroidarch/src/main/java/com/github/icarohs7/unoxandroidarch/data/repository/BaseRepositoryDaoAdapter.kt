@@ -11,7 +11,7 @@ import io.reactivex.Flowable
  * Class implementing the methods from the [BaseRepository] wrapping
  * the corresponding dao methods in a background coroutine
  */
-abstract class BaseRepositoryDaoAdapter<T>(protected val dao: BaseDao<T>) : BaseRepository<T> {
+abstract class BaseRepositoryDaoAdapter<T, DAO : BaseDao<T>>(protected val dao: DAO) : BaseRepository<T> {
 
     /** [BaseRepository.insert] */
     override suspend fun insert(item: T): IO<Long> {

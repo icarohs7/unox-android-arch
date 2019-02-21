@@ -7,41 +7,38 @@ import com.github.icarohs7.unoxandroidarch.ui.adapters.UnoxAdapterBuilder
 import com.github.icarohs7.unoxandroidarch.ui.adapters.useUnoxAdapter
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import io.sellmair.disposer.disposeBy
 import io.sellmair.disposer.onDestroy
 import kotlinx.coroutines.launch
 
 /**
  * Derived class of [BaseRecyclerFragment] setup
- * using the UnoxAdapterBuilder, with built-in support for
- * state view to be shown when the data set is empty
+ * using the UnoxAdapterBuilder
  * @param T Type of item shown on the recycler view
  * @param DB Type of databinding of the recycler item
  */
 abstract class BaseUnoxRecyclerFragment<T, DB : ViewDataBinding> : BaseRecyclerFragment() {
-    lateinit var adapter: BaseFlowableWatcherAdapter<T, DB>
-    open fun getEmptyStateTag(): String? = null
+    var adapter: BaseFlowableWatcherAdapter<T, DB>? = null
     abstract suspend fun onSetup(builder: UnoxAdapterBuilder<T, DB>)
 
     override fun onRecyclerSetup(recycler: RecyclerView) {
         launch {
             adapter = recycler.useUnoxAdapter {
                 onSetup(this)
-                showFeedbackWhenEmpty(flowable)
+                observeLoadedItems(flowable)
             }
         }
     }
 
-    private fun showFeedbackWhenEmpty(flowable: Flowable<List<T>>) {
-        val emptyStateTag = getEmptyStateTag() ?: return
-        binding.stateView.apply {
-            flowable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { items ->
-                        when (items.isEmpty()) {
-                            true -> displayState(emptyStateTag)
-                            false -> hideStates()
-                        }
-                    }.disposeBy(onDestroy)
-        }
+    private fun observeLoadedItems(flowable: Flowable<List<T>>) {
+        flowable.subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(::onItemsLoaded)
+                .disposeBy(onDestroy)
+    }
+
+    open fun onItemsLoaded(items: List<T>) {
+        if (items.isNotEmpty()) binding.stateView.hideStates()
     }
 }

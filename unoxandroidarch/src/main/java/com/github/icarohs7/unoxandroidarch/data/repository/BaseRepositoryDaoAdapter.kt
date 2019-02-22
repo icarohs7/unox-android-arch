@@ -5,7 +5,6 @@ import arrow.effects.IO
 import com.github.icarohs7.unoxandroid.extensions.coroutines.onBackground
 import com.github.icarohs7.unoxandroid.sideEffectBg
 import com.github.icarohs7.unoxandroidarch.data.local.BaseDao
-import com.github.icarohs7.unoxandroidarch.state.Reducer
 import io.reactivex.Flowable
 
 /**
@@ -60,10 +59,7 @@ abstract class BaseRepositoryDaoAdapter<T, DAO : BaseDao<T>>(protected val dao: 
     }
 
     /** [BaseRepository.flowable] */
-    override fun flowable(transformer: Reducer<List<T>>?): Flowable<List<T>> {
-        return when (transformer) {
-            null -> dao.flowable()
-            else -> dao.flowable().map(transformer)
-        }
+    override fun flowable(): Flowable<List<T>> {
+        return dao.flowable()
     }
 }

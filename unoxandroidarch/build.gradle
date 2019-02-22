@@ -49,6 +49,7 @@ dependencies {
     api(AndroidDeps.smartScheduler)
     api(AndroidDeps.spotsDialog)
     api(AndroidDeps.splittiesAppctx)
+    api(AndroidDeps.splittiesResources)
     api(AndroidDeps.stateViews)
     api(AndroidDeps.stetho)
     api(AndroidDeps.stethoOkHttp)

@@ -3,6 +3,7 @@ package com.github.icarohs7.unoxandroidarch.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import arrow.effects.IO
+import com.github.icarohs7.unoxandroidarch.state.Reducer
 import io.reactivex.Flowable
 import io.reactivex.Observable
 
@@ -51,7 +52,7 @@ interface BaseRepository<T> {
     fun liveData(): LiveData<List<T>> = MutableLiveData()
 
     /** [com.github.icarohs7.unoxandroidarch.data.local.BaseDao.flowable] */
-    fun flowable(): Flowable<List<T>> = Flowable.empty()
+    fun flowable(transformer: Reducer<List<T>>? = null): Flowable<List<T>> = Flowable.empty()
 
     /** [com.github.icarohs7.unoxandroidarch.data.local.BaseDao.flowable] converted to observable */
     fun observable(): Observable<List<T>> = flowable().toObservable()

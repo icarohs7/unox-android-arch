@@ -54,7 +54,8 @@ inline fun <reified T : Fragment> onFragment(noinline action: T.() -> Unit): Uni
 
 /**
  * Helper function used to start loading while a request
- * is made and stop when it's done
+ * is made and stop when it's done, running on a single
+ * thread background dispatcher
  */
 suspend fun <T> whileLoading(context: CoroutineContext = LoadingDispatcher, fn: suspend CoroutineScope.() -> T): T =
         withContext(context) {

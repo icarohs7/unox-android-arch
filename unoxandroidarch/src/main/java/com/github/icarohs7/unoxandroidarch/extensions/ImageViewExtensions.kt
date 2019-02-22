@@ -4,12 +4,13 @@ import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
+import splitties.resources.drawable
 
 /**
  * Load an image drawable onto an ImageView from a drawable resource
  */
 fun ImageView.load(@DrawableRes resource: Int) {
-    setImageDrawable(resource.drawableByResourceId(context))
+    setImageDrawable(drawable(resource))
 }
 
 /**

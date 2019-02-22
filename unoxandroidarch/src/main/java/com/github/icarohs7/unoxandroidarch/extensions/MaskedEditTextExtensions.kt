@@ -2,6 +2,8 @@ package com.github.icarohs7.unoxandroidarch.extensions
 
 import android.text.Editable
 import android.text.TextWatcher
+import arrow.core.Try
+import com.github.icarohs7.unoxandroid.extensions.orEmpty
 import com.santalu.maskedittext.MaskEditText
 
 /**
@@ -38,7 +40,7 @@ fun MaskEditText.addAdaptativeMask(lengthRange: IntRange, mask: String) {
 private fun String?.formattedMask(): String {
     this ?: return ""
     val indexOfLastMask = indexOfLast { it == '#' }
-    return substring(0..indexOfLastMask) + "#" + { substring(indexOfLastMask + 1) }.catchEx("")
+    return substring(0..indexOfLastMask) + "#" + Try { substring(indexOfLastMask + 1) }.orEmpty()
 }
 
 /**
@@ -47,7 +49,7 @@ private fun String?.formattedMask(): String {
 private fun String?.unformattedMask(): String {
     this ?: return ""
     val indexOfLastMask = indexOfLast { it == '#' }
-    return substring(0 until indexOfLastMask) + { substring(indexOfLastMask + 1) }.catchEx("")
+    return substring(0 until indexOfLastMask) + Try { substring(indexOfLastMask + 1) }.orEmpty()
 }
 
 /**
@@ -86,16 +88,4 @@ fun MaskEditText.enableAdaptativeMask(maxLength: Int = Int.MAX_VALUE) {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         }
     })
-}
-
-/**
- * Utility function used to return a value when an exception is thrown
- * from the invoked lambda
- */
-private fun <T> (() -> T).catchEx(fallback: T): T {
-    return try {
-        this()
-    } catch (e: Exception) {
-        fallback
-    }
 }

@@ -15,7 +15,7 @@ abstract class BaseBindingActivity<B : ViewDataBinding> : BaseScopedActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, getLayout())
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
         onBindingCreated(savedInstanceState)
         afterInitialSetup()
     }

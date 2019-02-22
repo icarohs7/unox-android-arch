@@ -1,98 +1,161 @@
 package com.github.icarohs7.unoxandroidarch.ui.adapters
 
+import android.content.Context
 import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.toPublisher
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.snakydesign.livedataextensions.liveDataOf
+import com.github.icarohs7.unoxandroid.extensions.coroutines.onForeground
+import com.github.icarohs7.unoxandroidarch.state.SuspendReducer
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
 import io.reactivex.Observable
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-
-private typealias OBS<T> = Observable<List<T>>
-private typealias LDT<T> = LiveData<List<T>>
+import io.reactivex.functions.BiFunction
+import kotlinx.coroutines.launch
 
 /**
- * Builder used to create a
- * [BaseObservableWatcherAdapter]
+ * Builder used to create a multi purpose adapter
+ * and use it on the given [RecyclerView]
+ * using a DSL
+ */
+suspend fun <T, DB : ViewDataBinding> RecyclerView.useUnoxAdapter(
+        builderBlock: suspend UnoxAdapterBuilder<T, DB>.() -> Unit
+): BaseFlowableWatcherAdapter<T, DB> {
+    return onForeground {
+        val builder = UnoxAdapterBuilder<T, DB>(context)
+        builderBlock(builder)
+
+        buildAdapterAndSetupRecycler(this@useUnoxAdapter, builder)
+    }
+}
+
+
+/**
+ * Function responsible of creating the adapter,
+ * applying the builder and returning it
  */
 @MainThread
-inline fun <T, DB : ViewDataBinding> RecyclerView.showObservable(
-        @LayoutRes itemLayout: Int,
-        itemBind: DslAdaptersInternal.DslAdapterBuilder<T, OBS<T>, DB>.() -> Unit
-) {
-    val builder = DslAdaptersInternal.emptyObservableBuilder<T, DB>().apply(itemBind)
-    this.adapter = DslAdaptersInternal.rxBinding(itemLayout, builder)
+private suspend fun <T, DB : ViewDataBinding> buildAdapterAndSetupRecycler(
+        recyclerView: RecyclerView,
+        builder: UnoxAdapterBuilder<T, DB>
+): BaseFlowableWatcherAdapter<T, DB> {
+    val (layout, flowable, diffCallback) = with(builder) { Triple(itemLayout, flowable, diffCallback) }
+
+    val adapter = object : BaseFlowableWatcherAdapter<T, DB>(layout, flowable, diffCallback) {
+        override fun onBindItemToView(index: Int, item: T, view: DB) {
+            launch { builder.bindFun(view, index, item) }
+        }
+    }.let { builder.adapterSetup(it) }
+
+    recyclerView.layoutManager = builder.layoutManager
+    recyclerView.adapter = adapter
+
+    return adapter
 }
 
 /**
- * Builder used to create a
- * [BaseLiveDataWatcherAdapter]
+ * Builder used to make a [BaseFlowableWatcherAdapter]
+ * through a DSL
  */
-@MainThread
-inline fun <T, DB : ViewDataBinding> RecyclerView.showLiveData(
-        @LayoutRes itemLayout: Int,
-        itemBind: DslAdaptersInternal.DslAdapterBuilder<T, LiveData<List<T>>, DB>.() -> Unit
-) {
-    val builder = DslAdaptersInternal.emptyLiveDataBuilder<T, DB>().apply(itemBind)
-    this.adapter = DslAdaptersInternal.liveDataBinding(itemLayout, builder)
-}
+class UnoxAdapterBuilder<T, DB : ViewDataBinding>(val context: Context) {
+    internal var flowable: Flowable<List<T>> = Flowable.just(emptyList())
+    internal var bindFun: suspend DB.(index: Int, item: T) -> Unit = { _, _ -> }
+    internal var itemLayout: Int = 0
+    internal var diffCallback: DiffUtil.ItemCallback<T>? = null
+    internal var adapterSetup: SuspendReducer<BaseFlowableWatcherAdapter<T, DB>> = { this }
+    internal var layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
 
-object DslAdaptersInternal {
-
-    fun <T, DB : ViewDataBinding> rxBinding(
-            @LayoutRes itemLayout: Int,
-            builder: DslAdapterBuilder<T, Observable<List<T>>, DB>
-    ): BaseObservableWatcherAdapter<T, DB> {
-        val observable = when (builder.dataSource.isEmpty()) {
-            true -> builder.observable
-            false -> Observable.just(builder.dataSource)
-        }
-
-        return object : BaseObservableWatcherAdapter<T, DB>(itemLayout, observable) {
-            override fun onBindItemToView(item: T, view: DB) {
-                builder.onItemBind(view, item)
-            }
-        }
+    /**
+     * Define the layout used by each
+     * item of the adapter
+     */
+    fun useItemLayout(@LayoutRes itemLayout: Int) {
+        this.itemLayout = itemLayout
     }
 
-    fun <T, DB : ViewDataBinding> liveDataBinding(
-            @LayoutRes itemLayout: Int,
-            builder: DslAdapterBuilder<T, LiveData<List<T>>, DB>
-    ): BaseLiveDataWatcherAdapter<T, DB> {
-        val observable = when (builder.dataSource.isEmpty()) {
-            true -> builder.observable
-            false -> runBlocking(Dispatchers.Main) { liveDataOf(builder.dataSource) }
-        }
-
-        return object : BaseLiveDataWatcherAdapter<T, DB>(itemLayout, observable) {
-            override fun onBindItemToView(item: T, view: DB) {
-                builder.onItemBind(view, item)
-            }
-        }
+    /**
+     * Define the function used to map an
+     * item to a view
+     */
+    fun bind(bindFun: suspend DB.(item: T) -> Unit) {
+        this.bindFun = { _, item -> bindFun(item) }
     }
 
-    fun <T, DB : ViewDataBinding> emptyObservableBuilder(): DslAdapterBuilder<T, OBS<T>, DB> {
-        return EmptyBuilder(Observable.empty())
+    /**
+     * Define the function used to map an
+     * item to a view using the item index
+     * in the adapter
+     */
+    fun bindIndexed(bindFun: suspend DB.(index: Int, item: T) -> Unit) {
+        this.bindFun = bindFun
     }
 
-    fun <T, DB : ViewDataBinding> emptyLiveDataBuilder(): DslAdapterBuilder<T, LDT<T>, DB> {
-        return EmptyBuilder(MutableLiveData())
+    /**
+     * Use the given flowable as the data
+     * source of the adapter, updating
+     * its items everytime an emission
+     * happens
+     */
+    fun observeFlowable(flowable: Flowable<List<T>>) {
+        val combiner = BiFunction<List<T>, List<T>, List<T>> { a, b -> a + b }
+        this.flowable = Flowable.combineLatest(flowable, this.flowable, combiner)
     }
 
-    interface DslAdapterBuilder<T, O, DB : ViewDataBinding> {
-        var dataSource: List<T>
-        var observable: O
-        var onItemBind: DB.(T) -> Unit
+    /**
+     * Use the given observable as the data
+     * source of the adapter, updating
+     * its items everytime an emission
+     * happens
+     */
+    fun observeObservable(observable: Observable<List<T>>) {
+        observeFlowable(observable.toFlowable(BackpressureStrategy.LATEST))
     }
 
-    internal class EmptyBuilder<T, O, DB : ViewDataBinding>(
-            emptyObservable: O
-    ) : DslAdapterBuilder<T, O, DB> {
-        override var dataSource: List<T> = emptyList()
-        override var observable: O = emptyObservable
-        override var onItemBind: DB.(T) -> Unit = {}
+    /**
+     * Use the given livedata as the data
+     * source of the adapter, updating
+     * its items everytime an emission
+     * happens
+     */
+    fun observeLiveData(lifecycle: LifecycleOwner, liveData: LiveData<List<T>>) {
+        observeFlowable(Flowable.fromPublisher(liveData.toPublisher(lifecycle)))
+    }
+
+    /**
+     * Use the given list as the static
+     * data source of the adapter
+     */
+    fun loadList(items: List<T>) {
+        observeFlowable(Flowable.just(items))
+    }
+
+    /**
+     * Use the given [DiffUtil.ItemCallback] to
+     * calculate the differences between 2 lists,
+     * default is [BaseBindingAdapter.AllRefreshDiffCallback]
+     */
+    fun useDiffCallback(diffCallback: DiffUtil.ItemCallback<T>) {
+        this.diffCallback = diffCallback
+    }
+
+    /**
+     * Used to modify the default adapter or
+     * to use another adapter
+     */
+    fun configAdapter(adapterSetup: SuspendReducer<BaseFlowableWatcherAdapter<T, DB>>) {
+        this.adapterSetup = adapterSetup
+    }
+
+    /**
+     * Modify the layout manager used by the
+     * recycler view, default is [LinearLayoutManager]
+     */
+    fun useLayoutManager(layoutManager: RecyclerView.LayoutManager) {
+        this.layoutManager = layoutManager
     }
 }

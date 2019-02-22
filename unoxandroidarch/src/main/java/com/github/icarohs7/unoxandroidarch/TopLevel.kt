@@ -18,6 +18,7 @@ import com.andrognito.flashbar.Flashbar
 import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxandroidarch.state.LoadableState
 import com.github.icarohs7.unoxandroidarch.ui.activities.BaseScopedActivity
+import com.github.icarohs7.unoxandroidarch.ui.fragments.BaseScopedFragment
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import io.hypertrack.smart_scheduler.Job
 import io.hypertrack.smart_scheduler.SmartScheduler
@@ -49,12 +50,18 @@ inline fun <reified T : Activity> onActivity(noinline action: T.() -> Unit): Uni
         AppEventBus.In.enqueueActivityOperation { if (this is T) action() }
 
 /** [AppEventBus.In.enqueueFragmentOperation] */
+fun onFragment(action: BaseScopedFragment.() -> Unit): Unit =
+        AppEventBus.In.enqueueFragmentOperation(action)
+
+/** [AppEventBus.In.enqueueFragmentOperation] */
+@JvmName("onFragmentT")
 inline fun <reified T : Fragment> onFragment(noinline action: T.() -> Unit): Unit =
         AppEventBus.In.enqueueFragmentOperation { if (this is T) action() }
 
 /**
  * Helper function used to start loading while a request
- * is made and stop when it's done
+ * is made and stop when it's done, running on a single
+ * thread background dispatcher
  */
 suspend fun <T> whileLoading(context: CoroutineContext = LoadingDispatcher, fn: suspend CoroutineScope.() -> T): T =
         withContext(context) {

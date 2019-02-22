@@ -28,13 +28,28 @@ import android.content.Context
 import androidx.annotation.AnimRes
 import com.github.icarohs7.unoxandroid.delegates.mutableLazy
 import com.github.icarohs7.unoxandroidarch.domain.BungeeAnim
+import com.github.icarohs7.unoxandroidarch.state.LoadableState
+import io.hypertrack.smart_scheduler.SmartScheduler
+import org.koin.dsl.module.module
+import org.koin.standalone.StandAloneContext
 import spencerstudios.com.bungeelib.Bungee
+import splitties.init.appCtx
 
 interface UnoxAndroidArch {
     /**
      * Companion object storing the settings of the module
      */
     companion object {
+
+        /**
+         * Initialize the library
+         */
+        fun init() {
+            StandAloneContext.loadKoinModules(module {
+                single { SmartScheduler.getInstance(appCtx) }
+                single { LoadableState.create() }
+            })
+        }
 
         /** Define the animation used in the navigation transitions used by library */
         fun setActivityAndFragmentTransitionAnimation(animationType: AnimationType) {

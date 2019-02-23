@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.icarohs7.unoxandroidarch.ui.activities
+package com.github.icarohs7.unoxandroidarch.presentation.activities
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding

@@ -1,4 +1,4 @@
-package com.github.icarohs7.unoxandroidarch.data.local
+package com.github.icarohs7.unoxandroidarch.data.db
 
 import android.content.Context
 import androidx.room.Room

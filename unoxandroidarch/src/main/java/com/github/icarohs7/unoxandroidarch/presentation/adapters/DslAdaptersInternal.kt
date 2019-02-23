@@ -1,4 +1,4 @@
-package com.github.icarohs7.unoxandroidarch.ui.adapters
+package com.github.icarohs7.unoxandroidarch.presentation.adapters
 
 import android.content.Context
 import androidx.annotation.LayoutRes

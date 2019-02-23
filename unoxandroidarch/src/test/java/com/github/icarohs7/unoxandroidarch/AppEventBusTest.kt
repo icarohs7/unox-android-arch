@@ -3,8 +3,8 @@ package com.github.icarohs7.unoxandroidarch
 import android.app.Activity
 import androidx.fragment.app.Fragment
 import com.github.icarohs7.unoxandroid.extensions.addOnDestroyObserver
-import com.github.icarohs7.unoxandroidarch.ui.activities.BaseScopedActivity
-import com.github.icarohs7.unoxandroidarch.ui.fragments.BaseScopedFragment
+import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
+import com.github.icarohs7.unoxandroidarch.presentation.fragments.BaseScopedFragment
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner

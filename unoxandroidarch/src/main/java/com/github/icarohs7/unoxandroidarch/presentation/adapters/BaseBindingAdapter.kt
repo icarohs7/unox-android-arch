@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.icarohs7.unoxandroidarch.ui.adapters
+package com.github.icarohs7.unoxandroidarch.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

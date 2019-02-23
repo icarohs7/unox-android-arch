@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.github.icarohs7.app.R
-import com.github.icarohs7.unoxandroidarch.ui.fragments.BaseScopedFragment
+import com.github.icarohs7.unoxandroidarch.presentation.fragments.BaseScopedFragment
 
 class TestFragment : BaseScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

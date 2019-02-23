@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import arrow.effects.IO
 import com.github.icarohs7.unoxandroid.extensions.coroutines.onBackground
 import com.github.icarohs7.unoxandroid.sideEffectBg
-import com.github.icarohs7.unoxandroidarch.data.local.BaseDao
+import com.github.icarohs7.unoxandroidarch.data.db.BaseDao
 import io.reactivex.Flowable
 
 /**

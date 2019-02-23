@@ -1,7 +1,7 @@
 package com.github.icarohs7.unoxandroidarch
 
-import com.github.icarohs7.unoxandroidarch.ui.activities.BaseScopedActivity
-import com.github.icarohs7.unoxandroidarch.ui.fragments.BaseScopedFragment
+import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
+import com.github.icarohs7.unoxandroidarch.presentation.fragments.BaseScopedFragment
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

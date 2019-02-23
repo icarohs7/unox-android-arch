@@ -1,4 +1,4 @@
-package com.github.icarohs7.unoxandroidarch.ui.dialogs
+package com.github.icarohs7.unoxandroidarch.presentation.dialogs
 
 import android.content.Context
 import androidx.annotation.LayoutRes

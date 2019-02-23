@@ -1,10 +1,10 @@
-package com.github.icarohs7.unoxandroidarch.ui.fragments
+package com.github.icarohs7.unoxandroidarch.presentation.fragments
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.github.icarohs7.unoxandroidarch.ui.adapters.BaseFlowableWatcherAdapter
-import com.github.icarohs7.unoxandroidarch.ui.adapters.UnoxAdapterBuilder
-import com.github.icarohs7.unoxandroidarch.ui.adapters.useUnoxAdapter
+import com.github.icarohs7.unoxandroidarch.presentation.adapters.BaseFlowableWatcherAdapter
+import com.github.icarohs7.unoxandroidarch.presentation.adapters.UnoxAdapterBuilder
+import com.github.icarohs7.unoxandroidarch.presentation.adapters.useUnoxAdapter
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

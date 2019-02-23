@@ -1,4 +1,4 @@
-package com.github.icarohs7.unoxandroidarch.ui.dialogs
+package com.github.icarohs7.unoxandroidarch.presentation.dialogs
 
 import android.os.Bundle
 import android.view.LayoutInflater

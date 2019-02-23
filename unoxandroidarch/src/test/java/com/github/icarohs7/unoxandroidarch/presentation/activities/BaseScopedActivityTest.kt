@@ -1,4 +1,4 @@
-package com.github.icarohs7.unoxandroidarch.ui.activities
+package com.github.icarohs7.unoxandroidarch.presentation.activities
 
 import com.github.icarohs7.unoxandroidarch.TestApplication
 import com.github.icarohs7.unoxandroidarch.newActivityController

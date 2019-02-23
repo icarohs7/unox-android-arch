@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.icarohs7.unoxandroidarch.ui.adapters
+package com.github.icarohs7.unoxandroidarch.presentation.adapters
 
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding

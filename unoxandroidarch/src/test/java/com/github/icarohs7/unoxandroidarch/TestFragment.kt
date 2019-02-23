@@ -1,5 +1,5 @@
 package com.github.icarohs7.unoxandroidarch
 
-import com.github.icarohs7.unoxandroidarch.ui.fragments.BaseScopedFragment
+import com.github.icarohs7.unoxandroidarch.presentation.fragments.BaseScopedFragment
 
 class TestFragment : BaseScopedFragment()

@@ -1,21 +1,21 @@
-package com.github.icarohs7.unoxandroidarch.ui.activities
+package com.github.icarohs7.unoxandroidarch.presentation.fragments
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.github.icarohs7.unoxandroid.extensions.coroutines.cancelCoroutineScope
 import com.github.icarohs7.unoxandroidarch.AppEventBus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 
 /**
- * Activity containing a coroutine scope,
+ * Fragment containing a coroutine scope,
  * cancelling it and all children coroutines
  * when destroyed
  */
-abstract class BaseScopedActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+abstract class BaseScopedFragment : Fragment(), CoroutineScope by MainScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppEventBus.Out.subscribeActivity(this)
+        AppEventBus.Out.subscribeFragment(this)
     }
 
     override fun onDestroy() {

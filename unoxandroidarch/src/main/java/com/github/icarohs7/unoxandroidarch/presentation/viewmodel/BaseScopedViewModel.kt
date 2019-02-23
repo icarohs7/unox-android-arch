@@ -1,4 +1,4 @@
-package com.github.icarohs7.unoxandroidarch.ui.viewmodel
+package com.github.icarohs7.unoxandroidarch.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.github.icarohs7.unoxandroid.extensions.coroutines.cancelCoroutineScope

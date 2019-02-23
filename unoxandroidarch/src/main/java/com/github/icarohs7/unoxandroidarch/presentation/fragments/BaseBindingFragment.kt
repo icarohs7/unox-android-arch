@@ -1,4 +1,4 @@
-package com.github.icarohs7.unoxandroidarch.ui.fragments
+package com.github.icarohs7.unoxandroidarch.presentation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

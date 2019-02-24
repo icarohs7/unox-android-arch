@@ -9,9 +9,6 @@ package com.github.icarohs7.unoxandroidarch.state
 interface StateManager<T, O> {
     val observable: O
 
-    /** Return the last valid state of the application */
-    suspend fun lastValue(): T
-
     /**
      * Apply the reducer to the state and
      * use the new state created as the

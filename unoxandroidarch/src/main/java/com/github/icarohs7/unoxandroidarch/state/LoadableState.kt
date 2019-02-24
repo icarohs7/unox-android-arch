@@ -1,18 +1,16 @@
 package com.github.icarohs7.unoxandroidarch.state
 
-import com.snakydesign.livedataextensions.livedata.NonNullLiveData
-import com.snakydesign.livedataextensions.nonNull
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
 import io.sellmair.quantum.Quantum
 import io.sellmair.quantum.create
-import io.sellmair.quantum.livedata.live
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+import io.sellmair.quantum.rx.rx
 
 /**
  * State manager extended with the capability
  * to have a isLoading state
  */
-interface LoadableState : StateManager<LoadingState, NonNullLiveData<LoadingState>> {
+interface LoadableState : StateManager<LoadingState, Flowable<LoadingState>> {
     /** Toggle the loading state of the application */
     fun toggleLoadingTo(isLoading: Boolean)
 
@@ -23,14 +21,10 @@ interface LoadableState : StateManager<LoadingState, NonNullLiveData<LoadingStat
 
 private class LoadableStateImpl : LoadableState {
     private val quantum: Quantum<LoadingState> = Quantum.create(LoadingState())
-    override val observable: NonNullLiveData<LoadingState> get() = quantum.live.nonNull()
+    override val observable: Flowable<LoadingState> get() = quantum.rx.toFlowable(BackpressureStrategy.LATEST)
 
     override fun toggleLoadingTo(isLoading: Boolean) {
         quantum.setState { copy(isLoading = isLoading) }
-    }
-
-    override suspend fun lastValue(): LoadingState {
-        return observable.value ?: suspendCoroutine { continuation -> quantum.withStateIt { continuation.resume(it) } }
     }
 
     override fun reduce(reducer: LoadingState.() -> LoadingState) {

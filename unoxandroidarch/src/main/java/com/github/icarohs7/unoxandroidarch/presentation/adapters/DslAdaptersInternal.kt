@@ -4,34 +4,24 @@ import android.content.Context
 import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.toPublisher
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.github.icarohs7.unoxandroid.extensions.coroutines.onForeground
-import com.github.icarohs7.unoxandroidarch.state.SuspendReducer
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
-import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
-import kotlinx.coroutines.launch
+import com.github.icarohs7.unoxandroidarch.state.Reducer
 
 /**
  * Builder used to create a multi purpose adapter
  * and use it on the given [RecyclerView]
  * using a DSL
  */
-suspend fun <T, DB : ViewDataBinding> RecyclerView.useUnoxAdapter(
-        builderBlock: suspend UnoxAdapterBuilder<T, DB>.() -> Unit
-): BaseFlowableWatcherAdapter<T, DB> {
-    return onForeground {
-        val builder = UnoxAdapterBuilder<T, DB>(context)
-        builderBlock(builder)
+@MainThread
+fun <T, DB : ViewDataBinding> RecyclerView.useUnoxAdapter(
+        builderBlock: UnoxAdapterBuilder<T, DB>.() -> Unit
+): BaseBindingAdapter<T, DB> {
+    val builder = UnoxAdapterBuilder<T, DB>(context)
+    builderBlock(builder)
 
-        buildAdapterAndSetupRecycler(this@useUnoxAdapter, builder)
-    }
+    return buildAdapterAndSetupRecycler(this@useUnoxAdapter, builder)
 }
 
 
@@ -40,35 +30,40 @@ suspend fun <T, DB : ViewDataBinding> RecyclerView.useUnoxAdapter(
  * applying the builder and returning it
  */
 @MainThread
-private suspend fun <T, DB : ViewDataBinding> buildAdapterAndSetupRecycler(
+private fun <T, DB : ViewDataBinding> buildAdapterAndSetupRecycler(
         recyclerView: RecyclerView,
         builder: UnoxAdapterBuilder<T, DB>
-): BaseFlowableWatcherAdapter<T, DB> {
-    val (layout, flowable, diffCallback) = with(builder) { Triple(itemLayout, flowable, diffCallback) }
+): BaseBindingAdapter<T, DB> {
 
-    val adapter = object : BaseFlowableWatcherAdapter<T, DB>(layout, flowable, diffCallback) {
-        override fun onBindItemToView(index: Int, item: T, view: DB) {
-            launch { builder.bindFun(view, index, item) }
+    val adapter = object : BaseBindingAdapter<T, DB>(builder.itemLayout, builder.diffCallback) {
+        override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+            super.onAttachedToRecyclerView(recyclerView)
+            submitList(builder.items)
         }
-    }.let { builder.adapterSetup(it) }
 
+        override fun onBindItemToView(index: Int, item: T, view: DB) {
+            builder.bindFun(view, index, item)
+        }
+    }
+
+    val configuredAdapter = builder.adapterSetup(adapter)
     recyclerView.layoutManager = builder.layoutManager
-    recyclerView.adapter = adapter
+    recyclerView.adapter = configuredAdapter
 
-    return adapter
+    return configuredAdapter
 }
 
 /**
- * Builder used to make a [BaseFlowableWatcherAdapter]
+ * Builder used to make a [BaseBindingAdapter]
  * through a DSL
  */
 class UnoxAdapterBuilder<T, DB : ViewDataBinding>(val context: Context) {
-    internal var flowable: Flowable<List<T>> = Flowable.just(emptyList())
-    internal var bindFun: suspend DB.(index: Int, item: T) -> Unit = { _, _ -> }
+    internal var bindFun: DB.(index: Int, item: T) -> Unit = { _, _ -> }
     internal var itemLayout: Int = 0
     internal var diffCallback: DiffUtil.ItemCallback<T>? = null
-    internal var adapterSetup: SuspendReducer<BaseFlowableWatcherAdapter<T, DB>> = { this }
+    internal var adapterSetup: Reducer<BaseBindingAdapter<T, DB>> = { this }
     internal var layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
+    internal var items: List<T> = emptyList()
 
     /**
      * Define the layout used by each
@@ -82,7 +77,7 @@ class UnoxAdapterBuilder<T, DB : ViewDataBinding>(val context: Context) {
      * Define the function used to map an
      * item to a view
      */
-    fun bind(bindFun: suspend DB.(item: T) -> Unit) {
+    fun bind(bindFun: DB.(item: T) -> Unit) {
         this.bindFun = { _, item -> bindFun(item) }
     }
 
@@ -91,39 +86,8 @@ class UnoxAdapterBuilder<T, DB : ViewDataBinding>(val context: Context) {
      * item to a view using the item index
      * in the adapter
      */
-    fun bindIndexed(bindFun: suspend DB.(index: Int, item: T) -> Unit) {
+    fun bindIndexed(bindFun: DB.(index: Int, item: T) -> Unit) {
         this.bindFun = bindFun
-    }
-
-    /**
-     * Use the given flowable as the data
-     * source of the adapter, updating
-     * its items everytime an emission
-     * happens
-     */
-    fun observeFlowable(flowable: Flowable<List<T>>) {
-        val combiner = BiFunction<List<T>, List<T>, List<T>> { a, b -> a + b }
-        this.flowable = Flowable.combineLatest(flowable, this.flowable, combiner)
-    }
-
-    /**
-     * Use the given observable as the data
-     * source of the adapter, updating
-     * its items everytime an emission
-     * happens
-     */
-    fun observeObservable(observable: Observable<List<T>>) {
-        observeFlowable(observable.toFlowable(BackpressureStrategy.LATEST))
-    }
-
-    /**
-     * Use the given livedata as the data
-     * source of the adapter, updating
-     * its items everytime an emission
-     * happens
-     */
-    fun observeLiveData(lifecycle: LifecycleOwner, liveData: LiveData<List<T>>) {
-        observeFlowable(Flowable.fromPublisher(liveData.toPublisher(lifecycle)))
     }
 
     /**
@@ -131,7 +95,7 @@ class UnoxAdapterBuilder<T, DB : ViewDataBinding>(val context: Context) {
      * data source of the adapter
      */
     fun loadList(items: List<T>) {
-        observeFlowable(Flowable.just(items))
+        this.items = items
     }
 
     /**
@@ -147,7 +111,7 @@ class UnoxAdapterBuilder<T, DB : ViewDataBinding>(val context: Context) {
      * Used to modify the default adapter or
      * to use another adapter
      */
-    fun configAdapter(adapterSetup: SuspendReducer<BaseFlowableWatcherAdapter<T, DB>>) {
+    fun configAdapter(adapterSetup: Reducer<BaseBindingAdapter<T, DB>>) {
         this.adapterSetup = adapterSetup
     }
 

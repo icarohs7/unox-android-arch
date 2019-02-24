@@ -1,8 +1,11 @@
 package com.github.icarohs7.unoxandroidarch.state
 
 import androidx.lifecycle.LifecycleOwner
-import com.github.icarohs7.unoxandroid.extensions.observe
 import com.github.icarohs7.unoxandroidarch.Injector
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import io.sellmair.disposer.disposeBy
+import io.sellmair.disposer.onDestroy
 import org.koin.standalone.get
 
 /**
@@ -10,5 +13,10 @@ import org.koin.standalone.get
  */
 fun LifecycleOwner.addOnLoadingListener(block: (isLoading: Boolean) -> Unit) {
     val stateManager: LoadableState = Injector.get()
-    stateManager.observable.observe(this) { block(it.isLoading) }
+    stateManager
+            .observable
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { block(it.isLoading) }
+            .disposeBy(onDestroy)
 }

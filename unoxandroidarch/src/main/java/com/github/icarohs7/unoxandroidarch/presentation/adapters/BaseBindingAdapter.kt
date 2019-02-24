@@ -33,9 +33,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import arrow.core.Try
-import com.github.icarohs7.unoxandroid.extensions.coroutines.cancelCoroutineScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
 
 /**
  * Base adapter based on data binding
@@ -45,7 +42,7 @@ abstract class BaseBindingAdapter<T, DB : ViewDataBinding>(
         diffCallback: DiffUtil.ItemCallback<T>? = null
 ) : ListAdapter<T, BaseBindingAdapter.BaseBindingViewHolder<DB>>(
         diffCallback ?: AllRefreshDiffCallback()
-), CoroutineScope by MainScope() {
+) {
     /**
      * Current data set loaded in the
      * adapter
@@ -74,11 +71,6 @@ abstract class BaseBindingAdapter<T, DB : ViewDataBinding>(
 
     override fun onBindViewHolder(holder: BaseBindingViewHolder<DB>, position: Int) {
         Try { onBindItemToView(position, getItem(position), holder.binding) }
-    }
-
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        cancelCoroutineScope()
-        super.onDetachedFromRecyclerView(recyclerView)
     }
 
     /**

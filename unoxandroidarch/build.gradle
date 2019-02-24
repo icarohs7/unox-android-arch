@@ -40,7 +40,7 @@ dependencies {
     api(AndroidDeps.picasso)
     api(AndroidDeps.pugNotification)
     api(AndroidDeps.quantum)
-    api(AndroidDeps.quantumLiveData)
+    api(AndroidDeps.quantumRx)
     api(AndroidDeps.reactiveNetwork)
     api(AndroidDeps.recyclerView)
     api(AndroidDeps.roomRuntime)

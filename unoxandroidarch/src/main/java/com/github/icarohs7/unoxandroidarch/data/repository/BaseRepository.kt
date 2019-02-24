@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import arrow.effects.IO
 import io.reactivex.Flowable
+import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.Single
 
 /**
  * Base Repository with methods related
@@ -55,6 +57,12 @@ interface BaseRepository<T> {
 
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.flowable] */
     fun <R : Any> flowable(transformer: List<T>.() -> R): Flowable<R> = flowable().map(transformer)
+
+    /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.maybe] */
+    fun maybe(): Maybe<List<T>> = Maybe.empty()
+
+    /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.single] */
+    fun single(): Single<List<T>> = Single.just(emptyList())
 
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.flowable] converted to observable */
     fun observable(): Observable<List<T>> = flowable().toObservable()

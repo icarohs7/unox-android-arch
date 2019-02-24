@@ -7,6 +7,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Update
 import io.reactivex.Flowable
+import io.reactivex.Maybe
+import io.reactivex.Single
 
 /** Base dao class with insert and delete methods */
 interface BaseDao<T> {
@@ -84,4 +86,18 @@ interface BaseDao<T> {
      * latest values from the given table
      */
     fun flowable(): Flowable<List<T>> = Flowable.empty()
+
+    /**
+     * Get a maybe emitting once the list of all
+     * rows in the database or completing without
+     * any emission if no rows are found
+     */
+    fun maybe(): Maybe<List<T>> = Maybe.empty()
+
+    /**
+     * Get a single emitting once the list of all
+     * rows in the database or triggering an onError
+     * if no rows are found
+     */
+    fun single(): Single<List<T>> = Single.just(emptyList())
 }

@@ -6,6 +6,8 @@ import com.github.icarohs7.unoxandroid.extensions.coroutines.onBackground
 import com.github.icarohs7.unoxandroid.sideEffectBg
 import com.github.icarohs7.unoxandroidarch.data.db.BaseDao
 import io.reactivex.Flowable
+import io.reactivex.Maybe
+import io.reactivex.Single
 
 /**
  * Class implementing the methods from the [BaseRepository] wrapping
@@ -61,5 +63,15 @@ abstract class BaseRepositoryDaoAdapter<T, DAO : BaseDao<T>>(protected val dao: 
     /** [BaseRepository.flowable] */
     override fun flowable(): Flowable<List<T>> {
         return dao.flowable()
+    }
+
+    /** [BaseRepository.maybe] */
+    override fun maybe(): Maybe<List<T>> {
+        return dao.maybe()
+    }
+
+    /** [BaseRepository.single] */
+    override fun single(): Single<List<T>> {
+        return dao.single()
     }
 }

@@ -27,7 +27,9 @@ dependencies {
     api(Deps.rxKotlin)
     api(Deps.rxRelay)
 
+    api(AndroidDeps.appUpdater)
     api(AndroidDeps.bungee)
+    api(AndroidDeps.constraintLayout)
     api(AndroidDeps.disposer)
     api(AndroidDeps.drawableToolbox)
     api(AndroidDeps.flashbar)
@@ -48,6 +50,7 @@ dependencies {
     api(AndroidDeps.rxPermission)
     api(AndroidDeps.smartScheduler)
     api(AndroidDeps.spotsDialog)
+    api(AndroidDeps.spinKit)
     api(AndroidDeps.splittiesAppctx)
     api(AndroidDeps.splittiesResources)
     api(AndroidDeps.stateViews)

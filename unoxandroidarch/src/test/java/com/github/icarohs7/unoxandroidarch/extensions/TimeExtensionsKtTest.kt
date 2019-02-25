@@ -15,11 +15,12 @@ class TimeExtensionsKtTest {
                 SimpleDateFormat(format, Locale.getDefault()).parse(date)
 
         val s1 = "1997-05-09 14:00:00"
-        val s2 = "25/03/1974 12:00:00"
-        val s3 = "25/12/2018"
-        val s4 = "17:00:00"
-        val s5 = "17:00"
-        val s6 = "25/12/2015 15:00"
+        val s2 = "1997-05-09"
+        val s3 = "14:00:00"
+        val s4 = "25/03/1974 12:00:00"
+        val s5 = "25/12/2018"
+        val s6 = "17:00"
+        val s7 = "25/12/2015 15:00"
 
 
         //When
@@ -28,15 +29,17 @@ class TimeExtensionsKtTest {
         val d3 = s3.asDate()
         val d4 = s4.asDate()
         val d5 = s5.asDate()
-        val d6 = s6.asDate("MM/dd/yyyy HH:mm")
+        val d6 = s6.asDate()
+        val d7 = s7.asDate("MM/dd/yyyy HH:mm")
 
         //Then
         shureConvert(s1, DateFormat.REMOTE_DATETIME) shouldEqual d1
-        shureConvert(s2, DateFormat.BR_DATETIME) shouldEqual d2
-        shureConvert(s3, DateFormat.BR_DATE) shouldEqual d3
-        shureConvert(s4, DateFormat.TIME) shouldEqual d4
-        shureConvert(s5, DateFormat.SHORT_TIME) shouldEqual d5
-        shureConvert(s6, "MM/dd/yyyy HH:mm") shouldEqual d6
+        shureConvert(s2, DateFormat.REMOTE_DATE) shouldEqual d2
+        shureConvert(s3, DateFormat.REMOTE_TIME) shouldEqual d3
+        shureConvert(s4, DateFormat.BR_DATETIME) shouldEqual d4
+        shureConvert(s5, DateFormat.BR_DATE) shouldEqual d5
+        shureConvert(s6, DateFormat.SHORT_TIME) shouldEqual d6
+        shureConvert(s7, "MM/dd/yyyy HH:mm") shouldEqual d7
     }
 
     @Test

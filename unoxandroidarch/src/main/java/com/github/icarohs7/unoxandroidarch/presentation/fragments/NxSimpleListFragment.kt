@@ -24,19 +24,19 @@ abstract class NxSimpleListFragment<I, IDB : ViewDataBinding>
         binding.stateView.displayState(stateTag)
     }
 
-    final override fun getItemLayout(): Int {
+    override fun getItemLayout(): Int {
         return config.layout
     }
 
-    final override fun render(state: List<I>) {
+    override fun render(state: List<I>) {
         loadItems(state)
     }
 
-    final override fun getRecycler(): RecyclerView {
+    override fun getRecycler(): RecyclerView {
         return binding.recycler
     }
 
-    final override fun getLayout(): Int {
+    override fun getLayout(): Int {
         return R.layout.fragment_base_recycler
     }
 }

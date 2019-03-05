@@ -2,6 +2,7 @@ package com.github.icarohs7.unoxandroidarch.extensions
 
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import com.github.icarohs7.unoxandroidarch.R
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import splitties.resources.drawable
@@ -19,8 +20,8 @@ fun ImageView.load(@DrawableRes resource: Int) {
  */
 fun ImageView.load(
         url: String,
-        @DrawableRes placeholder: Int? = null,
-        @DrawableRes onError: Int? = null,
+        @DrawableRes placeholder: Int? = R.drawable.img_placeholder_img_loading,
+        @DrawableRes onError: Int? = R.drawable.img_error_img_not_found,
         additionalSetup: RequestCreator.() -> RequestCreator = { this }
 ) {
     Picasso.get()

@@ -17,17 +17,28 @@ fun ImageView.load(@DrawableRes resource: Int) {
 /**
  * Load an image at the given url to the
  * receiving ImageView
+ * @param rethrowExceptions If false, [onError] will be
+ *          loaded on the ImageView if any error happen,
+ *          otherwise any exception will be rethrown
  */
 fun ImageView.load(
         url: String,
         @DrawableRes placeholder: Int? = R.drawable.img_placeholder_img_loading,
         @DrawableRes onError: Int? = R.drawable.img_error_img_not_found,
+        rethrowExceptions: Boolean = false,
         additionalSetup: RequestCreator.() -> RequestCreator = { this }
 ) {
-    Picasso.get()
-            .load(url)
-            .apply { placeholder?.let(::placeholder) }
-            .apply { onError?.let(::error) }
-            .additionalSetup()
-            .into(this)
+    try {
+        Picasso.get()
+                .load(url)
+                .apply { placeholder?.let(::placeholder) }
+                .apply { onError?.let(::error) }
+                .additionalSetup()
+                .into(this)
+    } catch (e: Exception) {
+        when (rethrowExceptions) {
+            true -> throw e
+            false -> load(onError ?: R.drawable.img_error_img_not_found)
+        }
+    }
 }

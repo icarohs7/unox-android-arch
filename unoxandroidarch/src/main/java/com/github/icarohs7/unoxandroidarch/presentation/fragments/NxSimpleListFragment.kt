@@ -4,13 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.RecyclerView
 import com.github.icarohs7.unoxandroidarch.R
 import com.github.icarohs7.unoxandroidarch.databinding.FragmentBaseRecyclerBinding
 
-abstract class NxSimpleListFragment<I, IDB : ViewDataBinding>
-    : NxListFragment<List<I>, I, FragmentBaseRecyclerBinding, IDB>() {
-
+abstract class NxSimpleListFragment<I, IDB : ViewDataBinding> : NxListFragment<FragmentBaseRecyclerBinding, I, IDB>() {
     override fun onBindingCreated(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) {
         super.onBindingCreated(inflater, container, savedInstanceState)
         binding.stateView.hideStates()
@@ -24,16 +21,8 @@ abstract class NxSimpleListFragment<I, IDB : ViewDataBinding>
         binding.stateView.displayState(stateTag)
     }
 
-    override fun getItemLayout(): Int {
-        return config.layout
-    }
-
     override fun render(state: List<I>) {
         loadItems(state)
-    }
-
-    override fun getRecycler(): RecyclerView {
-        return binding.recycler
     }
 
     override fun getLayout(): Int {

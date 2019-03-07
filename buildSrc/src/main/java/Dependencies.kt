@@ -123,8 +123,8 @@ object AndroidDeps {
     const val multiLineRadioGroup = "com.github.Gavras:MultiLineRadioGroup:${Versions.multiLineRadioGroup}"
     const val mural = "com.irozon.mural:mural:${Versions.mural}"
     const val mvRx = "com.airbnb.android:mvrx:${Versions.mvRx}"
-    const val navigationFragment = "android.arch.navigation:navigation-fragment-ktx:${Versions.navigation}"
-    const val navigationUi = "android.arch.navigation:navigation-ui-ktx:${Versions.navigation}"
+    const val navigationFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
+    const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
     const val passcodeView = "in.arjsna:passcodeview:${Versions.passcodeView}"
     const val picasso = "com.squareup.picasso:picasso:${Versions.picasso}"
     const val playServicesGcm = "com.google.android.gms:play-services-gcm:${Versions.playServicesGcm}"
@@ -203,6 +203,8 @@ object AndroidDeps {
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
     const val unoxAndroid = "com.github.icarohs7:unox-android:${Versions.unoxAndroid}"
     const val unoxAndroidArch = "com.github.icarohs7:unox-android-arch:${Versions.unoxAndroidArch}"
+    const val workManagerKtx = "android.arch.work:work-runtime-ktx:${Versions.workManager}"
+    const val workManagerRx = "android.arch.work:work-rxjava2:${Versions.workManager}"
 }
 
 object AndroidKaptDeps {
@@ -216,6 +218,7 @@ object TestDeps {
     val core = listOf(
             "org.bigtesting:fixd:${Versions.fixd}",
             "org.koin:koin-test:${Versions.koin}",
+            "io.mockk:mockk:${Versions.mockK}",
             "se.lovef:kotlin-assert-utils:${Versions.kotlinAssertUtils}"
     )
 
@@ -280,7 +283,7 @@ object Versions {
     const val multiLineRadioGroup = "1.0.0.6"
     const val mural = "1.0.1"
     const val mvRx = "0.7.2"
-    const val navigation = "1.0.0-rc02"
+    const val navigation = "2.0.0-rc02"
     const val okHttp = "3.13.1"
     const val okio = "2.2.2"
     const val passcodeView = "1.2.1"
@@ -308,18 +311,20 @@ object Versions {
     const val smartScheduler = "0.0.14"
     const val snakeYaml = "1.23"
     const val spinkit = "1.2.0"
-    const val splitties = "3.0.0-alpha03"
+    const val splitties = "3.0.0-alpha04"
     const val spotsdialog = "1.1"
     const val stateViews = "0.5"
     const val stetho = "1.5.0"
     const val timber = "4.7.1"
     const val tornadoFx = "1.7.17"
-    const val unoxAndroid = "a0e7592838"
-    const val unoxAndroidArch = "603b670e65"
+    const val unoxAndroid = "08f54adeca"
+    const val unoxAndroidArch = "b6a27ac0f1"
+    const val workManager = "1.0.0"
 
-    const val barista = "2.7.1"
+    const val barista = "2.8.0"
     const val fixd = "1.0.3"
     const val kotlinAssertUtils = "0.8.2"
+    const val mockK = "1.9.1"
     const val robolectric = "4.1"
     const val testCore = "1.1.0"
 

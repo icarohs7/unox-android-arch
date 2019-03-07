@@ -38,9 +38,6 @@ interface BaseRepository<T> {
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.eraseTable] */
     suspend fun eraseTable(): IO<Unit> = IO.unit
 
-    /** Filtered elements from [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.getAll] */
-    suspend fun get(matcher: (T) -> Boolean): T? = getAll().find(matcher)
-
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.getAll] */
     suspend fun getAll(): List<T> = emptyList()
 

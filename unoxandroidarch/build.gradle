@@ -59,6 +59,7 @@ dependencies {
     api(AndroidDeps.timber)
     api(AndroidDeps.unoxAndroid)
     kapt(AndroidKaptDeps.core)
+    kaptTest(AndroidKaptDeps.core)
 }
 
 ext.groupId = "com.github.icarohs7"

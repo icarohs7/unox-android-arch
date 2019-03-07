@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("com.github.dcendents.android-maven") version "2.1"
+    id("kotlinx-serialization")
 }
 
 apply(from: androidCommonSettings)
@@ -27,20 +28,21 @@ dependencies {
     api(Deps.rxKotlin)
     api(Deps.rxRelay)
 
+    api(AndroidDeps.appUpdater)
     api(AndroidDeps.bungee)
+    api(AndroidDeps.constraintLayout)
     api(AndroidDeps.disposer)
     api(AndroidDeps.drawableToolbox)
     api(AndroidDeps.flashbar)
     api(AndroidDeps.fragmentKtx)
     api(AndroidDeps.koinAndroidxViewmodel)
     api(AndroidDeps.lifecycleReactiveStreamsKtx)
-    api(AndroidDeps.maskedEditText)
     api(AndroidDeps.materialDesign)
     api(AndroidDeps.materialDialogs)
     api(AndroidDeps.picasso)
     api(AndroidDeps.pugNotification)
     api(AndroidDeps.quantum)
-    api(AndroidDeps.quantumLiveData)
+    api(AndroidDeps.quantumRx)
     api(AndroidDeps.reactiveNetwork)
     api(AndroidDeps.recyclerView)
     api(AndroidDeps.roomRuntime)
@@ -48,6 +50,7 @@ dependencies {
     api(AndroidDeps.rxPermission)
     api(AndroidDeps.smartScheduler)
     api(AndroidDeps.spotsDialog)
+    api(AndroidDeps.spinKit)
     api(AndroidDeps.splittiesAppctx)
     api(AndroidDeps.splittiesResources)
     api(AndroidDeps.stateViews)
@@ -56,6 +59,7 @@ dependencies {
     api(AndroidDeps.timber)
     api(AndroidDeps.unoxAndroid)
     kapt(AndroidKaptDeps.core)
+    kaptTest(AndroidKaptDeps.core)
 }
 
 ext.groupId = "com.github.icarohs7"

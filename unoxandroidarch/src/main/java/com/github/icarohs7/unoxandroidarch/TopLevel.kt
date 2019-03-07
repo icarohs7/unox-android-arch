@@ -14,11 +14,13 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.UiThread
 import androidx.fragment.app.Fragment
 import arrow.core.Try
+import arrow.effects.IO
 import com.andrognito.flashbar.Flashbar
+import com.github.icarohs7.unoxandroid.sideEffectBg
 import com.github.icarohs7.unoxandroidarch.extensions.now
+import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
+import com.github.icarohs7.unoxandroidarch.presentation.fragments.BaseScopedFragment
 import com.github.icarohs7.unoxandroidarch.state.LoadableState
-import com.github.icarohs7.unoxandroidarch.ui.activities.BaseScopedActivity
-import com.github.icarohs7.unoxandroidarch.ui.fragments.BaseScopedFragment
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import io.hypertrack.smart_scheduler.Job
 import io.hypertrack.smart_scheduler.SmartScheduler
@@ -228,3 +230,13 @@ suspend fun getCurrentLocation(context: Context): Try<Location> =
                                 .requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null)
                     }.awaitFirst()
         }
+
+/**
+ * Invoke the given side effect causing operation
+ * and return its result if there's internet connection,
+ * otherwise fail and return an [IO.never]
+ */
+suspend fun <T> connectedSideEffectBg(block: suspend CoroutineScope.() -> T): IO<T> {
+    if (!appHasInternetConnection()) return IO.never
+    return sideEffectBg(block)
+}

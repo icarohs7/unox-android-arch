@@ -1,17 +1,16 @@
 package com.github.icarohs7.unoxandroidarch.data.repository
 
-import androidx.lifecycle.LiveData
 import arrow.effects.IO
 import com.github.icarohs7.unoxandroid.extensions.coroutines.onBackground
 import com.github.icarohs7.unoxandroid.sideEffectBg
-import com.github.icarohs7.unoxandroidarch.data.local.BaseDao
+import com.github.icarohs7.unoxandroidarch.data.db.BaseDao
 import io.reactivex.Flowable
 
 /**
  * Class implementing the methods from the [BaseRepository] wrapping
  * the corresponding dao methods in a background coroutine
  */
-abstract class BaseRepositoryDaoAdapter<T, DAO : BaseDao<T>>(protected val dao: DAO) : BaseRepository<T> {
+abstract class BaseRepositoryDaoAdapter<T, DAO : BaseDao<T>>(val dao: DAO) : BaseRepository<T> {
 
     /** [BaseRepository.insert] */
     override suspend fun insert(item: T): IO<Long> {
@@ -51,11 +50,6 @@ abstract class BaseRepositoryDaoAdapter<T, DAO : BaseDao<T>>(protected val dao: 
     /** [BaseRepository.getAll] */
     override suspend fun getAll(): List<T> {
         return onBackground { dao.getAll() }
-    }
-
-    /** [BaseRepository.liveData] */
-    override fun liveData(): LiveData<List<T>> {
-        return dao.liveData()
     }
 
     /** [BaseRepository.flowable] */

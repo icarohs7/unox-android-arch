@@ -3,8 +3,10 @@ package com.github.icarohs7.unoxandroidarch
 import android.app.Activity
 import androidx.fragment.app.Fragment
 import com.github.icarohs7.unoxandroid.extensions.addOnDestroyObserver
-import com.github.icarohs7.unoxandroidarch.ui.activities.BaseScopedActivity
-import com.github.icarohs7.unoxandroidarch.ui.fragments.BaseScopedFragment
+import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
+import com.github.icarohs7.unoxandroidarch.presentation.fragments.BaseScopedFragment
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -40,6 +42,7 @@ class AppEventBusTest {
         var v1 = 0
         act.addOnDestroyObserver { v1 = 1 }
         controller.destroy()
+        runBlocking { delay(400) }
         onActivity<TestActivity> { v = this@onActivity }
         v shouldEqual null
         v shouldBe null

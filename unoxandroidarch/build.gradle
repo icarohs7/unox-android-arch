@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("com.github.dcendents.android-maven") version "2.1"
+    id("kotlinx-serialization")
 }
 
 apply(from: androidCommonSettings)
@@ -36,7 +37,6 @@ dependencies {
     api(AndroidDeps.fragmentKtx)
     api(AndroidDeps.koinAndroidxViewmodel)
     api(AndroidDeps.lifecycleReactiveStreamsKtx)
-    api(AndroidDeps.maskedEditText)
     api(AndroidDeps.materialDesign)
     api(AndroidDeps.materialDialogs)
     api(AndroidDeps.picasso)

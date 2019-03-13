@@ -1,5 +1,8 @@
 package com.github.icarohs7.unoxandroidarch.presentation.fragments
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.github.icarohs7.unoxandroidarch.presentation.adapters.BaseBindingAdapter
@@ -9,6 +12,18 @@ import io.reactivex.Flowable
 abstract class NxSListFragment<S, DB : ViewDataBinding, I, IDB : ViewDataBinding> : BaseStatefulFragment<S, DB>() {
     protected var adapter: BaseBindingAdapter<I, IDB>? = null
     protected val config: Configuration<S> by lazy { Configuration<S>().apply(::onSetup) }
+
+    override fun onBindingCreated(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) {
+        super.onBindingCreated(inflater, container, savedInstanceState)
+        renderOnce()
+    }
+
+    /**
+     * Called once when the fragment is created,
+     * not being recalculated when the state change
+     */
+    open fun renderOnce() {
+    }
 
     /**
      * Used to define settings kept throughout the

@@ -56,6 +56,7 @@ abstract class NxSListFragment<S, DB : ViewDataBinding, I, IDB : ViewDataBinding
 
     open fun onCreateAdapter(): BaseBindingAdapter<I, IDB> {
         return config.recyclerFn().useUnoxAdapter {
+            config.layoutManager?.let(::useLayoutManager)
             useItemLayout(config.itemLayout)
             bindIndexed { index, item ->
                 renderItem(item, this, index)
@@ -73,6 +74,7 @@ abstract class NxSListFragment<S, DB : ViewDataBinding, I, IDB : ViewDataBinding
         internal var stateStream: Flowable<S> = Flowable.empty()
         internal var layout: Int = 0
         internal var itemLayout: Int = 0
+        internal var layoutManager: RecyclerView.LayoutManager? = null
         internal lateinit var recyclerFn: () -> RecyclerView
 
         /**
@@ -95,6 +97,13 @@ abstract class NxSListFragment<S, DB : ViewDataBinding, I, IDB : ViewDataBinding
          */
         fun useItemLayout(itemLayout: Int) {
             this.itemLayout = itemLayout
+        }
+
+        /**
+         * Layout manager used by the recycler view
+         */
+        fun useLayoutManager(layoutManager: RecyclerView.LayoutManager?) {
+            this.layoutManager = layoutManager
         }
 
         /**

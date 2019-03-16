@@ -326,7 +326,7 @@ object Versions {
     const val tornadoFx = "1.7.17"
     const val viewAnimator = "1.1.1"
     const val unoxAndroid = "f3e6a5bdef"
-    const val unoxAndroidArch = "d436615327"
+    const val unoxAndroidArch = "74f8c929b4"
     const val workManager = "2.0.0-rc01"
 
     const val barista = "2.9.0"

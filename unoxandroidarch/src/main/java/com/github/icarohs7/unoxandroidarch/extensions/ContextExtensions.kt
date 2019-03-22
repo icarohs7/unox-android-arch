@@ -8,6 +8,7 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.View
@@ -23,6 +24,7 @@ import com.github.icarohs7.unoxandroidarch.databinding.DialogYesNoBinding
 import com.vanniktech.rxpermission.Permission
 import com.vanniktech.rxpermission.RealRxPermission
 import kotlinx.coroutines.rx2.await
+import org.jetbrains.anko.activityManager
 import org.jetbrains.anko.layoutInflater
 import java.util.Calendar
 import kotlin.reflect.KClass
@@ -151,4 +153,25 @@ suspend fun Context.requestPermissions(vararg permissions: String): Boolean {
                     .requestEach(*permissions)
                     .all(hasPermission)
                     .await()
+}
+
+/**
+ * Whether the given service is running
+ * or not
+ */
+@Suppress("DEPRECATION")
+fun <T : Any> Context.isServiceRunning(service: KClass<T>): Boolean {
+    return (activityManager)
+            .getRunningServices(Integer.MAX_VALUE)
+            .any { it.service.className == service.java.name }
+}
+
+/**
+ * Open the telephone dialer with the
+ * given phone number
+ */
+fun Context.openDialer(phone: String) {
+    val intent = Intent(Intent.ACTION_DIAL)
+    intent.data = Uri.parse("tel:$phone")
+    startActivity(intent)
 }

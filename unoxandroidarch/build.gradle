@@ -39,6 +39,7 @@ dependencies {
     api(AndroidDeps.lifecycleReactiveStreamsKtx)
     api(AndroidDeps.materialDesign)
     api(AndroidDeps.materialDialogs)
+    api(AndroidDeps.materialSpinner)
     api(AndroidDeps.picasso)
     api(AndroidDeps.pugNotification)
     api(AndroidDeps.quantum)

@@ -7,7 +7,7 @@ import com.github.icarohs7.unoxandroidarch.domain.BungeeAnim
 import com.github.icarohs7.unoxandroidarch.state.LoadableState
 import io.hypertrack.smart_scheduler.SmartScheduler
 import org.koin.dsl.module.module
-import org.koin.standalone.StandAloneContext
+import org.koin.standalone.StandAloneContext.loadKoinModules
 import spencerstudios.com.bungeelib.Bungee
 import splitties.init.appCtx
 
@@ -21,7 +21,7 @@ interface UnoxAndroidArch {
          * Initialize the library
          */
         fun init() {
-            StandAloneContext.loadKoinModules(module {
+            loadKoinModules(module {
                 single { SmartScheduler.getInstance(appCtx) }
                 single { LoadableState.create() }
             })

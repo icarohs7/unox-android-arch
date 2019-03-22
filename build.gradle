@@ -20,6 +20,3 @@ plugins {
 ext.gitTagVersion = gitVersion().toString().find("(\\d\\.\\d\\.\\d)")
 
 apply(from: projectsRepositories)
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}

@@ -1,14 +1,14 @@
 package com.github.icarohs7.unoxandroidarch.extensions
 
 import android.content.res.ColorStateList
-import android.text.Editable
-import android.text.TextWatcher
+import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
-import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import com.github.icarohs7.unoxandroidarch.rippleBackgroundDrawable
 
 /**
  * Define the background tint resource of the View
@@ -136,24 +136,10 @@ val View.location: Pair<Int, Int>
     }
 
 /**
- * Add a text listener to the given [TextView]
+ * Add a ripple background to the view and define
+ * its click listener
  */
-fun TextView.onTextChange(
-        beforeChange: (s: CharSequence?, start: Int, count: Int, after: Int) -> Unit = { _, _, _, _ -> },
-        afterChange: (s: Editable?) -> Unit = {},
-        onChange: (s: CharSequence?, start: Int, before: Int, count: Int) -> Unit = { _, _, _, _ -> }
-) {
-    addTextChangedListener(object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-            afterChange(s)
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            beforeChange(s, start, count, after)
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            onChange(s, start, before, count)
-        }
-    })
+fun View.rippleOnClick(@ColorInt rippleColor: Int = Color.parseColor("#888888"), listener: (View) -> Unit) {
+    background = rippleBackgroundDrawable(rippleColor).build()
+    setOnClickListener(listener)
 }

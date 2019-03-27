@@ -57,10 +57,10 @@ dependencies {
     api(AndroidDeps.roomRxJava2)
     api(AndroidDeps.rxPermission)
     api(AndroidDeps.smartScheduler)
-    api(AndroidDeps.spotsDialog)
     api(AndroidDeps.spinKit)
     api(AndroidDeps.splittiesAppctx)
     api(AndroidDeps.splittiesResources)
+    api(AndroidDeps.spotsDialog)
     api(AndroidDeps.stateViews)
     api(AndroidDeps.stetho)
     api(AndroidDeps.stethoOkHttp)
@@ -69,8 +69,6 @@ dependencies {
     AndroidKaptDeps.core.forEach(::kapt)
     AndroidKaptDeps.core.forEach(::kaptTest)
 }
-
-//TODO plugin id("jacoco")
 
 jacoco {
     toolVersion = "0.8.3"
@@ -103,8 +101,8 @@ tasks {
         )
 
         classDirectories.setFrom(
-                fileTree("$buildDir/intermediates/classes/debug").exclude(excludes),
-                fileTree("$buildDir/tmp/kotlin-classes/debug").exclude(excludes)
+                fileTree("$buildDir/intermediates/classes/debug") { exclude(excludes) },
+                fileTree("$buildDir/tmp/kotlin-classes/debug") { exclude(excludes) }
         )
         sourceDirectories.setFrom(files(
                 android.sourceSets["main"].java.srcDirs,

@@ -345,7 +345,7 @@ object Versions {
     const val barista = "2.9.0"
     const val fixd = "1.0.5"
     const val kotlinAssertUtils = "0.8.2"
-    const val mockK = "1.9.3"
+    const val mockK = "1.9.2"
     const val robolectric = "4.1"
     const val testCore = "1.1.0"
 

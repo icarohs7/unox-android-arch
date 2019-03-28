@@ -55,7 +55,7 @@ abstract class NxSListFragment<S, DB : ViewDataBinding, I, IDB : ViewDataBinding
     }
 
     open fun onCreateAdapter(): BaseBindingAdapter<I, IDB> {
-        return config.recyclerFn().useUnoxAdapter {
+        return config.recycler().useUnoxAdapter {
             config.layoutManager?.let(::useLayoutManager)
             useItemLayout(config.itemLayout)
             bindIndexed { index, item ->
@@ -71,47 +71,31 @@ abstract class NxSListFragment<S, DB : ViewDataBinding, I, IDB : ViewDataBinding
     abstract fun renderItem(item: I, view: IDB, position: Int)
 
     class Configuration<S> {
-        internal var stateStream: Flowable<S> = Flowable.empty()
-        internal var layout: Int = 0
-        internal var itemLayout: Int = 0
-        internal var layoutManager: RecyclerView.LayoutManager? = null
-        internal lateinit var recyclerFn: () -> RecyclerView
-
         /**
          * Stream emitting the states
          * of the fragment
          */
-        fun useStateStream(stateStream: Flowable<S>) {
-            this.stateStream = stateStream
-        }
+        var stateStream: Flowable<S> = Flowable.empty()
 
         /**
          * Layout used by the fragment
          */
-        fun useLayout(layout: Int) {
-            this.layout = layout
-        }
+        var layout: Int = 0
 
         /**
          * Layout used by each item on the adapter
          */
-        fun useItemLayout(itemLayout: Int) {
-            this.itemLayout = itemLayout
-        }
+        var itemLayout: Int = 0
 
         /**
          * Layout manager used by the recycler view
          */
-        fun useLayoutManager(layoutManager: RecyclerView.LayoutManager?) {
-            this.layoutManager = layoutManager
-        }
+        var layoutManager: RecyclerView.LayoutManager? = null
 
         /**
          * Recycler view used by the adapter to
          * render the items on
          */
-        fun useRecycler(recyclerFn: () -> RecyclerView) {
-            this.recyclerFn = recyclerFn
-        }
+        lateinit var recycler: () -> RecyclerView
     }
 }

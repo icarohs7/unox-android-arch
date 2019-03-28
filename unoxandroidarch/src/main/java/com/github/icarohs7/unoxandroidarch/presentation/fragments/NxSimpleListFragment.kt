@@ -11,7 +11,7 @@ abstract class NxSimpleListFragment<I, IDB : ViewDataBinding> : NxListFragment<F
     override fun onBindingCreated(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) {
         super.onBindingCreated(inflater, container, savedInstanceState)
         binding.stateView.hideStates()
-        config.recyclerFn = { binding.recycler }
+        config.recycler = { binding.recycler }
     }
 
     /**

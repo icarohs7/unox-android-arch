@@ -46,22 +46,15 @@ abstract class NxFragment<S, DB : ViewDataBinding> : BaseStatefulFragment<S, DB>
     }
 
     class Configuration<S> {
-        internal var stateStream: Flowable<S> = Flowable.empty()
-        internal var layout: Int = 0
-
-        /**
-         * Layout used by the fragment
-         */
-        fun useLayout(layout: Int) {
-            this.layout = layout
-        }
-
         /**
          * Stream emitting the states
          * of the fragment
          */
-        fun useStateStream(stateStream: Flowable<S>) {
-            this.stateStream = stateStream
-        }
+        var stateStream: Flowable<S> = Flowable.empty()
+
+        /**
+         * Layout used by the fragment
+         */
+        var layout: Int = 0
     }
 }

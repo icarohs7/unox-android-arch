@@ -3,8 +3,8 @@ package com.github.icarohs7.unoxandroidarch.presentation.activities
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.github.icarohs7.unoxandroid.extensions.coroutines.cancelCoroutineScope
 import com.github.icarohs7.unoxandroidarch.AppEventBus
+import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 

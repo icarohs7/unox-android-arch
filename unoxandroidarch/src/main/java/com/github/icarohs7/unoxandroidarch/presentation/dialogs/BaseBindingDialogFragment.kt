@@ -8,8 +8,8 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
-import com.github.icarohs7.unoxandroid.extensions.coroutines.cancelCoroutineScope
 import com.github.icarohs7.unoxandroidarch.R
+import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import org.jetbrains.anko.matchParent

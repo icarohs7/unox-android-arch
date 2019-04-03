@@ -51,7 +51,7 @@ object AppEventBus {
                             .subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ action -> action() },
-                                       { err -> Timber.e(err) })
+                                    { err -> Timber.e(err) })
                             .disposeBy(onDestroy)
                 }
 
@@ -66,7 +66,7 @@ object AppEventBus {
                             .observeOn(AndroidSchedulers.mainThread())
                             .onErrorReturnItem { Unit }
                             .subscribe({ action -> action() },
-                                       { err -> Timber.e(err) })
+                                    { err -> Timber.e(err) })
                             .disposeBy(onDestroy)
                 }
     }

@@ -1,5 +1,9 @@
 @file:Suppress("PublicApiImplicitType", "MemberVisibilityCanBePrivate", "unused")
 
+object CommonDeps {
+    const val coroutinesCoreCommon = "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:${Versions.coroutines}"
+}
+
 object Deps {
     const val arrowCore = "io.arrow-kt:arrow-core:${Versions.arrow}"
     const val arrowData = "io.arrow-kt:arrow-data:${Versions.arrow}"
@@ -45,6 +49,7 @@ object Deps {
     const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:${Versions.rxKotlin}"
     const val rxRelay = "com.jakewharton.rxrelay2:rxrelay:${Versions.rxRelay}"
     const val snakeYaml = "org.yaml:snakeyaml:${Versions.snakeYaml}"
+    const val unoxCoreJvm = "com.github.icarohs7:unoxcore-jvm:${Versions.unoxCore}"
 }
 
 object JavaFxDeps {
@@ -84,6 +89,7 @@ object JavaFxDeps {
 }
 
 object AndroidDeps {
+    const val androidSpeedDial = "com.leinardi.android:speed-dial:${Versions.androidSpeedDial}"
     const val androidxPreference = "androidx.preference:preference-ktx:${Versions.preferenceKtx}"
     const val ankoCommons = "org.jetbrains.anko:anko-commons:${Versions.anko}"
     const val ankoSdk25 = "org.jetbrains.anko:anko-sdk25:${Versions.anko}"
@@ -91,6 +97,7 @@ object AndroidDeps {
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     const val appUpdater = "com.github.javiersantos:AppUpdater:${Versions.appUpdater}"
     const val bungee = "com.github.Binary-Finery:Bungee:${Versions.bungee}"
+    const val checkableChipView = "com.github.okdroid:checkablechipview:${Versions.checkableChipView}"
     const val circularImageView = "com.github.abdularis:CircularImageView:${Versions.circularImageView}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val coreKtx = "androidx.core:core-ktx:${Versions.androidxcore}"
@@ -127,6 +134,10 @@ object AndroidDeps {
     const val materialDialogsFiles = "com.afollestad.material-dialogs:files:${Versions.materialDialogs}"
     const val materialDialogsInput = "com.afollestad.material-dialogs:input:${Versions.materialDialogs}"
     const val materialDialogsLifecycle = "com.afollestad.material-dialogs:lifecycle:${Versions.materialDialogs}"
+    const val materialDrawer = "com.mikepenz:materialdrawer:${Versions.materialDrawer}"
+    const val materialDrawerKt = "co.zsmb:materialdrawer-kt:${Versions.materialDrawerKt}"
+    const val materialDrawerMaterialTypeface = "com.mikepenz:material-design-iconic-typeface:${Versions.materialDrawerMaterialTypeface}@aar"
+    const val materialDrawerMaterialTypefaceOriginal = "com.mikepenz:google-material-typeface:${Versions.materialDrawerMaterialTypefaceOriginal}@aar"
     const val materialEditText = "com.rengwuxian.materialedittext:library:${Versions.materialEditText}"
     const val materialFabSpeedDial = "com.github.kobakei:MaterialFabSpeedDial:${Versions.materialFabSpeedDial}"
     const val materialSpinner = "com.jaredrummler:material-spinner:${Versions.materialSpinner}"
@@ -210,9 +221,10 @@ object AndroidDeps {
     const val stateViews = "com.github.kobeumut:StateViews:${Versions.stateViews}"
     const val stetho = "com.facebook.stetho:stetho:${Versions.stetho}"
     const val stethoOkHttp = "com.facebook.stetho:stetho-okhttp3:${Versions.stetho}"
+    const val stickyTimelineView = "com.github.sangcomz:StickyTimeLine:${Versions.stickyTimelineView}"
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
-    const val unoxAndroid = "com.github.icarohs7:unox-android:${Versions.unoxAndroid}"
     const val unoxAndroidArch = "com.github.icarohs7:unox-android-arch:${Versions.unoxAndroidArch}"
+    const val unoxCoreAndroid = "com.github.icarohs7:unoxcore-android:${Versions.unoxCore}"
     const val viewAnimator = "com.github.florent37:viewanimator:${Versions.viewAnimator}"
     const val workManagerKtx = "androidx.work:work-runtime-ktx:${Versions.workManager}"
     const val workManagerRx = "androidx.work:work-rxjava2:${Versions.workManager}"
@@ -252,7 +264,13 @@ object AndroidTestDeps {
     const val testOrchestrator = "androidx.test:orchestrator:${Versions.testRules}"
 }
 
+object JSDeps {
+    const val coroutinesJs = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${Versions.coroutines}"
+    const val unoxCoreAndroid = "com.github.icarohs7:unoxcore-js:${Versions.unoxCore}"
+}
+
 object Versions {
+    const val androidSpeedDial = "2.0.1"
     const val androidxcore = "1.0.1"
     const val anko = "0.10.8"
     const val anotherViewPager = "1.0.2"
@@ -260,7 +278,8 @@ object Versions {
     const val appUpdater = "2.7"
     const val arrow = "0.8.2"
     const val bungee = "master-SNAPSHOT"
-    const val circularImageView = "1.3"
+    const val checkableChipView = "1.0.3"
+    const val circularImageView = "1.4"
     const val clikt = "1.7.0"
     const val constraintLayout = "1.1.3"
     const val coroutines = "1.1.1"
@@ -296,7 +315,11 @@ object Versions {
     const val lives = "1.2.1"
     const val maskEditText = "1.1.1"
     const val materialDesign = "1.0.0"
-    const val materialDialogs = "2.5.0"
+    const val materialDialogs = "2.6.0"
+    const val materialDrawer = "6.1.2"
+    const val materialDrawerKt = "2.0.1"
+    const val materialDrawerMaterialTypeface = "2.2.0.5"
+    const val materialDrawerMaterialTypefaceOriginal = "3.0.1.3.original"
     const val materialEditText = "2.1.4"
     const val materialFabSpeedDial = "2.0.0-RC1"
     const val materialSpinner = "1.3.1"
@@ -320,9 +343,9 @@ object Versions {
     const val retrofit = "2.5.1-SNAPSHOT"
     const val retrofitKotlinxSerializationConverter = "0.3.0"
     const val room = "2.1.0-alpha04"
-    const val rxAndroid = "2.1.0"
+    const val rxAndroid = "2.1.1"
     const val rxBinding = "3.0.0-alpha2"
-    const val rxJava = "2.2.7"
+    const val rxJava = "2.2.8"
     const val rxKotlin = "2.3.0"
     const val rxPermissions = "0.7.0"
     const val rxRelay = "2.1.0"
@@ -335,14 +358,15 @@ object Versions {
     const val spotsdialog = "1.1"
     const val stateViews = "0.5"
     const val stetho = "1.5.1"
+    const val stickyTimelineView = "v0.0.20"
     const val timber = "4.7.1"
     const val tornadoFx = "1.7.17"
-    const val unoxAndroid = "fa609db7d4"
-    const val unoxAndroidArch = "50aae47d99"
+    const val unoxAndroidArch = "f7cab1cff7"
+    const val unoxCore = "3.00-next.1"
     const val viewAnimator = "1.1.1"
     const val workManager = "2.0.0"
 
-    const val barista = "2.9.0"
+    const val barista = "2.10.0"
     const val fixd = "1.0.5"
     const val kotlinAssertUtils = "0.8.2"
     const val mockK = "1.9.2"

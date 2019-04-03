@@ -1,9 +1,9 @@
 package com.github.icarohs7.unoxandroidarch.data.repository
 
 import arrow.effects.IO
-import com.github.icarohs7.unoxandroid.extensions.coroutines.onBackground
-import com.github.icarohs7.unoxandroid.sideEffectBg
 import com.github.icarohs7.unoxandroidarch.data.db.BaseDao
+import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
+import com.github.icarohs7.unoxcore.sideEffectBg
 import io.reactivex.Flowable
 
 /**

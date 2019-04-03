@@ -8,8 +8,8 @@ import android.widget.Toast
 import br.com.goncalves.pugnotification.notification.Load
 import br.com.goncalves.pugnotification.notification.PugNotification
 import com.andrognito.flashbar.Flashbar
-import com.github.icarohs7.unoxandroid.extensions.coroutines.onBackground
-import com.github.icarohs7.unoxandroid.extensions.coroutines.onForeground
+import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
+import com.github.icarohs7.unoxcore.extensions.coroutines.onForeground
 import dmax.dialog.SpotsDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancelAndJoin

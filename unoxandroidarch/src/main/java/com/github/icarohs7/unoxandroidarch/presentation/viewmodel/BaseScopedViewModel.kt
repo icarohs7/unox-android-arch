@@ -1,7 +1,7 @@
 package com.github.icarohs7.unoxandroidarch.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.github.icarohs7.unoxandroid.extensions.coroutines.cancelCoroutineScope
+import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 

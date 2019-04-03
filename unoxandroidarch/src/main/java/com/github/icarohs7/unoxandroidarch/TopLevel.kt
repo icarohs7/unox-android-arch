@@ -16,11 +16,11 @@ import androidx.fragment.app.Fragment
 import arrow.core.Try
 import arrow.effects.IO
 import com.andrognito.flashbar.Flashbar
-import com.github.icarohs7.unoxandroid.sideEffectBg
 import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
 import com.github.icarohs7.unoxandroidarch.presentation.fragments.BaseScopedFragment
 import com.github.icarohs7.unoxandroidarch.state.LoadableState
+import com.github.icarohs7.unoxcore.sideEffectBg
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import io.hypertrack.smart_scheduler.Job
 import io.hypertrack.smart_scheduler.SmartScheduler

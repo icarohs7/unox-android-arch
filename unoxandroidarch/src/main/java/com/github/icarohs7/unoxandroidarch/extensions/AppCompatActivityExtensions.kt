@@ -8,13 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.transaction
-import com.github.icarohs7.unoxandroid.UnoxAndroid
 import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
 import org.jetbrains.anko.inputMethodManager
 
 /**
  * Execute a fragment transaction with an animation, defined by
- * the settings on the [UnoxAndroid.Companion]
+ * the settings on the [UnoxAndroidArch] object
  */
 fun AppCompatActivity.fragmentTransactionAnimated(fn: FragmentTransaction.() -> Unit) {
     supportFragmentManager?.transaction {

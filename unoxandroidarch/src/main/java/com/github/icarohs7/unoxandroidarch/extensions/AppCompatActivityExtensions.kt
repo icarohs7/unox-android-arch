@@ -6,25 +6,7 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.transaction
-import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
 import org.jetbrains.anko.inputMethodManager
-
-/**
- * Execute a fragment transaction with an animation, defined by
- * the settings on the [UnoxAndroidArch] object
- */
-fun AppCompatActivity.fragmentTransactionAnimated(fn: FragmentTransaction.() -> Unit) {
-    supportFragmentManager?.transaction {
-        setCustomAnimations(
-                UnoxAndroidArch.enterAnim,
-                UnoxAndroidArch.exitAnim,
-                UnoxAndroidArch.popEnterAnim,
-                UnoxAndroidArch.popExitAnim)
-        fn()
-    }
-}
 
 /**
  * Dismiss the soft keyboard
@@ -33,7 +15,6 @@ fun AppCompatActivity.fragmentTransactionAnimated(fn: FragmentTransaction.() -> 
 fun AppCompatActivity.hideKeyboard(@IdRes containerId: Int) {
     inputMethodManager.hideSoftInputFromWindow(findViewById<View>(containerId)?.windowToken, 0)
 }
-
 
 /**
  * Dismiss the soft keyboard

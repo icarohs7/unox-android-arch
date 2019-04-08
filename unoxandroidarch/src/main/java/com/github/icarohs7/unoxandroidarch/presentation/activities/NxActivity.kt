@@ -1,16 +1,14 @@
-package com.github.icarohs7.unoxandroidarch.presentation.fragments
+package com.github.icarohs7.unoxandroidarch.presentation.activities
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import io.reactivex.Flowable
 
-abstract class NxFragment<S, DB : ViewDataBinding> : BaseStatefulFragment<S, DB>() {
+abstract class NxActivity<S, DB : ViewDataBinding> : BaseStatefulActivity<S, DB>() {
     protected val config: Configuration<S> by lazy { Configuration<S>().apply(::onSetup) }
 
-    override fun onBindingCreated(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) {
-        super.onBindingCreated(inflater, container, savedInstanceState)
+    override fun onBindingCreated(savedInstanceState: Bundle?) {
+        super.onBindingCreated(savedInstanceState)
         renderOnce()
     }
 

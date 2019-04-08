@@ -3,7 +3,7 @@ package com.github.icarohs7.app.ui.view
 import android.view.View
 import com.github.icarohs7.app.testutils.BaseActivityTestClass
 import com.github.icarohs7.app.testutils.blockingDelay
-import com.github.icarohs7.unoxandroid.extensions.coroutines.onForeground
+import com.github.icarohs7.unoxcore.extensions.coroutines.onForeground
 import com.github.icarohs7.unoxandroidarch.extensions.showConfirmDialog
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertContains
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn

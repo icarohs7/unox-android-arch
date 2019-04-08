@@ -12,15 +12,14 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.UiThread
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import arrow.core.Try
 import arrow.effects.IO
 import com.andrognito.flashbar.Flashbar
-import com.github.icarohs7.unoxandroid.sideEffectBg
 import com.github.icarohs7.unoxandroidarch.extensions.now
-import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
-import com.github.icarohs7.unoxandroidarch.presentation.fragments.BaseScopedFragment
 import com.github.icarohs7.unoxandroidarch.state.LoadableState
+import com.github.icarohs7.unoxcore.sideEffectBg
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import io.hypertrack.smart_scheduler.Job
 import io.hypertrack.smart_scheduler.SmartScheduler
@@ -43,7 +42,7 @@ import kotlin.coroutines.CoroutineContext
 private val LoadingDispatcher: ExecutorCoroutineDispatcher by lazy { newSingleThreadContext("loading_worker") }
 
 /** [AppEventBus.In.enqueueActivityOperation] */
-fun onActivity(action: BaseScopedActivity.() -> Unit): Unit =
+fun onActivity(action: AppCompatActivity.() -> Unit): Unit =
         AppEventBus.In.enqueueActivityOperation(action)
 
 /** [AppEventBus.In.enqueueActivityOperation] */
@@ -52,7 +51,7 @@ inline fun <reified T : Activity> onActivity(noinline action: T.() -> Unit): Uni
         AppEventBus.In.enqueueActivityOperation { if (this is T) action() }
 
 /** [AppEventBus.In.enqueueFragmentOperation] */
-fun onFragment(action: BaseScopedFragment.() -> Unit): Unit =
+fun onFragment(action: Fragment.() -> Unit): Unit =
         AppEventBus.In.enqueueFragmentOperation(action)
 
 /** [AppEventBus.In.enqueueFragmentOperation] */

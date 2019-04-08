@@ -1,8 +1,8 @@
 package com.github.icarohs7.unoxandroidarch
 
 import arrow.core.Try
-import com.github.icarohs7.unoxandroid.extensions.coroutines.forEach
-import com.github.icarohs7.unoxandroid.extensions.orEmpty
+import com.github.icarohs7.unoxcore.extensions.coroutines.forEach
+import com.github.icarohs7.unoxcore.extensions.orEmpty
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.actor
 import timber.log.Timber

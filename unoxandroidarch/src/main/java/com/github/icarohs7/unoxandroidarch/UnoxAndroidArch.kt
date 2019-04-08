@@ -2,57 +2,44 @@ package com.github.icarohs7.unoxandroidarch
 
 import android.content.Context
 import androidx.annotation.AnimRes
-import com.github.icarohs7.unoxandroid.delegates.mutableLazy
 import com.github.icarohs7.unoxandroidarch.domain.BungeeAnim
 import com.github.icarohs7.unoxandroidarch.state.LoadableState
+import com.github.icarohs7.unoxcore.UnoxCore
+import com.github.icarohs7.unoxcore.delegates.mutableLazy
 import io.hypertrack.smart_scheduler.SmartScheduler
+import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module.module
-import org.koin.standalone.StandAloneContext
+import org.koin.standalone.StandAloneContext.loadKoinModules
 import spencerstudios.com.bungeelib.Bungee
 import splitties.init.appCtx
+import timber.log.Timber
 
-interface UnoxAndroidArch {
+object UnoxAndroidArch {
     /**
-     * Companion object storing the settings of the module
+     * Initialize the library
      */
-    companion object {
-
-        /**
-         * Initialize the library
-         */
-        fun init() {
-            StandAloneContext.loadKoinModules(module {
-                single { SmartScheduler.getInstance(appCtx) }
-                single { LoadableState.create() }
-            })
+    fun init() {
+        with(UnoxCore) {
+            foregroundDispatcher = Dispatchers.Main
+            logger = { Timber.tag("UnoxCore").i("$it") }
         }
 
-        /** Define the animation used in the navigation transitions used by library */
-        fun setActivityAndFragmentTransitionAnimation(animationType: AnimationType) {
-            this.animationType = animationType
-            enterAnim = animationType.enterRes
-            exitAnim = animationType.exitRes
-            popEnterAnim = animationType.enterRes
-            popExitAnim = animationType.exitRes
-        }
-
-        /**
-         * Animation used at the transition between activities
-         */
-        var animationType: AnimationType by mutableLazy { AnimationType.NO_ANIMATION }
-
-        /* Animations to be used by, for example, fragment transitions */
-        var enterAnim: Int by mutableLazy { R.anim.zoom_enter }
-        var exitAnim: Int by mutableLazy { R.anim.zoom_exit }
-        var popEnterAnim: Int by mutableLazy { R.anim.zoom_enter }
-        var popExitAnim: Int by mutableLazy { R.anim.zoom_exit }
-
-        /**
-         * When set to true, every call to navigateTo from
-         * an activity will also finish it after the navigation
-         */
-        var finishActivityOnNavigate: Boolean by mutableLazy { false }
+        loadKoinModules(module {
+            single { SmartScheduler.getInstance(appCtx) }
+            single { LoadableState.create() }
+        })
     }
+
+    /**
+     * Animation used at the transition between activities
+     */
+    var animationType: AnimationType by mutableLazy { AnimationType.NO_ANIMATION }
+
+    /**
+     * When set to true, every call to navigateTo from
+     * an activity will also finish it after the navigation
+     */
+    var finishActivityOnNavigate: Boolean by mutableLazy { false }
 
     /**
      * Animations available at the [animationType]

@@ -2,9 +2,9 @@ package com.github.icarohs7.unoxandroidarch
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
-import com.github.icarohs7.unoxandroid.extensions.addOnDestroyObserver
 import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
 import com.github.icarohs7.unoxandroidarch.presentation.fragments.BaseScopedFragment
+import com.github.icarohs7.unoxcore.extensions.addOnDestroyObserver
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

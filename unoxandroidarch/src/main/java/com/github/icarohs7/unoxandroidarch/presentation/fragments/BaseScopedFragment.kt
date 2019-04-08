@@ -2,8 +2,8 @@ package com.github.icarohs7.unoxandroidarch.presentation.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.github.icarohs7.unoxandroid.extensions.coroutines.cancelCoroutineScope
 import com.github.icarohs7.unoxandroidarch.AppEventBus
+import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 

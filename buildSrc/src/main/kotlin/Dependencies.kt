@@ -1,5 +1,9 @@
 @file:Suppress("PublicApiImplicitType", "MemberVisibilityCanBePrivate", "unused")
 
+object CommonDeps {
+    const val coroutinesCoreCommon = "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:${Versions.coroutines}"
+}
+
 object Deps {
     const val arrowCore = "io.arrow-kt:arrow-core:${Versions.arrow}"
     const val arrowData = "io.arrow-kt:arrow-data:${Versions.arrow}"
@@ -24,12 +28,15 @@ object Deps {
     const val arrowRecursion = "io.arrow-kt:arrow-recursion:${Versions.arrow}"
     const val arrowSyntax = "io.arrow-kt:arrow-syntax:${Versions.arrow}"
     const val arrowTypeclasses = "io.arrow-kt:arrow-typeclasses:${Versions.arrow}"
+    const val clikt = "com.github.ajalt:clikt:${Versions.clikt}"
     const val coroutinesRx2 = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${Versions.coroutines}"
     const val fuel = "com.github.kittinunf.fuel:fuel:${Versions.fuel}"
     const val fuelKotlinxSerialization = "com.github.kittinunf.fuel:fuel-kotlinx-serialization:${Versions.fuel}"
     const val gson = "com.google.code.gson:gson:${Versions.gson}"
+    const val jodaTime = "joda-time:joda-time:${Versions.jodaTime}"
     const val jsonIter = "com.jsoniter:jsoniter:${Versions.jsonIter}"
     const val khronos = "com.github.hotchemi:khronos:${Versions.khronos}"
+    const val kodaTime = "com.github.debop:koda-time:${Versions.kodaTime}"
     const val koinCore = "org.koin:koin-core:${Versions.koin}"
     const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
     const val kotlinxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.kotlinxSerialization}"
@@ -42,6 +49,7 @@ object Deps {
     const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:${Versions.rxKotlin}"
     const val rxRelay = "com.jakewharton.rxrelay2:rxrelay:${Versions.rxRelay}"
     const val snakeYaml = "org.yaml:snakeyaml:${Versions.snakeYaml}"
+    const val unoxCoreJvm = "com.github.icarohs7:unoxcore-jvm:${Versions.unoxCore}"
 }
 
 object JavaFxDeps {
@@ -81,6 +89,7 @@ object JavaFxDeps {
 }
 
 object AndroidDeps {
+    const val androidSpeedDial = "com.leinardi.android:speed-dial:${Versions.androidSpeedDial}"
     const val androidxPreference = "androidx.preference:preference-ktx:${Versions.preferenceKtx}"
     const val ankoCommons = "org.jetbrains.anko:anko-commons:${Versions.anko}"
     const val ankoSdk25 = "org.jetbrains.anko:anko-sdk25:${Versions.anko}"
@@ -88,6 +97,7 @@ object AndroidDeps {
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     const val appUpdater = "com.github.javiersantos:AppUpdater:${Versions.appUpdater}"
     const val bungee = "com.github.Binary-Finery:Bungee:${Versions.bungee}"
+    const val checkableChipView = "com.github.okdroid:checkablechipview:${Versions.checkableChipView}"
     const val circularImageView = "com.github.abdularis:CircularImageView:${Versions.circularImageView}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val coreKtx = "androidx.core:core-ktx:${Versions.androidxcore}"
@@ -99,10 +109,14 @@ object AndroidDeps {
     const val epoxy = "com.airbnb.android:epoxy:${Versions.epoxy}"
     const val epoxyDatabinding = "com.airbnb.android:epoxy-databinding:${Versions.epoxy}"
     const val expansionPanel = "com.github.florent37:expansionpanel:${Versions.expansionPanel}"
+    const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
+    const val firebaseMessaging = "com.google.firebase:firebase-messaging:${Versions.firebaseMessaging}"
     const val flashbar = "com.andrognito.flashbar:flashbar:${Versions.flashBar}"
     const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragment}"
     const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
+    const val helloCharts = "com.github.lecho:hellocharts-android:${Versions.helloCharts}"
     const val inputMask = "com.redmadrobot:inputmask:${Versions.inputMask}"
+    const val kaml = "com.charleskorn.kaml:kaml:${Versions.kaml}"
     const val kFormMaster = "com.thejuki:k-form-master:${Versions.kFormMaster}"
     const val kidAdapter = "com.link184:kid-adapter:${Versions.kidAdapter}"
     const val koinAndroidxViewmodel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
@@ -115,9 +129,16 @@ object AndroidDeps {
     const val maskedEditText = "com.github.santalu:mask-edittext:${Versions.maskEditText}"
     const val materialDesign = "com.google.android.material:material:${Versions.materialDesign}"
     const val materialDialogs = "com.afollestad.material-dialogs:core:${Versions.materialDialogs}"
-    const val materialDialogsInput = "com.afollestad.material-dialogs:input:${Versions.materialDialogs}"
-    const val materialDialogsFiles = "com.afollestad.material-dialogs:files:${Versions.materialDialogs}"
     const val materialDialogsColor = "com.afollestad.material-dialogs:color:${Versions.materialDialogs}"
+    const val materialDialogsDateTime = "com.afollestad.material-dialogs:datetime:${Versions.materialDialogs}"
+    const val materialDialogsFiles = "com.afollestad.material-dialogs:files:${Versions.materialDialogs}"
+    const val materialDialogsInput = "com.afollestad.material-dialogs:input:${Versions.materialDialogs}"
+    const val materialDialogsLifecycle = "com.afollestad.material-dialogs:lifecycle:${Versions.materialDialogs}"
+    const val materialDrawer = "com.mikepenz:materialdrawer:${Versions.materialDrawer}"
+    const val materialDrawerKt = "co.zsmb:materialdrawer-kt:${Versions.materialDrawerKt}"
+    const val materialDrawerMaterialTypeface = "com.mikepenz:material-design-iconic-typeface:${Versions.materialDrawerMaterialTypeface}@aar"
+    const val materialDrawerMaterialTypefaceOriginal = "com.mikepenz:google-material-typeface:${Versions.materialDrawerMaterialTypefaceOriginal}@aar"
+    const val materialEditText = "com.rengwuxian.materialedittext:library:${Versions.materialEditText}"
     const val materialFabSpeedDial = "com.github.kobakei:MaterialFabSpeedDial:${Versions.materialFabSpeedDial}"
     const val materialSpinner = "com.jaredrummler:material-spinner:${Versions.materialSpinner}"
     const val multiLineRadioGroup = "com.github.Gavras:MultiLineRadioGroup:${Versions.multiLineRadioGroup}"
@@ -197,14 +218,16 @@ object AndroidDeps {
     const val splittiesViewsSelectableAppcompat = "com.louiscad.splitties:splitties-views-selectable-appcompat:${Versions.splitties}"
     const val splittiesViewsSelectableConstraintlayout = "com.louiscad.splitties:splitties-views-selectable-constraintlayout:${Versions.splitties}"
     const val spotsDialog = "com.github.d-max:spots-dialog:${Versions.spotsdialog}@aar"
+    const val stateViews = "com.github.kobeumut:StateViews:${Versions.stateViews}"
     const val stetho = "com.facebook.stetho:stetho:${Versions.stetho}"
     const val stethoOkHttp = "com.facebook.stetho:stetho-okhttp3:${Versions.stetho}"
-    const val stateViews = "com.github.kobeumut:StateViews:${Versions.stateViews}"
+    const val stickyTimelineView = "com.github.sangcomz:StickyTimeLine:${Versions.stickyTimelineView}"
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
-    const val unoxAndroid = "com.github.icarohs7:unox-android:${Versions.unoxAndroid}"
     const val unoxAndroidArch = "com.github.icarohs7:unox-android-arch:${Versions.unoxAndroidArch}"
-    const val workManagerKtx = "android.arch.work:work-runtime-ktx:${Versions.workManager}"
-    const val workManagerRx = "android.arch.work:work-rxjava2:${Versions.workManager}"
+    const val unoxCoreAndroid = "com.github.icarohs7:unoxcore-android:${Versions.unoxCore}"
+    const val viewAnimator = "com.github.florent37:viewanimator:${Versions.viewAnimator}"
+    const val workManagerKtx = "androidx.work:work-runtime-ktx:${Versions.workManager}"
+    const val workManagerRx = "androidx.work:work-rxjava2:${Versions.workManager}"
 }
 
 object AndroidKaptDeps {
@@ -216,7 +239,7 @@ object AndroidKaptDeps {
 
 object TestDeps {
     val core = listOf(
-            "com.squareup.okhttp3:mockwebserver:${Versions.mockWebServer}",
+            "com.squareup.okhttp3:mockwebserver:${Versions.okHttp}",
             "io.mockk:mockk:${Versions.mockK}",
             "org.bigtesting:fixd:${Versions.fixd}",
             "org.koin:koin-test:${Versions.koin}",
@@ -241,7 +264,13 @@ object AndroidTestDeps {
     const val testOrchestrator = "androidx.test:orchestrator:${Versions.testRules}"
 }
 
+object JSDeps {
+    const val coroutinesJs = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${Versions.coroutines}"
+    const val unoxCoreAndroid = "com.github.icarohs7:unoxcore-js:${Versions.unoxCore}"
+}
+
 object Versions {
+    const val androidSpeedDial = "2.0.1"
     const val androidxcore = "1.0.1"
     const val anko = "0.10.8"
     const val anotherViewPager = "1.0.2"
@@ -249,26 +278,34 @@ object Versions {
     const val appUpdater = "2.7"
     const val arrow = "0.8.2"
     const val bungee = "master-SNAPSHOT"
-    const val circularImageView = "1.3"
+    const val checkableChipView = "1.0.3"
+    const val circularImageView = "1.4"
+    const val clikt = "1.7.0"
     const val constraintLayout = "1.1.3"
     const val coroutines = "1.1.1"
     const val crunchyCalendar = "1.1.0"
     const val currencyEditText = "2.0.2"
     const val disposer = "2.0.0"
     const val drawableToolbox = "1.0.7"
+    const val epoxy = "3.3.1"
     const val expansionPanel = "1.2.2"
-    const val epoxy = "3.3.0"
+    const val firebaseCore = "16.0.8"
+    const val firebaseMessaging = "17.4.0"
     const val flashBar = "1.0.3"
     const val fragment = "1.0.0"
     const val fuel = "2.0.0"
     const val glide = "4.8.0"
     const val gson = "2.8.5"
-    const val inputMask = "4.0.0"
+    const val helloCharts = "v1.5.8"
     const val ikonli = "11.1.0"
+    const val inputMask = "4.0.0"
+    const val jodaTime = "2.10.1"
     const val jsonIter = "0.9.23"
+    const val kaml = "0.8.0"
     const val kFormMaster = "6.1.1"
     const val khronos = "0.9.0"
     const val kidAdapter = "1.1.5"
+    const val kodaTime = "2.0.0"
     const val koin = "1.0.2"
     const val kotlin = "1.3.21"
     const val kotlinxSerialization = "0.10.0"
@@ -278,15 +315,19 @@ object Versions {
     const val lives = "1.2.1"
     const val maskEditText = "1.1.1"
     const val materialDesign = "1.0.0"
-    const val materialDialogs = "2.0.3"
+    const val materialDialogs = "2.6.0"
+    const val materialDrawer = "6.1.2"
+    const val materialDrawerKt = "2.0.1"
+    const val materialDrawerMaterialTypeface = "2.2.0.5"
+    const val materialDrawerMaterialTypefaceOriginal = "3.0.1.3.original"
+    const val materialEditText = "2.1.4"
     const val materialFabSpeedDial = "2.0.0-RC1"
     const val materialSpinner = "1.3.1"
-    const val mockWebServer = "3.13.1"
     const val multiLineRadioGroup = "1.0.0.6"
     const val mural = "1.0.1"
     const val mvRx = "0.7.2"
-    const val navigation = "2.0.0-rc02"
-    const val okHttp = "3.13.1"
+    const val navigation = "2.0.0"
+    const val okHttp = "3.14.0"
     const val okio = "2.2.2"
     const val passcodeView = "1.2.1"
     const val picasso = "2.71828"
@@ -302,9 +343,9 @@ object Versions {
     const val retrofit = "2.5.1-SNAPSHOT"
     const val retrofitKotlinxSerializationConverter = "0.3.0"
     const val room = "2.1.0-alpha04"
-    const val rxAndroid = "2.1.0"
+    const val rxAndroid = "2.1.1"
     const val rxBinding = "3.0.0-alpha2"
-    const val rxJava = "2.2.7"
+    const val rxJava = "2.2.8"
     const val rxKotlin = "2.3.0"
     const val rxPermissions = "0.7.0"
     const val rxRelay = "2.1.0"
@@ -316,17 +357,19 @@ object Versions {
     const val splitties = "3.0.0-alpha04"
     const val spotsdialog = "1.1"
     const val stateViews = "0.5"
-    const val stetho = "1.5.0"
+    const val stetho = "1.5.1"
+    const val stickyTimelineView = "v0.0.20"
     const val timber = "4.7.1"
     const val tornadoFx = "1.7.17"
-    const val unoxAndroid = "08f54adeca"
-    const val unoxAndroidArch = "b6a27ac0f1"
-    const val workManager = "1.0.0"
+    const val unoxAndroidArch = "f7cab1cff7"
+    const val unoxCore = "3.00-next.1"
+    const val viewAnimator = "1.1.1"
+    const val workManager = "2.0.0"
 
-    const val barista = "2.8.0"
-    const val fixd = "1.0.3"
+    const val barista = "2.10.0"
+    const val fixd = "1.0.5"
     const val kotlinAssertUtils = "0.8.2"
-    const val mockK = "1.9.1"
+    const val mockK = "1.9.2"
     const val robolectric = "4.1"
     const val testCore = "1.1.0"
 

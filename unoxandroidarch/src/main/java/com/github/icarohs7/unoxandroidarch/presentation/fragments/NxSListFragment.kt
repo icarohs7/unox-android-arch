@@ -1,5 +1,8 @@
 package com.github.icarohs7.unoxandroidarch.presentation.fragments
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.github.icarohs7.unoxandroidarch.presentation.adapters.BaseBindingAdapter
@@ -9,6 +12,18 @@ import io.reactivex.Flowable
 abstract class NxSListFragment<S, DB : ViewDataBinding, I, IDB : ViewDataBinding> : BaseStatefulFragment<S, DB>() {
     protected var adapter: BaseBindingAdapter<I, IDB>? = null
     protected val config: Configuration<S> by lazy { Configuration<S>().apply(::onSetup) }
+
+    override fun onBindingCreated(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) {
+        super.onBindingCreated(inflater, container, savedInstanceState)
+        renderOnce()
+    }
+
+    /**
+     * Called once when the fragment is created,
+     * not being recalculated when the state change
+     */
+    open fun renderOnce() {
+    }
 
     /**
      * Used to define settings kept throughout the
@@ -40,7 +55,8 @@ abstract class NxSListFragment<S, DB : ViewDataBinding, I, IDB : ViewDataBinding
     }
 
     open fun onCreateAdapter(): BaseBindingAdapter<I, IDB> {
-        return config.recyclerFn().useUnoxAdapter {
+        return config.recycler().useUnoxAdapter {
+            config.layoutManager?.let(::useLayoutManager)
             useItemLayout(config.itemLayout)
             bindIndexed { index, item ->
                 renderItem(item, this, index)
@@ -55,39 +71,31 @@ abstract class NxSListFragment<S, DB : ViewDataBinding, I, IDB : ViewDataBinding
     abstract fun renderItem(item: I, view: IDB, position: Int)
 
     class Configuration<S> {
-        internal var stateStream: Flowable<S> = Flowable.empty()
-        internal var layout: Int = 0
-        internal var itemLayout: Int = 0
-        internal lateinit var recyclerFn: () -> RecyclerView
-
         /**
          * Stream emitting the states
          * of the fragment
          */
-        fun useStateStream(stateStream: Flowable<S>) {
-            this.stateStream = stateStream
-        }
+        var stateStream: Flowable<S> = Flowable.empty()
 
         /**
          * Layout used by the fragment
          */
-        fun useLayout(layout: Int) {
-            this.layout = layout
-        }
+        var layout: Int = 0
 
         /**
          * Layout used by each item on the adapter
          */
-        fun useItemLayout(itemLayout: Int) {
-            this.itemLayout = itemLayout
-        }
+        var itemLayout: Int = 0
+
+        /**
+         * Layout manager used by the recycler view
+         */
+        var layoutManager: RecyclerView.LayoutManager? = null
 
         /**
          * Recycler view used by the adapter to
          * render the items on
          */
-        fun useRecycler(recyclerFn: () -> RecyclerView) {
-            this.recyclerFn = recyclerFn
-        }
+        lateinit var recycler: () -> RecyclerView
     }
 }

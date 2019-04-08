@@ -1,7 +1,7 @@
 package com.github.icarohs7.unoxandroidarch
 
-import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
-import com.github.icarohs7.unoxandroidarch.presentation.fragments.BaseScopedFragment
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -14,8 +14,8 @@ import timber.log.Timber
  * or fragment anywhere on the application
  */
 object AppEventBus {
-    private val activityOperationsStream: PublishRelay<BaseScopedActivity.() -> Unit> = PublishRelay.create()
-    private val fragmentOperationsStream: PublishRelay<BaseScopedFragment.() -> Unit> = PublishRelay.create()
+    private val activityOperationsStream: PublishRelay<AppCompatActivity.() -> Unit> = PublishRelay.create()
+    private val fragmentOperationsStream: PublishRelay<Fragment.() -> Unit> = PublishRelay.create()
 
     /**
      * Object aggregating event emmiters
@@ -25,14 +25,14 @@ object AppEventBus {
         /**
          * Run an operation within the scope of an activity
          */
-        fun enqueueActivityOperation(fn: BaseScopedActivity.() -> Unit) {
+        fun enqueueActivityOperation(fn: AppCompatActivity.() -> Unit) {
             activityOperationsStream.accept(fn)
         }
 
         /**
          * Run an operation within the scope of a fragment
          */
-        fun enqueueFragmentOperation(fn: BaseScopedFragment.() -> Unit) {
+        fun enqueueFragmentOperation(fn: Fragment.() -> Unit) {
             fragmentOperationsStream.accept(fn)
         }
     }
@@ -45,13 +45,13 @@ object AppEventBus {
          * Subscribe the given activity to the stream of actions
          * being delegated to an activity on the application
          */
-        fun subscribeActivity(activity: BaseScopedActivity): Unit =
+        fun subscribeActivity(activity: AppCompatActivity): Unit =
                 activity.run {
                     activityOperationsStream
                             .subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ action -> action() },
-                                       { err -> Timber.e(err) })
+                                    { err -> Timber.e(err) })
                             .disposeBy(onDestroy)
                 }
 
@@ -59,14 +59,14 @@ object AppEventBus {
          * Subscribe the given fragmen to the stream of actions
          * being delegated to a fragment on the application
          */
-        fun subscribeFragment(fragment: BaseScopedFragment): Unit =
+        fun subscribeFragment(fragment: Fragment): Unit =
                 fragment.run {
                     fragmentOperationsStream
                             .subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
                             .onErrorReturnItem { Unit }
                             .subscribe({ action -> action() },
-                                       { err -> Timber.e(err) })
+                                    { err -> Timber.e(err) })
                             .disposeBy(onDestroy)
                 }
     }

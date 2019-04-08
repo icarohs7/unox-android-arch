@@ -2,19 +2,21 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("kotlinx-serialization")
+    id("androidx.navigation.safeargs.kotlin")
+    defaults.`android-module`
 }
 
-apply(from: androidCommonSettings)
 android {
+    defaultSettings()
     defaultConfig {
-        applicationId("com.github.icarohs7.app")
-        versionCode(1)
-        versionName("1.0")
+        applicationId = "com.github.icarohs7.app"
+        versionCode = 1
+        versionName = "1.0"
     }
 }
 
 dependencies {
-    implementation(fileTree(dir: "libs", include: ["*.jar"]))
     implementation(project(":unoxandroidarch"))
     implementation(AndroidDeps.roomRuntime)
 }

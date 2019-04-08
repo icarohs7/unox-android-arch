@@ -13,7 +13,6 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import arrow.core.Try
 import arrow.effects.IO
 import com.andrognito.flashbar.Flashbar
@@ -49,15 +48,6 @@ fun onActivity(action: AppCompatActivity.() -> Unit): Unit =
 @JvmName("onActivityT")
 inline fun <reified T : Activity> onActivity(noinline action: T.() -> Unit): Unit =
         AppEventBus.In.enqueueActivityOperation { if (this is T) action() }
-
-/** [AppEventBus.In.enqueueFragmentOperation] */
-fun onFragment(action: Fragment.() -> Unit): Unit =
-        AppEventBus.In.enqueueFragmentOperation(action)
-
-/** [AppEventBus.In.enqueueFragmentOperation] */
-@JvmName("onFragmentT")
-inline fun <reified T : Fragment> onFragment(noinline action: T.() -> Unit): Unit =
-        AppEventBus.In.enqueueFragmentOperation { if (this is T) action() }
 
 /**
  * Helper function used to start loading while a request

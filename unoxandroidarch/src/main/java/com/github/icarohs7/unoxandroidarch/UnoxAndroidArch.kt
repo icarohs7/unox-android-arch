@@ -31,6 +31,12 @@ object UnoxAndroidArch {
     }
 
     /**
+     * Whether the app is built on debug mode or not,
+     * mainly used for MvRx support
+     */
+    var isDebug: Boolean by mutableLazy { BuildConfig.DEBUG }
+
+    /**
      * Animation used at the transition between activities
      */
     var animationType: AnimationType by mutableLazy { AnimationType.NO_ANIMATION }

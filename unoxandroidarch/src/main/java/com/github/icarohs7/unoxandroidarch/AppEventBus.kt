@@ -1,7 +1,7 @@
 package com.github.icarohs7.unoxandroidarch
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import arrow.core.Try
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -15,7 +15,6 @@ import timber.log.Timber
  */
 object AppEventBus {
     private val activityOperationsStream: PublishRelay<AppCompatActivity.() -> Unit> = PublishRelay.create()
-    private val fragmentOperationsStream: PublishRelay<Fragment.() -> Unit> = PublishRelay.create()
 
     /**
      * Object aggregating event emmiters
@@ -27,13 +26,6 @@ object AppEventBus {
          */
         fun enqueueActivityOperation(fn: AppCompatActivity.() -> Unit) {
             activityOperationsStream.accept(fn)
-        }
-
-        /**
-         * Run an operation within the scope of a fragment
-         */
-        fun enqueueFragmentOperation(fn: Fragment.() -> Unit) {
-            fragmentOperationsStream.accept(fn)
         }
     }
 
@@ -50,23 +42,7 @@ object AppEventBus {
                     activityOperationsStream
                             .subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({ action -> action() },
-                                    { err -> Timber.e(err) })
-                            .disposeBy(onDestroy)
-                }
-
-        /**
-         * Subscribe the given fragmen to the stream of actions
-         * being delegated to a fragment on the application
-         */
-        fun subscribeFragment(fragment: Fragment): Unit =
-                fragment.run {
-                    fragmentOperationsStream
-                            .subscribeOn(Schedulers.computation())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .onErrorReturnItem { Unit }
-                            .subscribe({ action -> action() },
-                                    { err -> Timber.e(err) })
+                            .subscribe { action -> Try { action() }.fold(Timber::e) {} }
                             .disposeBy(onDestroy)
                 }
     }

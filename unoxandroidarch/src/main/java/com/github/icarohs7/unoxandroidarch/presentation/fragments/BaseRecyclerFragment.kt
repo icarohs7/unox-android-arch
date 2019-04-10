@@ -19,10 +19,15 @@ abstract class BaseRecyclerFragment : BaseBindingFragment<FragmentBaseRecyclerBi
         super.onBindingCreated(inflater, container, savedInstanceState)
         binding.stateView.hideStates()
         binding.recycler.layoutManager = LinearLayoutManager(requireContext())
-        onRecyclerSetup(binding.recycler)
     }
 
-    abstract fun onRecyclerSetup(recycler: RecyclerView)
+    /**
+     * Display a state with the given tag
+     * on the state view of the layout
+     */
+    fun displayState(stateTag: String) {
+        binding.stateView.displayState(stateTag)
+    }
 
     override fun getLayout(): Int {
         return R.layout.fragment_base_recycler

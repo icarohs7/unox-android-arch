@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.transaction
 import arrow.core.Tuple2
 import arrow.core.Tuple3
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.robolectric.Robolectric
 import org.robolectric.android.controller.ActivityController
 import kotlin.reflect.full.createInstance
@@ -25,4 +27,11 @@ inline fun <reified T : AppCompatActivity> mockActivity(): Tuple2<ActivityContro
     act.setContentView(layout)
 
     return Tuple2(controller, act)
+}
+
+inline fun <reified T : Fragment> testFragment(): T {
+    val (controller, _, fragment) = mockFragment<T>()
+    controller.resume()
+    runBlocking { delay(500) }
+    return fragment
 }

@@ -1,13 +1,9 @@
 package com.github.icarohs7.unoxandroidarch.presentation.fragments
 
-import com.airbnb.mvrx.MvRxState
-import com.airbnb.mvrx.fragmentViewModel
 import com.github.icarohs7.unoxandroidarch.R
 import com.github.icarohs7.unoxandroidarch.TestApplication
 import com.github.icarohs7.unoxandroidarch.databinding.MockViewBinding
-import com.github.icarohs7.unoxandroidarch.mockFragment
-import com.github.icarohs7.unoxandroidarch.presentation.viewmodel.SimpleRxMvRxViewModel
-import io.reactivex.Flowable
+import com.github.icarohs7.unoxandroidarch.testFragment
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -16,19 +12,14 @@ import se.lovef.assert.v1.shouldEqual
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = TestApplication::class)
-class NxFragmentTest {
+class BaseBindingFragmentTest {
     @Test
     fun `should start fragment`() {
-        val (controller, _, fragment) = mockFragment<Frag>()
-        controller.start()
+        val fragment = testFragment<Frag>()
         fragment.binding.txtMessage.text.toString() shouldEqual "Hello, World!"
     }
 
-    data class State(val value: Int = 0) : MvRxState
-    class Frag : NxFragment<State, MockViewBinding>() {
-        override val viewmodel: SimpleRxMvRxViewModel<State> by fragmentViewModel()
-        override val stateStream: Flowable<State> = Flowable.just(State(1))
-
+    class Frag : BaseBindingFragment<MockViewBinding>() {
         override fun getLayout(): Int {
             return R.layout.mock_view
         }

@@ -1,11 +1,9 @@
 package com.github.icarohs7.unoxandroidarch.delegates
 
-import android.widget.FrameLayout
-import androidx.fragment.app.transaction
+import androidx.fragment.app.Fragment
 import com.github.icarohs7.unoxandroidarch.TestApplication
-import com.github.icarohs7.unoxandroidarch.TestFragment
 import com.github.icarohs7.unoxandroidarch.TestViewModel
-import com.github.icarohs7.unoxandroidarch.newActivityController
+import com.github.icarohs7.unoxandroidarch.mockFragment
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -18,12 +16,7 @@ class FragViewModelKtTest {
     @Test
     fun `should get view model of fragment from delegate`() {
         //Given
-        val controller = newActivityController
-        val act = controller.create().get()
-        val layout = FrameLayout(act).apply { id = 10 }
-        act.setContentView(layout)
-        val fragment = TestFragment()
-        act.supportFragmentManager.transaction { replace(layout.id, fragment) }
+        val (_, _, fragment) = mockFragment<Fragment>()
         //When
         val viewmodel: TestViewModel by fragment.fragViewModel()
         //Then

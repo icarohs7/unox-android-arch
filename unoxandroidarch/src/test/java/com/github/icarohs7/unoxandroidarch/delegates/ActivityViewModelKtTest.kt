@@ -1,8 +1,9 @@
 package com.github.icarohs7.unoxandroidarch.delegates
 
+import androidx.appcompat.app.AppCompatActivity
 import com.github.icarohs7.unoxandroidarch.TestApplication
 import com.github.icarohs7.unoxandroidarch.TestViewModel
-import com.github.icarohs7.unoxandroidarch.newActivityController
+import com.github.icarohs7.unoxandroidarch.mockActivity
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -15,8 +16,7 @@ class ActivityViewModelKtTest {
     @Test
     fun `should get view model of activity from delegate`() {
         //Given
-        val controller = newActivityController
-        val act = controller.create().get()
+        val (_, act) = mockActivity<AppCompatActivity>()
         //When
         val viewmodel: TestViewModel by act.activityViewModel()
         //Then

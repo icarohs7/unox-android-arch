@@ -17,8 +17,7 @@ import se.lovef.assert.v1.shouldEqual
 class AppEventBusTest {
     @Test
     fun `should emit values to activity`() {
-        val controller = newActivityController.create()
-        val act = controller.get()
+        val (controller, act) = mockActivity<TestActivity>()
 
         var v: Activity? = null
         onActivity { v = this@onActivity }

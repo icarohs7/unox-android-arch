@@ -1,60 +1,36 @@
 package com.github.icarohs7.unoxandroidarch.presentation.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
+import com.airbnb.mvrx.MvRxState
+import com.github.icarohs7.unoxandroidarch.presentation.viewmodel.SimpleRxMvRxViewModel
 import io.reactivex.Flowable
 
-abstract class NxFragment<S, DB : ViewDataBinding> : BaseStatefulFragment<S, DB>() {
-    protected val config: Configuration<S> by lazy { Configuration<S>().apply(::onSetup) }
+/**
+ * Fragment extending [BaseBindingFragment] subscribing
+ * to a [Flowable] and connecting its emissions to its
+ * state
+ */
+abstract class NxFragment<S : MvRxState, DB : ViewDataBinding> : BaseBindingFragment<DB>() {
+    abstract val viewmodel: SimpleRxMvRxViewModel<S>
+    private val config: Configuration<S> by lazy { Configuration<S>().apply(::onSetup) }
 
-    override fun onBindingCreated(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) {
-        super.onBindingCreated(inflater, container, savedInstanceState)
-        renderOnce()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewmodel.stateStream = config.stateStream
     }
 
-    /**
-     * Called once when the fragment is created,
-     * not being recalculated when the state change
-     */
-    open fun renderOnce() {
-    }
-
-    /**
-     * Used to define settings kept throughout the
-     * lifecycle of the fragment
-     */
     abstract fun onSetup(config: Configuration<S>)
 
-    override fun onNewState(state: S) {
-        render(state)
-    }
+    override fun getLayout(): Int = config.layout
 
     /**
-     * Define the render logic, being called
-     * everytime the state changes
+     * Class defining the settings used
+     * by the fragment, e.g layout resource
+     * and state stream
      */
-    abstract fun render(state: S)
-
-    override fun onGetStateStream(): Flowable<S> {
-        return config.stateStream
-    }
-
-    override fun getLayout(): Int {
-        return config.layout
-    }
-
-    class Configuration<S> {
-        /**
-         * Stream emitting the states
-         * of the fragment
-         */
-        var stateStream: Flowable<S> = Flowable.empty()
-
-        /**
-         * Layout used by the fragment
-         */
+    class Configuration<S : MvRxState> {
         var layout: Int = 0
+        lateinit var stateStream: Flowable<S>
     }
 }

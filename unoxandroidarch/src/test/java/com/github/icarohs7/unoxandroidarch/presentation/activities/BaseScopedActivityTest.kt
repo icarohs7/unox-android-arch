@@ -1,7 +1,8 @@
 package com.github.icarohs7.unoxandroidarch.presentation.activities
 
+import com.github.icarohs7.unoxandroidarch.TestActivity
 import com.github.icarohs7.unoxandroidarch.TestApplication
-import com.github.icarohs7.unoxandroidarch.newActivityController
+import com.github.icarohs7.unoxandroidarch.mockActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.junit.Test
@@ -16,8 +17,7 @@ import se.lovef.assert.v1.shouldBeTrue
 class BaseScopedActivityTest {
     @Test
     fun `should cancel coroutines when destroyed`() {
-        val controller = newActivityController
-        val act = controller.create().get()
+        val (controller, act) = mockActivity<TestActivity>()
 
         val job = act.launch { delay(50000) }
         job.isCancelled.shouldBeFalse()

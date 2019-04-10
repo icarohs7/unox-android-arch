@@ -1,8 +1,9 @@
 package com.github.icarohs7.unoxandroidarch.extensions
 
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import com.github.icarohs7.unoxandroidarch.TestApplication
-import com.github.icarohs7.unoxandroidarch.newActivityController
+import com.github.icarohs7.unoxandroidarch.mockActivity
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -14,7 +15,7 @@ import se.lovef.assert.v1.shouldEqual
 class ViewExtensionsKtTest {
     @Test
     fun `should add listeners to edit text`() {
-        val act = newActivityController.create().get()
+        val (_, act) = mockActivity<AppCompatActivity>()
         val editText = EditText(act)
 
         var a = ""

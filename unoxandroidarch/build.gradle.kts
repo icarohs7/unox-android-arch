@@ -76,6 +76,7 @@ dependencies {
     api(AndroidDeps.stethoOkHttp)
     api(AndroidDeps.timber)
     api(AndroidDeps.unoxCoreAndroid)
+
     AndroidKaptDeps.core.forEach(::kapt)
     AndroidKaptDeps.core.forEach(::kaptTest)
 }

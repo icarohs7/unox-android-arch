@@ -13,24 +13,10 @@ import io.reactivex.Flowable
  */
 abstract class NxFragment<S : MvRxState, DB : ViewDataBinding> : BaseBindingFragment<DB>() {
     abstract val viewmodel: SimpleRxMvRxViewModel<S>
-    private val config: Configuration<S> by lazy { Configuration<S>().apply(::onSetup) }
+    abstract val stateStream: Flowable<S>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewmodel.stateStream = config.stateStream
-    }
-
-    abstract fun onSetup(config: Configuration<S>)
-
-    override fun getLayout(): Int = config.layout
-
-    /**
-     * Class defining the settings used
-     * by the fragment, e.g layout resource
-     * and state stream
-     */
-    class Configuration<S : MvRxState> {
-        var layout: Int = 0
-        lateinit var stateStream: Flowable<S>
+        viewmodel.stateStream = stateStream
     }
 }

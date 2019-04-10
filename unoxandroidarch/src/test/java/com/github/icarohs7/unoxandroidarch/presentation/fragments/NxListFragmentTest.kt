@@ -1,5 +1,6 @@
 package com.github.icarohs7.unoxandroidarch.presentation.fragments
 
+import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.mvrx.fragmentViewModel
 import com.github.icarohs7.unoxandroidarch.R
 import com.github.icarohs7.unoxandroidarch.TestApplication
@@ -13,6 +14,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import se.lovef.assert.v1.shouldEqual
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = TestApplication::class)
@@ -21,17 +23,17 @@ class NxListFragmentTest {
     fun `should start fragment`() {
         val (controller, _, fragment) = mockFragment<Frag>()
         controller.resume()
-        fragment.binding
+        fragment.binding.recycler.adapter?.itemCount shouldEqual 3
     }
 
     class Frag : NxListFragment<FragmentBaseRecyclerBinding, Int, MockViewBinding>() {
         override val viewmodel: SimpleRxMvRxViewModel<ListState<Int>> by fragmentViewModel()
+        override val stateStream: Flowable<ListState<Int>> = Flowable.just(ListState(listOf(42, 1532, 17)))
+        override val recycler: () -> RecyclerView = { binding.recycler }
+        override val itemLayout: Int = R.layout.mock_view
 
-        override fun onSetup(config: Configuration<ListState<Int>>): Unit = with(config) {
-            layout = R.layout.fragment_base_recycler
-            itemLayout = R.layout.mock_view
-            stateStream = Flowable.just(ListState(listOf(42)))
-            recycler = { binding.recycler }
+        override fun getLayout(): Int {
+            return R.layout.fragment_base_recycler
         }
 
         override fun renderItem(item: Int, view: MockViewBinding, position: Int) {

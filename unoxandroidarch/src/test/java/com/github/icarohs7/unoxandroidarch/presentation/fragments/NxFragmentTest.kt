@@ -27,10 +27,10 @@ class NxFragmentTest {
     data class State(val value: Int = 0) : MvRxState
     class Frag : NxFragment<State, MockViewBinding>() {
         override val viewmodel: SimpleRxMvRxViewModel<State> by fragmentViewModel()
+        override val stateStream: Flowable<State> = Flowable.just(State(1))
 
-        override fun onSetup(config: Configuration<State>) = with(config) {
-            layout = R.layout.mock_view
-            stateStream = Flowable.just(State(1))
+        override fun getLayout(): Int {
+            return R.layout.mock_view
         }
     }
 }

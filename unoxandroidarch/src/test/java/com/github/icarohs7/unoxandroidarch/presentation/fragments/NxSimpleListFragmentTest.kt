@@ -12,6 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import se.lovef.assert.v1.shouldEqual
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = TestApplication::class)
@@ -20,16 +21,13 @@ class NxSimpleListFragmentTest {
     fun `should start fragment`() {
         val (controller, _, fragment) = mockFragment<Frag>()
         controller.start()
-        fragment.binding
+        fragment.binding.recycler.adapter?.itemCount shouldEqual 2
     }
 
     class Frag : NxSimpleListFragment<Int, MockViewBinding>() {
         override val viewmodel: SimpleRxMvRxViewModel<ListState<Int>> by fragmentViewModel()
-
-        override fun onSetup(config: Configuration<ListState<Int>>): Unit = with(config) {
-            itemLayout = R.layout.mock_view
-            stateStream = Flowable.just(ListState(listOf(42)))
-        }
+        override val itemLayout: Int = R.layout.mock_view
+        override val stateStream: Flowable<ListState<Int>> = Flowable.just(ListState(listOf(42, 1532)))
 
         override fun renderItem(item: Int, view: MockViewBinding, position: Int) {
             view.txtMessage.text = "$item"

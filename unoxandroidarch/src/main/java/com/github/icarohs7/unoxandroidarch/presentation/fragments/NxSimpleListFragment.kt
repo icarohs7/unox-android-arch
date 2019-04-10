@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import com.github.icarohs7.unoxandroidarch.R
 import com.github.icarohs7.unoxandroidarch.databinding.FragmentBaseRecyclerBinding
 
@@ -14,10 +15,11 @@ import com.github.icarohs7.unoxandroidarch.databinding.FragmentBaseRecyclerBindi
  * the rendering logic is on the adapter
  */
 abstract class NxSimpleListFragment<I, IDB : ViewDataBinding> : NxListFragment<FragmentBaseRecyclerBinding, I, IDB>() {
+    override val recycler: () -> RecyclerView = { binding.recycler }
+
     override fun onBindingCreated(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) {
         super.onBindingCreated(inflater, container, savedInstanceState)
         binding.stateView.hideStates()
-        config.recycler = { binding.recycler }
     }
 
     /**

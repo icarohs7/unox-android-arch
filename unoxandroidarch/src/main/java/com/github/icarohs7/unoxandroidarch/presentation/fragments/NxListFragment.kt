@@ -2,7 +2,6 @@ package com.github.icarohs7.unoxandroidarch.presentation.fragments
 
 import androidx.databinding.ViewDataBinding
 import com.github.icarohs7.unoxandroidarch.data.entities.ListState
-import com.github.icarohs7.unoxandroidarch.presentation.adapters.BaseBindingAdapter
 
 /**
  * Simplified version of [NxSListFragment],
@@ -12,10 +11,7 @@ import com.github.icarohs7.unoxandroidarch.presentation.adapters.BaseBindingAdap
  */
 abstract class NxListFragment<DB : ViewDataBinding, I, IDB : ViewDataBinding>
     : NxSListFragment<ListState<I>, DB, I, IDB>() {
-
-    override fun onCreateAdapter(state: ListState<I>): BaseBindingAdapter<I, IDB> {
-        return super.onCreateAdapter(state).apply {
-            submitList(state.value)
-        }
+    override fun transformDataSource(state: ListState<I>): List<I> {
+        return state.value
     }
 }

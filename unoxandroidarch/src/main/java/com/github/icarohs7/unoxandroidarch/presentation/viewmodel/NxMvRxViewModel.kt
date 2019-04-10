@@ -1,15 +1,22 @@
 package com.github.icarohs7.unoxandroidarch.presentation.viewmodel
 
+import com.airbnb.mvrx.Async
 import com.airbnb.mvrx.BaseMvRxViewModel
+import com.airbnb.mvrx.Fail
+import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MvRxState
 import com.airbnb.mvrx.RealMvRxStateStore
+import com.airbnb.mvrx.Success
 import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
 import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 /**
  * Base ViewModel implementing a [CoroutineScope]
@@ -51,6 +58,25 @@ open class NxMvRxViewModel<S : MvRxState>(initialState: S) : BaseMvRxViewModel<S
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onNext)
                 .disposeOnClear()
+    }
+
+    /**
+     * Helper to map a suspend function to an Async property on the state object.
+     */
+    fun <T : Any> execute(
+            block: suspend () -> T,
+            dispatcher: CoroutineDispatcher = Dispatchers.Default,
+            reducer: S.(Async<T>) -> S
+    ) {
+        launch(this.coroutineContext + dispatcher) {
+            setState { reducer(Loading()) }
+            try {
+                val result = block()
+                setState { reducer(Success(result)) }
+            } catch (e: Exception) {
+                setState { reducer(Fail(e)) }
+            }
+        }
     }
 
     override fun onCleared() {

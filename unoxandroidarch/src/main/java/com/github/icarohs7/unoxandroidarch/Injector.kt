@@ -1,5 +1,5 @@
 package com.github.icarohs7.unoxandroidarch
 
-import org.koin.standalone.KoinComponent
+import org.koin.core.KoinComponent
 
 object Injector : KoinComponent

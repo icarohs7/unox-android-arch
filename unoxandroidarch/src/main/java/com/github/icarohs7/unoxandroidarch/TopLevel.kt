@@ -31,7 +31,7 @@ import kotlinx.coroutines.rx2.await
 import kotlinx.coroutines.rx2.awaitFirst
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.locationManager
-import org.koin.standalone.get
+import org.koin.core.get
 import timber.log.Timber
 import top.defaults.drawabletoolbox.DrawableBuilder
 import java.util.Date

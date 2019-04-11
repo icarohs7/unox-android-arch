@@ -48,7 +48,7 @@ dependencies {
     api(AndroidDeps.drawableToolbox)
     api(AndroidDeps.flashbar)
     api(AndroidDeps.fragmentKtx)
-    api(AndroidDeps.koinAndroidxViewmodel)
+    api(AndroidDeps.koinAndroid)
     api(AndroidDeps.lifecycleExtensions)
     api(AndroidDeps.lifecycleReactiveStreamsKtx)
     api(AndroidDeps.lives)

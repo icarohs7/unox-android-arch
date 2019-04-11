@@ -10,7 +10,7 @@ import io.sellmair.disposer.disposeBy
 import io.sellmair.disposer.onDestroy
 import io.sellmair.quantum.Quantum
 import io.sellmair.quantum.rx.rx
-import org.koin.standalone.get
+import org.koin.core.get
 
 /**
  * Add an observer to the loading state of the application

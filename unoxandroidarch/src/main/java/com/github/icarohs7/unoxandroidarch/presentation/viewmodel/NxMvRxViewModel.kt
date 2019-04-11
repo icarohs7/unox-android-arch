@@ -8,7 +8,6 @@ import com.airbnb.mvrx.MvRxState
 import com.airbnb.mvrx.RealMvRxStateStore
 import com.airbnb.mvrx.Success
 import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
-import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -16,6 +15,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 /**
@@ -80,7 +80,7 @@ open class NxMvRxViewModel<S : MvRxState>(initialState: S) : BaseMvRxViewModel<S
     }
 
     override fun onCleared() {
-        cancelCoroutineScope()
+        this.cancel()
         super.onCleared()
     }
 }

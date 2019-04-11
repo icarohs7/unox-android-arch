@@ -1,9 +1,9 @@
 package com.github.icarohs7.unoxandroidarch.presentation.fragments
 
 import com.airbnb.mvrx.BaseMvRxFragment
-import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 
 /**
  * Fragment containing a coroutine scope,
@@ -15,7 +15,7 @@ abstract class BaseScopedFragment : BaseMvRxFragment(), CoroutineScope by MainSc
     }
 
     override fun onDestroy() {
-        cancelCoroutineScope()
+        this.cancel()
         super.onDestroy()
     }
 }

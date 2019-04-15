@@ -15,14 +15,10 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
-    buildTypes {
-        getByName("debug") {
-            isTestCoverageEnabled = true
-        }
-    }
 }
 
 dependencies {
+    api(Deps.coroutinesRx2)
     api(Deps.khronos)
     api(Deps.kotlinxSerialization)
     api(Deps.okHttp)

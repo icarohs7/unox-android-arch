@@ -245,6 +245,8 @@ object AndroidKaptDeps {
 
 object TestDeps {
     val core = listOf(
+            "org.jacoco:org.jacoco.core:${Versions.jacoco}",
+            "org.jacoco:org.jacoco.agent:0.7.9:runtime",
             "com.squareup.okhttp3:mockwebserver:${Versions.okHttp}",
             "io.mockk:mockk:${Versions.mockK}",
             "org.bigtesting:fixd:${Versions.fixd}",
@@ -369,12 +371,13 @@ object Versions {
     const val timber = "4.7.1"
     const val tornadoFx = "1.7.17"
     const val unoxAndroidArch = "b378d1b5f2"
-    const val unoxCore = "3.01-next.4"
+    const val unoxCore = "3.01-next.5"
     const val viewAnimator = "1.1.1"
     const val workManager = "2.0.1"
 
     const val barista = "2.10.0"
     const val fixd = "1.0.5"
+    const val jacoco = "0.8.3"
     const val kotlinAssertUtils = "0.8.2"
     const val mockK = "1.9.2"
     const val robolectric = "4.1"

@@ -8,8 +8,8 @@ import com.github.icarohs7.unoxcore.UnoxCore
 import com.github.icarohs7.unoxcore.delegates.mutableLazy
 import io.hypertrack.smart_scheduler.SmartScheduler
 import kotlinx.coroutines.Dispatchers
-import org.koin.dsl.module.module
-import org.koin.standalone.StandAloneContext.loadKoinModules
+import org.koin.core.context.loadKoinModules
+import org.koin.dsl.module
 import spencerstudios.com.bungeelib.Bungee
 import splitties.init.appCtx
 import timber.log.Timber
@@ -29,6 +29,12 @@ object UnoxAndroidArch {
             single { LoadableState.create() }
         })
     }
+
+    /**
+     * Whether the app is built on debug mode or not,
+     * mainly used for MvRx support
+     */
+    var isDebug: Boolean by mutableLazy { BuildConfig.DEBUG }
 
     /**
      * Animation used at the transition between activities

@@ -2,12 +2,6 @@ language: android
 jdk: oraclejdk8
 sudo: false
 
-env:
-  global:
-  #  - ADB_INSTALL_TIMEOUT=10
-  #  - QEMU_AUDIO_DRV=none
-  #  - EMULATOR_API=22
-
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -26,8 +20,6 @@ android:
   - android-28
   - extra-google-m2repository
   - extra-android-m2repository
-  #  - android-$EMULATOR_API
-  #  - sys-img-armeabi-v7a-android-$EMULATOR_API
 
   licenses:
   - '.+'
@@ -35,19 +27,8 @@ android:
 before_install:
 - chmod +x gradlew
 
-before_script:
-#- echo "y" | android update sdk -a --no-ui --filter android-22
-#- echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-22
-#- android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}'
-#- echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
-#- emulator -avd test -no-skin -no-window &
-
 script:
-- ./gradlew clean build jacocoTestReport
-#- ./gradlew check -PdisablePreDex --continue --stacktrace
-#- android-wait-for-emulator
-#- adb shell input keyevent 82 &
-#- ./gradlew connectedCheck -PdisablePreDex --continue --stacktrace
+- ./gradlew clean build check jacocoTestReport jacocoRootReport -x lint
 
 after_success:
 - bash <(curl -s https://codecov.io/bash)

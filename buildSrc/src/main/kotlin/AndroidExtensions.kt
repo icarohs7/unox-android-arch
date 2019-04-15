@@ -1,11 +1,10 @@
 import org.gradle.api.JavaVersion
 import com.android.build.gradle.TestedExtension as AndroidBlock
-import org.gradle.api.artifacts.dsl.DependencyHandler as DependenciesBlock
-import org.gradle.kotlin.dsl.PluginDependenciesSpecScope as PluginsBlock
 
 fun AndroidBlock.defaultSettings() {
     compileSdkVersion(28)
 
+    facebookAppId = ""
     defaultConfig {
         minSdkVersion(21)
         targetSdkVersion(28)
@@ -15,6 +14,9 @@ fun AndroidBlock.defaultSettings() {
     }
 
     buildTypes {
+        getByName("debug") {
+            isTestCoverageEnabled = true
+        }
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
@@ -47,3 +49,9 @@ fun AndroidBlock.defaultSettings() {
         pickFirst("META-INF/lib_release.kotlin_module")
     }
 }
+
+var AndroidBlock.facebookAppId: String
+    get() = defaultConfig.manifestPlaceholders["facebookAppId"]?.toString().orEmpty()
+    set(value) {
+        defaultConfig.manifestPlaceholders["facebookAppId"] = value
+    }

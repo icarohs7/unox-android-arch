@@ -2,7 +2,7 @@ package com.github.icarohs7.unoxandroidarch.presentation.activities
 
 import android.os.Bundle
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
+import com.airbnb.mvrx.BaseMvRxActivity
 import com.github.icarohs7.unoxandroidarch.AppEventBus
 import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import kotlinx.coroutines.CoroutineScope
@@ -13,7 +13,7 @@ import kotlinx.coroutines.MainScope
  * cancelling it and all children coroutines
  * when destroyed
  */
-abstract class BaseScopedActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+abstract class BaseScopedActivity : BaseMvRxActivity(), CoroutineScope by MainScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setSoftInputMode(onSetSoftInputMode())

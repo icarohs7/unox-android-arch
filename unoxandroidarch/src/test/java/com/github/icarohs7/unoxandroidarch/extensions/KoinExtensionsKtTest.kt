@@ -4,10 +4,10 @@ import com.github.icarohs7.unoxandroidarch.Injector
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.koin.dsl.module.module
-import org.koin.standalone.StandAloneContext.startKoin
-import org.koin.standalone.StandAloneContext.stopKoin
-import org.koin.standalone.get
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.core.get
+import org.koin.dsl.module
 import org.koin.test.KoinTest
 import se.lovef.assert.v1.shouldEqual
 
@@ -15,10 +15,12 @@ class KoinExtensionsKtTest : KoinTest {
     @Before
     fun setUp() {
         var count = 0.0
-        startKoin(listOf(module {
-            single { 1532 }
-            factory { ++count }
-        }))
+        startKoin {
+            modules(module {
+                single { 1532 }
+                factory { ++count }
+            })
+        }
     }
 
     @After

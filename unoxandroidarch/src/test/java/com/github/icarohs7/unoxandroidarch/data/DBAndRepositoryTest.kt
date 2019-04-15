@@ -9,14 +9,13 @@ import com.github.icarohs7.unoxandroidarch.data.repository.TestRepository
 import io.reactivex.subscribers.TestSubscriber
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.dsl.module.module
-import org.koin.standalone.StandAloneContext.startKoin
-import org.koin.standalone.StandAloneContext.stopKoin
-import org.koin.standalone.inject
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.core.get
+import org.koin.dsl.module
 import org.robolectric.RobolectricTestRunner
 import se.lovef.assert.v1.shouldContain
 import se.lovef.assert.v1.shouldEqual
@@ -24,7 +23,24 @@ import se.lovef.assert.v1.shouldNotContain
 
 @RunWith(RobolectricTestRunner::class)
 class DBAndRepositoryTest {
-    private val testRepository: TestRepository by Injector.inject()
+    private val testRepository by lazy { Injector.get<TestRepository>() }
+
+    @Before
+    fun setup() {
+        val database = Room
+                .inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), TestDatabase::class.java)
+                .allowMainThreadQueries()
+                .build()
+
+        stopKoin()
+        startKoin {
+            modules(module {
+                single { database }
+                single { database.testDao() }
+                single { TestRepository() }
+            })
+        }
+    }
 
     @Test
     fun `should insert items`() {
@@ -150,24 +166,6 @@ class DBAndRepositoryTest {
         assertStoredItemCount(0)
         runBlocking { testRepository.insert(TestClass(1, "Omai wa mou shindeiru!")) }
         runBlocking { testRepository.insertAll(TestClass(2, "NANI!?"), TestClass(3, "ZA WARUDO!")) }
-    }
-
-    @Before
-    fun setUp() {
-        val database = Room
-                .inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), TestDatabase::class.java)
-                .allowMainThreadQueries()
-                .build()
-        startKoin(listOf(module {
-            single { database }
-            single { database.testDao() }
-            single { TestRepository() }
-        }))
-    }
-
-    @After
-    fun tearDown() {
-        stopKoin()
     }
 
     private fun assertItemsStored(vararg items: TestClass) {

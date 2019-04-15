@@ -11,6 +11,7 @@ import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
 import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -32,8 +33,8 @@ open class NxMvRxViewModel<S : MvRxState>(initialState: S) : BaseMvRxViewModel<S
      * state of the viewmodel, updating
      * the state on each emission
      */
-    fun Flowable<S>.connectToState() {
-        connectToState { this }
+    fun Flowable<S>.connectToState(): Disposable {
+        return connectToState { this }
     }
 
     /**
@@ -42,22 +43,10 @@ open class NxMvRxViewModel<S : MvRxState>(initialState: S) : BaseMvRxViewModel<S
      * the emmited item and apply the reducer to
      * evolve the state
      */
-    fun <T> Flowable<T>.connectToState(transformer: S.(T) -> S) {
-        subscribeOn(Schedulers.computation())
+    fun <T> Flowable<T>.connectToState(transformer: S.(T) -> S): Disposable {
+        return subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { item -> setState { transformer(this, item) } }
-                .disposeOnClear()
-    }
-
-    /**
-     * Subscribe to the given Flowable and automatically
-     * dispose the subscription on [onCleared]
-     */
-    fun <T> Flowable<T>.observe(onNext: (T) -> Unit) {
-        subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(onNext)
-                .disposeOnClear()
     }
 
     /**

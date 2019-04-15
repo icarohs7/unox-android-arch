@@ -11,7 +11,6 @@ import com.afollestad.materialdialogs.customview.customView
 import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.layoutInflater
 
@@ -49,6 +48,6 @@ abstract class BaseMaterialDialog<T : ViewDataBinding>(
     }
 
     open fun onDismiss() {
-        this.cancel()
+        cancelCoroutineScope()
     }
 }

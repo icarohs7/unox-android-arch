@@ -7,7 +7,6 @@ import com.github.icarohs7.unoxandroidarch.AppEventBus
 import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 
 /**
  * Activity containing a coroutine scope,
@@ -31,7 +30,7 @@ abstract class BaseScopedActivity : BaseMvRxActivity(), CoroutineScope by MainSc
     }
 
     override fun onDestroy() {
-        this.cancel()
+        cancelCoroutineScope()
         super.onDestroy()
     }
 }

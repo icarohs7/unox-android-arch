@@ -12,7 +12,6 @@ import com.github.icarohs7.unoxandroidarch.R
 import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 import org.jetbrains.anko.matchParent
 
 
@@ -71,7 +70,7 @@ abstract class BaseBindingDialogFragment<DB : ViewDataBinding> : DialogFragment(
     abstract fun getLayout(): Int
 
     override fun onDestroy() {
-        this.cancel()
+        cancelCoroutineScope()
         super.onDestroy()
     }
 }

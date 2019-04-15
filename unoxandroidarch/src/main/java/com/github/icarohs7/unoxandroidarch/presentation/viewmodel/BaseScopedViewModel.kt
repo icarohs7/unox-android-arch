@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 
 /**
  * Base viewmodel class with a coroutine scope,
@@ -12,7 +11,7 @@ import kotlinx.coroutines.cancel
  */
 abstract class BaseScopedViewModel : ViewModel(), CoroutineScope by MainScope() {
     override fun onCleared() {
-        this.cancel()
+        cancelCoroutineScope()
         super.onCleared()
     }
 }

@@ -13,7 +13,6 @@ import timber.log.Timber
 object Benchmarker {
     private val l: MutableList<Pair<String, Long>> = mutableListOf()
     private val actor = GlobalScope.actor<Pair<String, Long>>(capacity = 10) {
-
         channel.forEach {
             if (it == Pair("die", -1L)) endBenchmark()
             else l += it

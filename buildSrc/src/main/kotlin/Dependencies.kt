@@ -248,7 +248,6 @@ object AndroidKaptDeps {
 
 object TestDeps {
     val core = listOf(
-            "org.jacoco:org.jacoco.core:${Versions.jacoco}",
             "org.jacoco:org.jacoco.agent:0.7.9:runtime",
             "com.squareup.okhttp3:mockwebserver:${Versions.okHttp}",
             "io.mockk:mockk:${Versions.mockK}",
@@ -376,8 +375,8 @@ object Versions {
     const val textViewDotsAnimation = "v1.0"
     const val timber = "4.7.1"
     const val tornadoFx = "1.7.17"
-    const val unoxAndroidArch = "943e0ab3e6"
-    const val unoxCore = "3.01-next.5"
+    const val unoxAndroidArch = "470ee57478"
+    const val unoxCore = "3.02"
     const val viewAnimator = "1.1.1"
     const val workManager = "2.0.1"
 

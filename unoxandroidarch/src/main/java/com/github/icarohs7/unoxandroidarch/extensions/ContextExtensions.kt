@@ -41,7 +41,7 @@ fun <T : AppCompatActivity> Context.navigateTo(
     intent.putExtras(extras)
     startActivity(intent)
     if (this is Activity) {
-        UnoxAndroidArch.animationType.executeFn(this)
+        UnoxAndroidArch.screenTransition.executeFn(this)
         if (UnoxAndroidArch.finishActivityOnNavigate || finishActivity) finish()
     }
 }

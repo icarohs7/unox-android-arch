@@ -39,7 +39,7 @@ object UnoxAndroidArch {
     /**
      * Animation used at the transition between activities
      */
-    var animationType: AnimationType by mutableLazy { AnimationType.NO_ANIMATION }
+    var screenTransition: AnimationType by mutableLazy { AnimationType.NO_ANIMATION }
 
     /**
      * When set to true, every call to navigateTo from
@@ -48,7 +48,7 @@ object UnoxAndroidArch {
     var finishActivityOnNavigate: Boolean by mutableLazy { false }
 
     /**
-     * Animations available at the [animationType]
+     * Animations available at the [screenTransition]
      */
     enum class AnimationType(@AnimRes val enterRes: Int, @AnimRes val exitRes: Int, val executeFn: (Context) -> Unit) {
         SPLIT(BungeeAnim.split_enter, BungeeAnim.split_exit, Bungee::split),

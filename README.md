@@ -8,8 +8,8 @@ https://forthebadge.com/)
 [![Uses badges](https://forthebadge.com/images/badges/uses-badges.svg)](
 https://forthebadge.com/)
 
-[![Jitpack Release](https://jitpack.io/v/icarohs7/unox-android-arch.svg)](
-https://jitpack.io/#icarohs7/unox-android-arch)
+[![Bintray Version](https://api.bintray.com/packages/icarohs7/libraries/unox-android-arch/images/download.svg)](
+https://bintray.com/icarohs7/libraries/unox-android-arch/_latestVersion)
 [![Build Status](https://travis-ci.org/icarohs7/unox-android-arch.svg?branch=master)](
 https://travis-ci.org/icarohs7/unox-android-arch)
 [![GitHub top language](https://img.shields.io/github/languages/top/icarohs7/unox-android-arch.svg)](
@@ -54,7 +54,7 @@ functionalities with some traits of the architecture I use in most of my Android
 Groovy DSL
 ```groovy
 repositories {
-    maven { url "https://jitpack.io" }
+    maven { url "https://dl.bintray.com/icarohs7" }
 }
 dependencies {
     implementation "com.github.icarohs7:unox-android-arch:$unoxandroidarch_version"
@@ -64,7 +64,7 @@ dependencies {
 Kotlin DSL
 ```kotlin
 repositories {
-    maven("https://jitpack.io")
+    maven("https://dl.bintray.com/icarohs7/libraries")
 }
 dependencies {
     implementation("com.github.icarohs7:unox-android-arch:$unoxandroidarch_version")

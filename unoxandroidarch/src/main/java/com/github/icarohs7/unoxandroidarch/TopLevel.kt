@@ -6,12 +6,12 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.location.Location
 import android.location.LocationListener
-import android.location.LocationManager
+import android.location.LocationManager.GPS_PROVIDER
+import android.location.LocationManager.NETWORK_PROVIDER
 import android.os.Bundle
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
-import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
 import arrow.core.Try
 import arrow.effects.IO
@@ -22,20 +22,22 @@ import com.github.icarohs7.unoxcore.sideEffectBg
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import io.hypertrack.smart_scheduler.Job
 import io.hypertrack.smart_scheduler.SmartScheduler
-import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.rx2.await
-import kotlinx.coroutines.rx2.awaitFirst
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.locationManager
 import org.koin.core.get
 import timber.log.Timber
 import top.defaults.drawabletoolbox.DrawableBuilder
 import java.util.Date
+import kotlin.coroutines.Continuation
 import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 @Suppress("unused")
 private val LoadingDispatcher: ExecutorCoroutineDispatcher by lazy { newSingleThreadContext("loading_worker") }
@@ -99,7 +101,7 @@ fun showFlashBar(
         gravity: Flashbar.Gravity = Flashbar.Gravity.TOP,
         @ColorRes bgColorRes: Int? = null,
         @DrawableRes bgDrawableRes: Int? = null,
-        @DrawableRes bgDrawable: Drawable? = null,
+        bgDrawable: Drawable? = null,
         context: Activity? = null,
         builder: Flashbar.Builder.() -> Flashbar.Builder = { this }
 ) {
@@ -192,33 +194,58 @@ fun unscheduleOperation(operationId: Int) {
  * current location using the network provider. **Needs permission**
  */
 @SuppressLint("MissingPermission")
-@UiThread
-suspend fun getCurrentLocation(context: Context): Try<Location> =
-        Try {
-            val locManager = context.locationManager
-            locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                    ?: locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                    ?: Observable.create<Location> { emitter ->
-                        val locationListener = object : LocationListener {
-                            override fun onLocationChanged(location: Location) {
-                                emitter.onNext(location)
-                                emitter.onComplete()
-                            }
+suspend fun getCurrentLocation(context: Context): Try<Location> {
+    return Try {
+        val locManager = context.locationManager
+        val lastGpsLoc: Location? = locManager.getLastKnownLocation(GPS_PROVIDER)
+        val lastNetworkLoc: Location? = locManager.getLastKnownLocation(NETWORK_PROVIDER)
 
-                            override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-
-                            override fun onProviderEnabled(provider: String) {}
-
-                            override fun onProviderDisabled(provider: String) {
-                                emitter.onError(Exception("Provider disabled"))
-                                emitter.onComplete()
-                            }
-                        }
-
-                        context.locationManager
-                                .requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null)
-                    }.awaitFirst()
+        suspend fun getLoc(provider: String): Location {
+            return suspendCoroutine { continuation ->
+                val locationListener = getLocationListener(continuation)
+                locManager.requestSingleUpdate(provider, locationListener, null)
+            }
         }
+
+        safeRun { lastGpsLoc }
+                ?: safeRun { lastNetworkLoc }
+                ?: safeRun { getLoc(GPS_PROVIDER) }
+                ?: safeRun { getLoc(NETWORK_PROVIDER) }!!
+    }
+}
+
+/**
+ * Location listener using a coroutine continuation to return
+ * the location
+ */
+private fun getLocationListener(continuation: Continuation<Location>): LocationListener {
+    return object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            continuation.resume(location)
+        }
+
+        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+
+        override fun onProviderEnabled(provider: String) {}
+
+        override fun onProviderDisabled(provider: String) {
+            continuation.resumeWithException(UnsupportedOperationException("Provider disabled"))
+        }
+    }
+}
+
+/**
+ * Returns the result of the given block or
+ * null if the execution throws an exception
+ */
+private inline fun <T> safeRun(block: () -> T): T? {
+    return try {
+        block()
+    } catch (e: Exception) {
+        Timber.tag("UnoxAndroidArch").e(e)
+        null
+    }
+}
 
 /**
  * Invoke the given side effect causing operation

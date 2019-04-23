@@ -18,6 +18,7 @@ android {
 
 dependencies {
     implementation(project(":unoxandroidarch"))
+    implementation(AndroidDeps.splittiesLifecycleCoroutines)
 
     AndroidKaptDeps.core.forEach(::kapt)
 }

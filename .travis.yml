@@ -26,6 +26,7 @@ android:
 
 before_install:
   - chmod +x gradlew
+  - git clone https://github.com/icarohs7/unox-buildsrc buildSrc
 
 script:
   - ./gradlew clean build jacocoRootReport -x lint

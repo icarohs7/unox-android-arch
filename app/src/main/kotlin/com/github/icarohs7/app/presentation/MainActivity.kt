@@ -5,24 +5,59 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.os.Bundle
 import androidx.lifecycle.Lifecycle
 import com.github.icarohs7.app.R
+import com.github.icarohs7.app.data.db.PersonDao
+import com.github.icarohs7.app.data.entities.Person
 import com.github.icarohs7.app.databinding.ActivityMainBinding
+import com.github.icarohs7.unoxandroidarch.Injector
 import com.github.icarohs7.unoxandroidarch.extensions.context
 import com.github.icarohs7.unoxandroidarch.extensions.load
 import com.github.icarohs7.unoxandroidarch.extensions.requestPermissions
 import com.github.icarohs7.unoxandroidarch.getCurrentLocation
 import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseBindingActivity
+import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.sellmair.disposer.disposeBy
+import io.sellmair.disposer.onDestroy
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.core.inject
 import splitties.lifecycle.coroutines.awaitState
 
 class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
+    private val personDao: PersonDao by Injector.inject()
+
     override fun onBindingCreated(savedInstanceState: Bundle?) {
         super.onBindingCreated(savedInstanceState)
-        binding.imgView.load("https://google.com", onError = R.drawable.img_placeholder_img_loading)
+        binding.imgLoading.load("https://google.com", onError = R.drawable.img_placeholder_img_loading)
 
         launch {
-            lifecycle.awaitState(Lifecycle.State.RESUMED)
-            requestPermissions(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION)
-            binding.txtView.text = getCurrentLocation(context).toString()
+            showLocation()
+            showDatabase()
+        }
+    }
+
+    private suspend fun showLocation() {
+        lifecycle.awaitState(Lifecycle.State.RESUMED)
+        requestPermissions(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION)
+        binding.txtLocation.text = getCurrentLocation(context).toString()
+    }
+
+    private suspend fun showDatabase(): Unit = with(personDao) {
+        personDao.flowable().observeOn(AndroidSchedulers.mainThread()).subscribe {
+            binding.txtDatabase.text = it.joinToString(System.lineSeparator())
+        }.disposeBy(onDestroy)
+
+        onBackground {
+            while (true) {
+                eraseTable()
+                delay(500)
+                insert(Person(name = "Icaro"))
+                delay(500)
+                insert(Person(name = "Hugo"))
+                delay(500)
+                insert(Person(name = "Carlos"))
+                delay(500)
+            }
         }
     }
 

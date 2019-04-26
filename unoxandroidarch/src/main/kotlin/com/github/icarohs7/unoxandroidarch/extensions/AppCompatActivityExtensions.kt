@@ -6,7 +6,7 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import org.jetbrains.anko.inputMethodManager
+import splitties.systemservices.inputMethodManager
 
 /**
  * Dismiss the soft keyboard

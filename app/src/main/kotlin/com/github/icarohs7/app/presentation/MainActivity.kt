@@ -9,7 +9,6 @@ import com.github.icarohs7.app.data.db.PersonDao
 import com.github.icarohs7.app.data.entities.Person
 import com.github.icarohs7.app.databinding.ActivityMainBinding
 import com.github.icarohs7.unoxandroidarch.Injector
-import com.github.icarohs7.unoxandroidarch.extensions.context
 import com.github.icarohs7.unoxandroidarch.extensions.load
 import com.github.icarohs7.unoxandroidarch.extensions.requestPermissions
 import com.github.icarohs7.unoxandroidarch.getCurrentLocation
@@ -39,7 +38,7 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     private suspend fun showLocation() {
         lifecycle.awaitState(Lifecycle.State.RESUMED)
         requestPermissions(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION)
-        binding.txtLocation.text = getCurrentLocation(context).toString()
+        binding.txtLocation.text = getCurrentLocation().toString()
     }
 
     private suspend fun showDatabase(): Unit = with(personDao) {

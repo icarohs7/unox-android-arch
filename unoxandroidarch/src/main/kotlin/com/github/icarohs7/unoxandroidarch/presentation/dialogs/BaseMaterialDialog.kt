@@ -12,7 +12,7 @@ import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import org.jetbrains.anko.layoutInflater
+import splitties.systemservices.layoutInflater
 
 /**
  * Base class used to hold and handle

@@ -9,6 +9,7 @@ import android.location.LocationListener
 import android.location.LocationManager.GPS_PROVIDER
 import android.location.LocationManager.NETWORK_PROVIDER
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -28,8 +29,8 @@ import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.rx2.await
 import kotlinx.coroutines.withContext
-import org.jetbrains.anko.locationManager
 import org.koin.core.get
+import splitties.systemservices.locationManager
 import timber.log.Timber
 import top.defaults.drawabletoolbox.DrawableBuilder
 import java.util.Date
@@ -41,6 +42,14 @@ import kotlin.coroutines.suspendCoroutine
 
 @Suppress("unused")
 private val LoadingDispatcher: ExecutorCoroutineDispatcher by lazy { newSingleThreadContext("loading_worker") }
+
+/** [ViewGroup.LayoutParams.MATCH_PARENT] */
+val matchParent
+    get() = ViewGroup.LayoutParams.MATCH_PARENT
+
+/** [ViewGroup.LayoutParams.MATCH_PARENT] */
+val wrapContent
+    get() = ViewGroup.LayoutParams.WRAP_CONTENT
 
 /** [AppEventBus.In.enqueueActivityOperation] */
 fun onActivity(action: AppCompatActivity.() -> Unit): Unit =
@@ -194,9 +203,9 @@ fun unscheduleOperation(operationId: Int) {
  * current location using the network provider. **Needs permission**
  */
 @SuppressLint("MissingPermission")
-suspend fun getCurrentLocation(context: Context): Try<Location> {
+suspend fun getCurrentLocation(): Try<Location> {
     return Try {
-        val locManager = context.locationManager
+        val locManager = locationManager
         val lastGpsLoc: Location? = locManager.getLastKnownLocation(GPS_PROVIDER)
         val lastNetworkLoc: Location? = locManager.getLastKnownLocation(NETWORK_PROVIDER)
 

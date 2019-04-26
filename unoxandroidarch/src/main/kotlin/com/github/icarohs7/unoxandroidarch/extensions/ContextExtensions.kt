@@ -24,8 +24,8 @@ import com.github.icarohs7.unoxandroidarch.databinding.DialogYesNoBinding
 import com.vanniktech.rxpermission.Permission
 import com.vanniktech.rxpermission.RealRxPermission
 import kotlinx.coroutines.rx2.await
-import org.jetbrains.anko.activityManager
-import org.jetbrains.anko.layoutInflater
+import splitties.systemservices.activityManager
+import splitties.systemservices.layoutInflater
 import java.util.Calendar
 import kotlin.reflect.KClass
 

@@ -5,16 +5,15 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.github.icarohs7.unoxandroidarch.databinding.DialogYesNoBinding
-import org.jetbrains.anko.inputMethodManager
+import splitties.systemservices.inputMethodManager
 
 /**
  * Dismisses the soft keyboard
  * @param containerId The id of the container within the keyboard is being shown
  */
 fun Fragment.hideKeyboard(@IdRes containerId: Int) {
-    requireActivity()
-            .inputMethodManager
-            .hideSoftInputFromWindow(requireActivity().findViewById<View>(containerId)?.windowToken, 0)
+    val container = requireActivity().findViewById<View>(containerId)
+    inputMethodManager.hideSoftInputFromWindow(container?.windowToken, 0)
 }
 
 /**
@@ -22,9 +21,7 @@ fun Fragment.hideKeyboard(@IdRes containerId: Int) {
  * @param container The container within the keyboard is being shown
  */
 fun Fragment.hideKeyboard(container: View) {
-    requireActivity()
-            .inputMethodManager
-            .hideSoftInputFromWindow(container.windowToken, 0)
+    inputMethodManager.hideSoftInputFromWindow(container.windowToken, 0)
 }
 
 /** Show a confirm dialog */

@@ -5,10 +5,28 @@ import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.github.icarohs7.unoxandroidarch.rippleBackgroundDrawable
+import splitties.systemservices.inputMethodManager
+
+/**
+ * Show the soft keyboard on the view hierarchy of
+ * the given receiver
+ */
+fun View.showKeyboard() {
+    inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+}
+
+/**
+ * Hide the soft keyboard on the view hierarchy of
+ * the given receiver
+ */
+fun View.hideKeyboard() {
+    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+}
 
 /**
  * Define the background tint resource of the View
@@ -115,12 +133,14 @@ fun View.animateFadeOut(duration: Long = 500L, callback: ViewPropertyAnimator.()
 }
 
 /** Set the view's visibility to [View.VISIBLE] */
-fun View.show() {
+@Suppress("NOTHING_TO_INLINE")
+inline fun View.show() {
     isVisible = true
 }
 
 /** Set the view's visibility to [View.GONE], or the parameterized visibility */
-fun View.hide(hiddenState: Int = View.GONE) {
+@Suppress("NOTHING_TO_INLINE")
+inline fun View.hide(hiddenState: Int = View.GONE) {
     visibility = hiddenState
 }
 

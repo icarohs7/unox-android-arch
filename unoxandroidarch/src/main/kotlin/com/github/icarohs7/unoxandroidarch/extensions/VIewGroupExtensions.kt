@@ -5,11 +5,13 @@ import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.databinding.ViewDataBinding
 
 /**
  * Set all children of the ViewGroup to Gone
  */
-fun ViewGroup.hideChildren() {
+@Suppress("NOTHING_TO_INLINE")
+inline fun ViewGroup.hideChildren() {
     this.forEach { child -> child.isGone = true }
 }
 
@@ -26,7 +28,8 @@ fun ViewGroup.hideChildrenExcept(exceptionChild: View) {
  * Hides all children of the frame layout and show
  * the parameterized child
  */
-fun ViewGroup.showChild(child: View) {
+@Suppress("NOTHING_TO_INLINE")
+inline fun ViewGroup.showChild(child: View) {
     hideChildrenExcept(child)
 }
 
@@ -50,4 +53,22 @@ fun ViewGroup.scaleInChild(child: View) {
         hideChildrenExcept(child)
         animateScaleIn()
     }
+}
+
+/**
+ * Remove all views and add the given
+ * view to the viewgroup
+ */
+fun ViewGroup.replaceAllViews(view: View) {
+    removeAllViews()
+    addView(view)
+}
+
+/**
+ * Remove all views and add the given
+ * databinding view root to the viewgroup
+ */
+fun ViewGroup.replaceAllViews(databinding: ViewDataBinding) {
+    removeAllViews()
+    addView(databinding.root)
 }

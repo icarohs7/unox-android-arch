@@ -61,9 +61,9 @@ kotlin {
                 api(AndroidDeps.roomKtx)
                 api(AndroidDeps.roomRxJava2)
                 api(AndroidDeps.rxPermission)
-                api(AndroidDeps.smartScheduler)
                 api(AndroidDeps.spinKit)
                 api(AndroidDeps.splittiesAppctx)
+                api(AndroidDeps.splittiesMainhandler)
                 api(AndroidDeps.splittiesResources)
                 api(AndroidDeps.splittiesSystemservices)
                 api(AndroidDeps.splittiesViews)
@@ -76,6 +76,7 @@ kotlin {
                 api(AndroidDeps.stethoOkHttp)
                 api(AndroidDeps.timber)
                 api(AndroidDeps.unoxCoreAndroid)
+                api(AndroidDeps.workManagerKtx)
             }
         }
 

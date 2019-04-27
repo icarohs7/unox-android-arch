@@ -3,17 +3,26 @@ package com.github.icarohs7.unoxandroidarch
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager.GPS_PROVIDER
 import android.location.LocationManager.NETWORK_PROVIDER
+import android.net.Uri
 import android.os.Bundle
+import android.text.Spanned
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.buildSpannedString
+import androidx.work.ListenableWorker
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import arrow.core.Try
 import arrow.effects.IO
 import com.andrognito.flashbar.Flashbar
@@ -21,8 +30,6 @@ import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxandroidarch.state.LoadableState
 import com.github.icarohs7.unoxcore.sideEffectBg
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
-import io.hypertrack.smart_scheduler.Job
-import io.hypertrack.smart_scheduler.SmartScheduler
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
@@ -30,15 +37,20 @@ import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.rx2.await
 import kotlinx.coroutines.withContext
 import org.koin.core.get
+import splitties.init.appCtx
+import splitties.resources.appColor
 import splitties.systemservices.locationManager
 import timber.log.Timber
 import top.defaults.drawabletoolbox.DrawableBuilder
 import java.util.Date
+import java.util.UUID
+import java.util.concurrent.TimeUnit
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
+import kotlin.reflect.KClass
 
 @Suppress("unused")
 private val LoadingDispatcher: ExecutorCoroutineDispatcher by lazy { newSingleThreadContext("loading_worker") }
@@ -50,6 +62,14 @@ val matchParent
 /** [ViewGroup.LayoutParams.MATCH_PARENT] */
 val wrapContent
     get() = ViewGroup.LayoutParams.WRAP_CONTENT
+
+/** Current orientation of the phone */
+val appOrientation: Int
+    get() = appCtx.resources.configuration.orientation
+
+/** Whether the phone is on landscape orientation or not */
+val isOnLandscapeOrientation: Boolean
+    get() = appOrientation == Configuration.ORIENTATION_LANDSCAPE
 
 /** [AppEventBus.In.enqueueActivityOperation] */
 fun onActivity(action: AppCompatActivity.() -> Unit): Unit =
@@ -175,27 +195,37 @@ fun rippleBackgroundDrawable(@ColorInt color: Int): DrawableBuilder {
 }
 
 /**
- * Schedule the given [operation] to happen on the given [timestamp], assigning the
- * to it the identifier [operationId], used to cancel the operation
+ * Schedule the worker defined by the given type [T]
+ * to happen on the given [timestamp]
+ *
+ * @return The id of the operation request
  */
-fun scheduleOperation(timestamp: Date, operationId: Int, operation: (Context, Job) -> Unit) {
-    if (timestamp < now) return
-    val interval = timestamp.time - now.time
-    val scheduler: SmartScheduler = Injector.get()
-    val job = Job.Builder(
-            operationId,
-            operation,
-            Job.Type.JOB_TYPE_ALARM,
-            "Job with id $operationId happening"
-    ).setIntervalMillis(interval).build()
-    Timber.i("Operation scheduled")
-    scheduler.addJob(job)
+inline fun <reified T : ListenableWorker> scheduleOperation(timestamp: Date, tag: String? = null): UUID? {
+    return scheduleOperation(T::class, timestamp, tag)
 }
 
-/** Cancel a scheduled job with a given id */
-fun unscheduleOperation(operationId: Int) {
-    Timber.i("Operation cancelled")
-    Injector.get<SmartScheduler>().removeJob(operationId)
+/**
+ * Schedule the worker defined by the given [workerClass]
+ * to happen on the given [timestamp]
+ *
+ * @return The id of the operation request
+ */
+fun scheduleOperation(
+        workerClass: KClass<out ListenableWorker>,
+        timestamp: Date,
+        tag: String? = null
+): UUID? {
+    if (timestamp < now) return null
+
+    val interval = timestamp.time - now.time
+    val request = OneTimeWorkRequest.Builder(workerClass.java)
+            .setInitialDelay(interval, TimeUnit.MILLISECONDS)
+            .apply { tag?.let(::addTag) }
+            .build()
+    WorkManager.getInstance().enqueue(request)
+
+    Timber.i("Operation scheduled")
+    return request.id
 }
 
 /**
@@ -247,7 +277,7 @@ private fun getLocationListener(continuation: Continuation<Location>): LocationL
  * Returns the result of the given block or
  * null if the execution throws an exception
  */
-private inline fun <T> safeRun(block: () -> T): T? {
+inline fun <T> safeRun(block: () -> T): T? {
     return try {
         block()
     } catch (e: Exception) {
@@ -264,4 +294,46 @@ private inline fun <T> safeRun(block: () -> T): T? {
 suspend fun <T> connectedSideEffectBg(block: suspend CoroutineScope.() -> T): IO<T> {
     if (!appHasInternetConnection()) return IO.never
     return sideEffectBg(block)
+}
+
+/**
+ * Build a spanned string from multiple parts
+ */
+fun buildSpannedString(vararg parts: CharSequence): Spanned {
+    return buildSpannedString {
+        append(*parts)
+    }
+}
+
+/**
+ * @see [Intent]
+ */
+@Suppress("FunctionName")
+inline fun <reified T> Intent(packageContext: Context): Intent {
+    return Intent(packageContext, T::class.java)
+}
+
+/**
+ * @see [Intent]
+ */
+@Suppress("FunctionName")
+inline fun <reified T> Intent(action: String, uri: Uri, packageContext: Context): Intent {
+    return Intent(action, uri, packageContext, T::class.java)
+}
+
+/**
+ * Create a [ColorStateList] from
+ * a color resource
+ */
+fun colorStateListFromRes(@ColorRes colorRes: Int): ColorStateList {
+    return ColorStateList(appColor(colorRes))
+}
+
+/**
+ * Create a [ColorStateList] from
+ * a color int
+ */
+@Suppress("FunctionName")
+fun ColorStateList(@ColorInt color: Int): ColorStateList {
+    return ColorStateList.valueOf(color)
 }

@@ -6,12 +6,10 @@ import com.github.icarohs7.unoxandroidarch.domain.BungeeAnim
 import com.github.icarohs7.unoxandroidarch.state.LoadableState
 import com.github.icarohs7.unoxcore.UnoxCore
 import com.github.icarohs7.unoxcore.delegates.mutableLazy
-import io.hypertrack.smart_scheduler.SmartScheduler
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
 import spencerstudios.com.bungeelib.Bungee
-import splitties.init.appCtx
 import timber.log.Timber
 
 object UnoxAndroidArch {
@@ -25,7 +23,6 @@ object UnoxAndroidArch {
         }
 
         loadKoinModules(module {
-            single { SmartScheduler.getInstance(appCtx) }
             single { LoadableState.create() }
         })
     }

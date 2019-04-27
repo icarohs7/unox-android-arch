@@ -3,10 +3,8 @@ package com.github.icarohs7.unoxandroidarch
 import android.app.Activity
 import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
 import com.github.icarohs7.unoxcore.extensions.addOnDestroyObserver
-import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,22 +46,8 @@ class AppEventBusTest {
             }
         }
         delay(200)
-
-        controller.stop()
         controller.destroy()
-        delay(400)
-
-        val async2 = async(start = CoroutineStart.LAZY) {
-            suspendCoroutine<Int> { continuation ->
-                onActivity<TestActivity> { continuation.resume(42) }
-                launch {
-                    delay(2000)
-                    continuation.resume(17)
-                }
-            }
-        }
 
         async1.await() shouldEqual 1532
-        async2.await() shouldEqual 17
     }
 }

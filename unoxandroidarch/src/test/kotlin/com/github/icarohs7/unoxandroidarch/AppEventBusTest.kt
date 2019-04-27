@@ -16,30 +16,35 @@ import se.lovef.assert.v1.shouldEqual
 @Config(application = TestApplication::class)
 class AppEventBusTest {
     @Test
-    fun `should emit values to activity`() {
+    fun `should emit values to activity`(): Unit = runBlocking<Unit> {
         val (controller, act) = mockActivity<TestActivity>()
+        controller.resume()
 
         var v: Activity? = null
         onActivity { v = this@onActivity }
+        delay(400)
         v shouldEqual act
         v shouldBe act
 
         onActivity<BaseScopedActivity> { v = null }
+        delay(400)
         v shouldEqual null
         v shouldBe null
 
         onActivity<TestActivity> { v = this@onActivity }
+        delay(400)
         v shouldEqual act
         v shouldBe act
 
         onActivity<Activity> { v = null }
+        delay(400)
         v shouldEqual null
         v shouldBe null
 
         var v1 = 0
         act.addOnDestroyObserver { v1 = 1 }
         controller.destroy()
-        runBlocking { delay(400) }
+        delay(800)
         onActivity<TestActivity> { v = this@onActivity }
         v shouldEqual null
         v shouldBe null

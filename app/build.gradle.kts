@@ -12,11 +12,14 @@ android {
     defaultConfig {
         applicationId = "com.github.icarohs7.app"
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.00"
     }
 }
 
 dependencies {
     implementation(project(":unoxandroidarch"))
-    implementation(AndroidDeps.roomRuntime)
+    implementation(AndroidDeps.splittiesLifecycleCoroutines)
+    implementation(AndroidDeps.splittiesToast)
+
+    AndroidKaptDeps.core.forEach(::kapt)
 }

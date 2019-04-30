@@ -1,5 +1,9 @@
 # Created by https://www.gitignore.io/api/android,intellij+iml,gradle
 
+### Subreporitories ###
+/buildSrc
+/corelibrary
+
 ### Android ###
 # Built application files
 *.apk
@@ -16,6 +20,9 @@
 bin/
 gen/
 out/
+
+# Jacoco generated
+*.exec
 
 # Gradle files
 .gradle/
@@ -41,6 +48,7 @@ captures/
 .idea/workspace.xml
 .idea/libraries
 .idea/caches
+.idea/artifacts
 
 # Keystore files
 *.jks

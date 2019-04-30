@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="toastIn5Handler"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="notificationIn20Handler"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="cancelTasksHandler"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="HardcodedText">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@drawable/bg_border"
+                tools:src="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/txt_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                tools:text="djiajdjsidjiajsdijsdi" />
+
+            <TextView
+                android:id="@+id/txt_database"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="3"
+                android:padding="4dp"
+                tools:text="djiajdjsidjiajsdijsdi" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{ toastIn5Handler::onClick }"
+                android:text="Toast in 5 seconds" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{ notificationIn20Handler::onClick }"
+                android:text="Notification in 20 seconds" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{ cancelTasksHandler::onClick }"
+                android:text="Cancel all scheduled tasks" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

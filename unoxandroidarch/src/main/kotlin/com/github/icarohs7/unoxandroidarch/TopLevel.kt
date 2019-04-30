@@ -1,5 +1,6 @@
 package com.github.icarohs7.unoxandroidarch
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -20,6 +21,8 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.buildSpannedString
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.work.ListenableWorker
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -38,6 +41,9 @@ import kotlinx.coroutines.rx2.await
 import kotlinx.coroutines.withContext
 import org.koin.core.get
 import splitties.init.appCtx
+import splitties.permissions.PermissionRequestResult
+import splitties.permissions.hasPermission
+import splitties.permissions.requestPermission
 import splitties.resources.appColor
 import splitties.systemservices.locationManager
 import timber.log.Timber
@@ -79,6 +85,26 @@ fun onActivity(action: AppCompatActivity.() -> Unit): Unit =
 @JvmName("onActivityT")
 inline fun <reified T : Activity> onActivity(noinline action: T.() -> Unit): Unit =
         AppEventBus.In.enqueueActivityOperation { if (this is T) action() }
+
+/**
+ * Return whether the app has all the given permissions allowed
+ * or not. List of valid permissions at [Manifest.permission]
+ */
+fun hasPermissions(vararg permissions: String): Boolean {
+    return permissions.all(::hasPermission)
+}
+
+/**
+ * Request the given [permissions], returning whether
+ * all were granted or not
+ */
+internal suspend fun requestPermissionsInternal(
+        fragManager: FragmentManager,
+        lifecycle: Lifecycle,
+        vararg permissions: String
+): Boolean {
+    return permissions.all { requestPermission(fragManager, lifecycle, it) == PermissionRequestResult.Granted }
+}
 
 /**
  * Helper function used to start loading while a request

@@ -21,6 +21,9 @@ bin/
 gen/
 out/
 
+# Jacoco generated
+*.exec
+
 # Gradle files
 .gradle/
 build/
@@ -45,6 +48,7 @@ captures/
 .idea/workspace.xml
 .idea/libraries
 .idea/caches
+.idea/artifacts
 
 # Keystore files
 *.jks

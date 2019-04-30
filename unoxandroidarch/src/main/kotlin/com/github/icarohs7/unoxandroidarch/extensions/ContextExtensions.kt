@@ -1,29 +1,22 @@
 package com.github.icarohs7.unoxandroidarch.extensions
 
-import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import arrow.core.Tuple2
-import arrow.core.andThen
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
 import com.github.icarohs7.unoxandroidarch.databinding.DialogYesNoBinding
-import com.vanniktech.rxpermission.Permission
-import com.vanniktech.rxpermission.RealRxPermission
-import kotlinx.coroutines.rx2.await
 import splitties.systemservices.activityManager
 import splitties.systemservices.layoutInflater
 import java.util.Calendar
@@ -126,34 +119,6 @@ fun Context.pendingIntentToActivity(activity: KClass<out AppCompatActivity>): Pe
 /** Helper used to get reference to the activity */
 val Activity.context: Context
     get() = this
-
-/**
- * Return whether the app has all the given permissions allowed
- * or not. List of valid permissions at [Manifest.permission]
- */
-fun Context.hasGrantedPermissions(vararg permissions: String): Boolean {
-    val allowed = PackageManager.PERMISSION_GRANTED
-    val getPermission = { name: String -> ContextCompat.checkSelfPermission(this, name) }
-    val isAllowed = { permission: Int -> permission == allowed }
-
-    val hasPermission = getPermission andThen isAllowed
-    return permissions.all(hasPermission)
-}
-
-/**
- * Request the given list of permissions to the user.
- * List of available permissions at [Manifest.permission]
- * @return Whether all permissions have been given or not
- */
-suspend fun Context.requestPermissions(vararg permissions: String): Boolean {
-    val hasPermission = { p: Permission -> p.state() == Permission.State.GRANTED }
-    return hasGrantedPermissions(*permissions) ||
-            RealRxPermission
-                    .getInstance(this)
-                    .requestEach(*permissions)
-                    .all(hasPermission)
-                    .await()
-}
 
 /**
  * Whether the given service is running

@@ -3,7 +3,6 @@ package com.github.icarohs7.app.presentation
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.os.Bundle
-import androidx.lifecycle.Lifecycle
 import androidx.work.WorkManager
 import com.github.icarohs7.app.R
 import com.github.icarohs7.app.data.db.PersonDao
@@ -27,7 +26,7 @@ import khronos.seconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.inject
-import splitties.lifecycle.coroutines.awaitState
+import splitties.lifecycle.coroutines.awaitResumed
 import splitties.toast.toast
 
 class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
@@ -51,7 +50,7 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     }
 
     private suspend fun showLocation() {
-        lifecycle.awaitState(Lifecycle.State.RESUMED)
+        lifecycle.awaitResumed()
         requestPermissions(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION)
         binding.txtLocation.text = getCurrentLocation().toString()
     }

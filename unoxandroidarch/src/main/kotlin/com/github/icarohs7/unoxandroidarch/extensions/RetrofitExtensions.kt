@@ -9,6 +9,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 /**
  * Short hand version to create a retrofit instance
@@ -36,6 +37,8 @@ object RetrofitExtensions {
     fun getHttpClient(): OkHttpClient {
         return OkHttpClient
                 .Builder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
                 .addInterceptor(getInterceptor())
                 .addInterceptor(StethoInterceptor())
                 .build()

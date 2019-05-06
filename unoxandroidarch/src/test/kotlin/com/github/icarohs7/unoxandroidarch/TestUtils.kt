@@ -22,7 +22,9 @@ inline fun <reified T : Fragment> mockFragment(): Tuple3<ActivityController<AppC
 
 inline fun <reified T : AppCompatActivity> mockActivity(): Tuple2<ActivityController<T>, T> {
     val controller = Robolectric.buildActivity(T::class.java)
-    val act = controller.create().get()
+    val act = controller.get()
+    act.setTheme(R.style.Theme_AppCompat)
+    controller.create()
     val layout = FrameLayout(act).apply { id = 10 }
     act.setContentView(layout)
 

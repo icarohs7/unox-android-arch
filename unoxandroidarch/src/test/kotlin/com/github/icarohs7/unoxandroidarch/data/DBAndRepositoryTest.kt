@@ -9,6 +9,7 @@ import com.github.icarohs7.unoxandroidarch.data.repository.TestRepository
 import io.reactivex.subscribers.TestSubscriber
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,6 +41,11 @@ class DBAndRepositoryTest {
                 single { TestRepository() }
             })
         }
+    }
+
+    @After
+    fun tearDown() {
+        stopKoin()
     }
 
     @Test

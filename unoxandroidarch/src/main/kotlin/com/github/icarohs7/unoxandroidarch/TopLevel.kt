@@ -26,6 +26,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.work.ListenableWorker
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
+import arrow.core.Failure
+import arrow.core.Success
 import arrow.core.Try
 import arrow.effects.IO
 import com.andrognito.flashbar.Flashbar
@@ -109,17 +111,19 @@ internal suspend fun requestPermissionsInternal(
 /**
  * Helper function used to start loading while a request
  * is made and stop when it's done, running on a single
- * thread background dispatcher
+ * thread background dispatcher by default
  */
-suspend fun <T> whileLoading(context: CoroutineContext = LoadingDispatcher, fn: suspend CoroutineScope.() -> T): T =
-        withContext(context) {
-            try {
-                startLoading()
-                fn()
-            } finally {
-                stopLoading()
-            }
+suspend fun <T> whileLoading(context: CoroutineContext = LoadingDispatcher, fn: suspend CoroutineScope.() -> T): T {
+    return withContext(context) {
+        startLoading()
+        val result = Try { fn() }
+        stopLoading()
+        when (result) {
+            is Success -> result.value
+            is Failure -> throw result.exception
         }
+    }
+}
 
 
 /** Check whether the application has connectivity to the internet */

@@ -3,16 +3,89 @@ package com.github.icarohs7.unoxandroidarch
 import android.content.Intent
 import androidx.core.net.toUri
 import androidx.core.text.buildSpannedString
+import arrow.core.Try
+import com.github.icarohs7.unoxandroidarch.state.LoadableState
+import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.first
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.core.get
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import se.lovef.assert.v1.shouldBeFalse
 import se.lovef.assert.v1.shouldBeNull
+import se.lovef.assert.v1.shouldBeTrue
 import se.lovef.assert.v1.shouldEqual
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = TestApplication::class)
 class TopLevelKtTest {
+    private val loadableState by lazy { Injector.get<LoadableState>() }
+
+    @Before
+    fun setUp() {
+        startKoin { }
+    }
+
+    @After
+    fun tearDown() {
+        stopKoin()
+    }
+
+    @Test
+    fun should_run_operation_while_loading() {
+        UnoxAndroidArch.init()
+
+        val c1 = Channel<Int>()
+        val c2 = Channel<Int>()
+
+        runBlocking {
+            isLoading().shouldBeFalse()
+            val as1 = async { whileLoading { c1.first(); 1000 } }
+            delay(200)
+            isLoading().shouldBeTrue()
+
+            c1.offer(1)
+            as1.await() shouldEqual 1000
+            isLoading().shouldBeFalse()
+        }
+
+        runBlocking {
+            val as2 = async<Try<Int>> {
+                Try {
+                    whileLoading {
+                        c2.first()
+                        throw NumberFormatException("Omai wa mou shindeiru!!")
+                    }
+                }
+            }
+            delay(200)
+            isLoading().shouldBeTrue()
+
+            c2.offer(1)
+            delay(200)
+            as2.await()
+            isLoading().shouldBeFalse()
+        }
+    }
+
+    private fun isLoading(): Boolean {
+        return runBlocking {
+            suspendCoroutine<Boolean> { continuation ->
+                loadableState.use { continuation.resume(isLoading) }
+            }
+        }
+    }
+
     @Test
     fun should_safely_run_operations() {
         val op1 = safeRun { 10 }

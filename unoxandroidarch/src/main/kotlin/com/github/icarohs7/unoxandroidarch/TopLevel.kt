@@ -33,13 +33,11 @@ import arrow.effects.IO
 import com.andrognito.flashbar.Flashbar
 import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxandroidarch.state.LoadableState
+import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
 import com.github.icarohs7.unoxcore.sideEffectBg
-import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.rx2.await
 import kotlinx.coroutines.withContext
 import org.koin.core.get
 import splitties.init.appCtx
@@ -47,9 +45,12 @@ import splitties.permissions.PermissionRequestResult
 import splitties.permissions.hasPermission
 import splitties.permissions.requestPermission
 import splitties.resources.appColor
+import splitties.systemservices.connectivityManager
 import splitties.systemservices.locationManager
 import timber.log.Timber
 import top.defaults.drawabletoolbox.DrawableBuilder
+import java.net.InetSocketAddress
+import java.net.Socket
 import java.util.Date
 import java.util.UUID
 import java.util.concurrent.TimeUnit
@@ -127,12 +128,18 @@ suspend fun <T> whileLoading(context: CoroutineContext = LoadingDispatcher, fn: 
 
 
 /** Check whether the application has connectivity to the internet */
-suspend fun appHasInternetConnection(): Boolean {
-    return ReactiveNetwork
-            .checkInternetConnectivity()
-            .subscribeOn(Schedulers.io())
-            .onErrorReturn { false }
-            .await()
+suspend fun appHasInternetConnection(): Boolean = onBackground {
+    val adapterOn = connectivityManager.activeNetworkInfo?.isConnected ?: false
+    val tryConnSequence = sequence {
+        for (i in 0 until 3)
+            yield(Try {
+                val s = Socket()
+                s.connect(InetSocketAddress("8.8.8.8", 53), 1500)
+                s.close()
+            })
+    }
+
+    adapterOn && tryConnSequence.any { it is Success }
 }
 
 /**

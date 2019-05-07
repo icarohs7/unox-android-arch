@@ -56,7 +56,6 @@ kotlin {
                 api(AndroidDeps.pugNotification)
                 api(AndroidDeps.quantum)
                 api(AndroidDeps.quantumRx)
-                api(AndroidDeps.reactiveNetwork)
                 api(AndroidDeps.recyclerView)
                 api(AndroidDeps.roomKtx)
                 api(AndroidDeps.roomRxJava2)

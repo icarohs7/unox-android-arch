@@ -2,6 +2,7 @@ package com.github.icarohs7.app.presentation
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.work.WorkManager
 import com.github.icarohs7.app.R
@@ -11,13 +12,16 @@ import com.github.icarohs7.app.databinding.ActivityMainBinding
 import com.github.icarohs7.app.domain.NotificationWorker
 import com.github.icarohs7.app.domain.ToastWorker
 import com.github.icarohs7.unoxandroidarch.Injector
+import com.github.icarohs7.unoxandroidarch.appHasInternetConnection
 import com.github.icarohs7.unoxandroidarch.extensions.load
 import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxandroidarch.extensions.requestPermissions
+import com.github.icarohs7.unoxandroidarch.extensions.setupAndroidSchedulers
 import com.github.icarohs7.unoxandroidarch.getCurrentLocation
 import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseBindingActivity
 import com.github.icarohs7.unoxandroidarch.scheduleOperation
 import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
+import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.sellmair.disposer.disposeBy
 import io.sellmair.disposer.onDestroy
@@ -28,17 +32,21 @@ import kotlinx.coroutines.launch
 import org.koin.core.inject
 import splitties.lifecycle.coroutines.awaitResumed
 import splitties.toast.toast
+import java.util.concurrent.TimeUnit
 
+@SuppressLint("SetTextI18n")
 class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     private val personDao: PersonDao by Injector.inject()
+    private val timer5 = Flowable.interval(5, TimeUnit.SECONDS)
 
     override fun onBindingCreated(savedInstanceState: Bundle?) {
         super.onBindingCreated(savedInstanceState)
         binding.setup()
 
         launch {
-            showLocation()
-            showDatabase()
+            launch { showLocation() }
+            launch { showDatabase() }
+            launch { showInternetStatus() }
         }
     }
 
@@ -72,6 +80,14 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
                 delay(500)
             }
         }
+    }
+
+    private fun showInternetStatus() {
+        timer5.setupAndroidSchedulers().subscribe {
+            launch {
+                binding.txtHasInternet.text = "Connected to internet? ${appHasInternetConnection()}"
+            }
+        }.disposeBy(onDestroy)
     }
 
     private fun scheduleToastIn5() {

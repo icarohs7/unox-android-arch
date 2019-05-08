@@ -29,7 +29,7 @@ before_install:
   - git clone https://github.com/icarohs7/unox-buildsrc buildSrc
 
 script:
-  - ./gradlew -Pcoverage clean build jacocoRootReport -x lint --stacktrace
+  - ./gradlew -Pcoverage -p unoxandroidarch clean build jacocoRootReport -x lint --stacktrace
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

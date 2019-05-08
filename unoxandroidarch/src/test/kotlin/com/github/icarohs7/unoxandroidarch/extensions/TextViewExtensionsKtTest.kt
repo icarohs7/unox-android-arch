@@ -35,5 +35,10 @@ class TextViewExtensionsKtTest {
         a shouldEqual "NANI!?"
         b shouldEqual "Hello!"
         c shouldEqual "NANI!?"
+
+        var d = ""
+        editText.onTextChange { text -> d = "$text" }
+        editText.setText("United States of Smash!!!")
+        d shouldEqual "United States of Smash!!!"
     }
 }

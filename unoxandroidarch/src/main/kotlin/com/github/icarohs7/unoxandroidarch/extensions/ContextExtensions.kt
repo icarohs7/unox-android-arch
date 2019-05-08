@@ -76,7 +76,7 @@ fun Context.dialogTimePicker(listener: (hour: Int, minute: Int) -> Unit): TimePi
 fun Context.showConfirmDialog(
         title: String = "",
         message: String = "",
-        builder: com.github.icarohs7.unoxandroidarch.databinding.DialogYesNoBinding.(MaterialDialog) -> Unit
+        builder: DialogYesNoBinding.(MaterialDialog) -> Unit
 ) {
     val (binding, dialog) = newConfirmDialog(title, message)
     binding.builder(dialog)
@@ -91,6 +91,19 @@ fun Context.showConfirmDialog(
     val (binding, dialog) = newConfirmDialog(title, message)
     binding.setYesHandler {
         yesHandler.onClick(it)
+        dialog.dismiss()
+    }
+}
+
+/** Show a confirm dialog */
+fun Context.showConfirmDialog(
+        title: String = "",
+        message: String = "",
+        yesHandler: () -> Unit
+) {
+    val (binding, dialog) = newConfirmDialog(title, message)
+    binding.setYesHandler {
+        yesHandler()
         dialog.dismiss()
     }
 }

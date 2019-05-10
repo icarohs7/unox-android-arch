@@ -4,18 +4,14 @@ import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import com.github.icarohs7.unoxandroidarch.Messages
 import com.github.icarohs7.unoxandroidarch.R
+import com.github.icarohs7.unoxandroidarch.extensions.awaitAppUpdateInfo
+import com.github.icarohs7.unoxandroidarch.extensions.isUpdateAvailable
 import com.google.android.play.core.appupdate.AppUpdateInfo
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.model.UpdateAvailability
-import com.google.android.play.core.tasks.Task
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 import splitties.resources.str
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 
 /**
  * Base activity derivated from [BaseBindingActivity]
@@ -38,10 +34,8 @@ abstract class BaseTimeoutActivity<DB : ViewDataBinding>(
     }
 
     open suspend fun checkAppUpdates() {
-        val manager = AppUpdateManagerFactory.create(this)
-        val info = manager.appUpdateInfo.await()
-        if (info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE)
-            onAppHasUpdate(info)
+        val (_, info) = awaitAppUpdateInfo()
+        if (isUpdateAvailable(info)) onAppHasUpdate(info)
     }
 
     open fun onAppHasUpdate(appUpdateInfo: AppUpdateInfo) {
@@ -53,17 +47,6 @@ abstract class BaseTimeoutActivity<DB : ViewDataBinding>(
         ) {
             smallIcon(R.drawable.ic_system_update_black_24dp)
                     .largeIcon(R.drawable.ic_system_update_black_24dp)
-        }
-    }
-
-    protected suspend fun <T> Task<T>.await(): T {
-        return suspendCancellableCoroutine { cont ->
-            addOnCompleteListener { task ->
-                when (task.isSuccessful) {
-                    true -> cont.resume(task.result)
-                    false -> cont.resumeWithException(task.exception)
-                }
-            }
         }
     }
 

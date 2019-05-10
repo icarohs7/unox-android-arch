@@ -40,12 +40,12 @@ kotlin {
                 api(Deps.retrofitKotlinxSerializationConverter)
                 api(Deps.rxRelay)
 
-                api(AndroidDeps.appUpdater)
                 api(AndroidDeps.bungee)
                 api(AndroidDeps.constraintLayout)
                 api(AndroidDeps.drawableToolbox)
                 api(AndroidDeps.flashbar)
                 api(AndroidDeps.fragmentKtx)
+                api(AndroidDeps.googlePlayCore)
                 api(AndroidDeps.koinAndroid)
                 api(AndroidDeps.materialDesign)
                 api(AndroidDeps.materialDialogs)

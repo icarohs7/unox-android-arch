@@ -182,8 +182,11 @@ suspend fun Context.isUpdateAvailable(appUpdateInfo: AppUpdateInfo? = null): Boo
  * the in-app update feature and if possible, start the
  * update flow
  */
-suspend fun Activity.startImmediateUpdateFlowIfAvailable(requestCode: Int) {
-    val (manager, info) = awaitAppUpdateInfo()
+suspend fun Activity.startImmediateUpdateFlowIfAvailable(
+        requestCode: Int,
+        managerAndInfo: Tuple2<AppUpdateManager, AppUpdateInfo>? = null
+) {
+    val (manager, info) = managerAndInfo ?: awaitAppUpdateInfo()
     val hasUpdate = isUpdateAvailable(info)
     if (hasUpdate && info.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
         manager.startUpdateFlowForResult(info, AppUpdateType.IMMEDIATE, this, requestCode)

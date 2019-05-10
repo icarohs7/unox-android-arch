@@ -38,7 +38,7 @@ abstract class BaseTimeoutActivity<DB : ViewDataBinding>(
         if (isUpdateAvailable(info)) onAppHasUpdate(info)
     }
 
-    open fun onAppHasUpdate(appUpdateInfo: AppUpdateInfo) {
+    open suspend fun onAppHasUpdate(appUpdateInfo: AppUpdateInfo) {
         Messages.defaultVibratingNotification(
                 ctx = this,
                 title = str(R.string.there_is_an_update_available),

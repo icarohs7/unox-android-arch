@@ -31,7 +31,7 @@ before_install:
 script:
   - ./gradlew unoxandroidarch clean
   - ./gradlew -Pcoverage :unoxandroidarch:build -x lint --stacktrace
-  - ./gradlew -Pcoverage jacocoRootReport
+  - ./gradlew -Pcoverage jacocoRootReport -x lint --stacktrace
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

@@ -1,40 +1,32 @@
 package com.github.icarohs7.unoxandroidarch.presentation.activities
 
-import com.github.icarohs7.unoxandroidarch.testutils.TestActivity
 import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
+import com.github.icarohs7.unoxandroidarch.testutils.TestBaseTimeoutActivity
 import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import se.lovef.assert.v1.shouldBeFalse
-import se.lovef.assert.v1.shouldBeTrue
+import se.lovef.assert.v1.shouldEqual
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = TestApplication::class)
-class BaseScopedActivityTest {
+class BaseTimeoutActivityTest {
     @Test
-    fun `should cancel coroutines when destroyed`() {
-        val (controller, act) = mockActivity<TestActivity>()
-
-        val job = act.launch { delay(50000) }
-        job.isCancelled.shouldBeFalse()
-
+    fun should_launch_activity() {
+        val (controller, activity) = mockActivity<TestBaseTimeoutActivity>()
         controller.start()
-        job.isCancelled.shouldBeFalse()
-
+        runBlocking { delay(200) }
         controller.resume()
-        job.isCancelled.shouldBeFalse()
-
+        runBlocking { delay(200) }
         controller.pause()
-        job.isCancelled.shouldBeFalse()
-
+        runBlocking { delay(200) }
         controller.stop()
-        job.isCancelled.shouldBeFalse()
-
+        runBlocking { delay(200) }
+        activity.someVariable shouldEqual 1532
         controller.destroy()
-        job.isCancelled.shouldBeTrue()
+        runBlocking { delay(200) }
     }
 }

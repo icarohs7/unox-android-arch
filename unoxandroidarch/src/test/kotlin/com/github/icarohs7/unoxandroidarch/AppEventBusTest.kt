@@ -2,6 +2,9 @@ package com.github.icarohs7.unoxandroidarch
 
 import android.app.Activity
 import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
+import com.github.icarohs7.unoxandroidarch.testutils.TestActivity
+import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
+import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
 import com.github.icarohs7.unoxcore.extensions.addOnDestroyObserver
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay

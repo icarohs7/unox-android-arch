@@ -4,9 +4,9 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.core.view.contains
 import androidx.core.view.plusAssign
-import com.github.icarohs7.unoxandroidarch.TestActivity
-import com.github.icarohs7.unoxandroidarch.TestApplication
-import com.github.icarohs7.unoxandroidarch.mockActivity
+import com.github.icarohs7.unoxandroidarch.testutils.TestActivity
+import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
+import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner

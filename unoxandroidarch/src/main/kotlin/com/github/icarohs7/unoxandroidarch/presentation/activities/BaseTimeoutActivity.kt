@@ -2,6 +2,9 @@ package com.github.icarohs7.unoxandroidarch.presentation.activities
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
+import arrow.core.Try
+import arrow.core.Tuple2
+import arrow.core.getOrElse
 import com.github.icarohs7.unoxandroidarch.Messages
 import com.github.icarohs7.unoxandroidarch.R
 import com.github.icarohs7.unoxandroidarch.extensions.awaitAppUpdateInfo
@@ -12,6 +15,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import splitties.resources.str
+import timber.log.Timber
 
 /**
  * Base activity derivated from [BaseBindingActivity]
@@ -25,17 +29,23 @@ abstract class BaseTimeoutActivity<DB : ViewDataBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (checkAppUpdate) GlobalScope.launch { checkAppUpdates() }
         GlobalScope.launch(Dispatchers.Main) {
-            val delayAsync = launch { delay(timeout.toLong()) }
-            if (checkAppUpdate) checkAppUpdates()
-            delayAsync.join()
+            delay(timeout.toLong())
             onTimeout()
         }
     }
 
     open suspend fun checkAppUpdates() {
-        val (_, info) = awaitAppUpdateInfo()
-        if (isUpdateAvailable(info)) onAppHasUpdate(info)
+        val (hasUpdate, appUpdateInfo) = Try {
+            val (_, info) = awaitAppUpdateInfo()
+            val hasUpdate = isUpdateAvailable(info)
+            Timber.tag("UnoxAndroidArch").i("App ${str(R.string.app_name)} has update? $hasUpdate")
+            Timber.tag("UnoxAndroidArch").i("App ${str(R.string.app_name)} update info? $info")
+            Tuple2(hasUpdate, info)
+        }.getOrElse { Tuple2(false, null) }
+
+        if (hasUpdate) onAppHasUpdate(appUpdateInfo ?: return)
     }
 
     open suspend fun onAppHasUpdate(appUpdateInfo: AppUpdateInfo) {

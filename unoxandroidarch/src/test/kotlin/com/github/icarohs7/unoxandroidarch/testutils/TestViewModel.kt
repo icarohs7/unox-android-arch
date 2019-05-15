@@ -1,4 +1,4 @@
-package com.github.icarohs7.unoxandroidarch
+package com.github.icarohs7.unoxandroidarch.testutils
 
 import androidx.lifecycle.ViewModel
 

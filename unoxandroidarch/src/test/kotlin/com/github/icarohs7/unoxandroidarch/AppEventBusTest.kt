@@ -5,6 +5,7 @@ import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedAct
 import com.github.icarohs7.unoxandroidarch.testutils.TestActivity
 import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
 import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
+import com.github.icarohs7.unoxandroidarch.toplevel.onActivity
 import com.github.icarohs7.unoxcore.extensions.addOnDestroyObserver
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay

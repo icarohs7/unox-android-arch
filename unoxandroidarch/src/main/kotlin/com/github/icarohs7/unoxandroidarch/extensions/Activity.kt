@@ -8,8 +8,8 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import com.github.icarohs7.unoxandroidarch.hasPermissions
-import com.github.icarohs7.unoxandroidarch.requestPermissionsInternal
+import com.github.icarohs7.unoxandroidarch.toplevel.hasPermissions
+import com.github.icarohs7.unoxandroidarch.toplevel.requestPermissionsInternal
 import splitties.systemservices.inputMethodManager
 
 /**
@@ -45,6 +45,7 @@ fun FragmentActivity.onFragmentAttached(observer: (Fragment) -> Unit) {
 suspend fun FragmentActivity.requestPermissions(vararg permissions: String): Boolean {
     return permissions.all { permission ->
         hasPermissions(permission) ||
-                requestPermissionsInternal(supportFragmentManager, lifecycle, permission)
+                requestPermissionsInternal(supportFragmentManager,
+                        lifecycle, permission)
     }
 }

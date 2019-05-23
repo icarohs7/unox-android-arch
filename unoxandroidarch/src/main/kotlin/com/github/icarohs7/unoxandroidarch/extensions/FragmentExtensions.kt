@@ -6,8 +6,8 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.github.icarohs7.unoxandroidarch.databinding.DialogYesNoBinding
-import com.github.icarohs7.unoxandroidarch.hasPermissions
-import com.github.icarohs7.unoxandroidarch.requestPermissionsInternal
+import com.github.icarohs7.unoxandroidarch.toplevel.hasPermissions
+import com.github.icarohs7.unoxandroidarch.toplevel.requestPermissionsInternal
 import splitties.systemservices.inputMethodManager
 
 /**
@@ -58,6 +58,7 @@ fun Fragment.showConfirmDialog(
 suspend fun Fragment.requestPermissions(vararg permissions: String): Boolean {
     return permissions.all { permission ->
         hasPermissions(permission) ||
-                requestPermissionsInternal(requireFragmentManager(), lifecycle, permission)
+                requestPermissionsInternal(requireFragmentManager(),
+                        lifecycle, permission)
     }
 }

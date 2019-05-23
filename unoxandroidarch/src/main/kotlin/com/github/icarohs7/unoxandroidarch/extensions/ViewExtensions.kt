@@ -9,7 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import com.github.icarohs7.unoxandroidarch.rippleBackgroundDrawable
+import com.github.icarohs7.unoxandroidarch.toplevel.rippleBackgroundDrawable
 import splitties.systemservices.inputMethodManager
 
 /**

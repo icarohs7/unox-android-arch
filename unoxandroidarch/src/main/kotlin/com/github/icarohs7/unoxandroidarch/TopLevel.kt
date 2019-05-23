@@ -44,7 +44,6 @@ import splitties.init.appCtx
 import splitties.permissions.PermissionRequestResult
 import splitties.permissions.hasPermission
 import splitties.permissions.requestPermission
-import splitties.resources.appColor
 import splitties.systemservices.connectivityManager
 import splitties.systemservices.locationManager
 import timber.log.Timber
@@ -360,17 +359,9 @@ inline fun <reified T> Intent(action: String, uri: Uri, packageContext: Context)
 
 /**
  * Create a [ColorStateList] from
- * a color resource
- */
-fun colorStateListFromRes(@ColorRes colorRes: Int): ColorStateList {
-    return ColorStateList(appColor(colorRes))
-}
-
-/**
- * Create a [ColorStateList] from
  * a color int
  */
-@Suppress("FunctionName")
-fun ColorStateList(@ColorInt color: Int): ColorStateList {
+@Suppress("FunctionName", "NOTHING_TO_INLINE")
+inline fun ColorStateList(@ColorInt color: Int): ColorStateList {
     return ColorStateList.valueOf(color)
 }

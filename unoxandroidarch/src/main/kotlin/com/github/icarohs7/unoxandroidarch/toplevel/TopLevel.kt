@@ -1,19 +1,12 @@
 package com.github.icarohs7.unoxandroidarch.toplevel
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.drawable.Drawable
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager.GPS_PROVIDER
-import android.location.LocationManager.NETWORK_PROVIDER
 import android.net.Uri
-import android.os.Bundle
 import android.text.Spanned
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
@@ -21,8 +14,6 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.buildSpannedString
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
 import androidx.work.ListenableWorker
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -45,11 +36,7 @@ import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.withContext
 import org.koin.core.get
 import splitties.init.appCtx
-import splitties.permissions.PermissionRequestResult
-import splitties.permissions.hasPermission
-import splitties.permissions.requestPermission
 import splitties.systemservices.connectivityManager
-import splitties.systemservices.locationManager
 import timber.log.Timber
 import top.defaults.drawabletoolbox.DrawableBuilder
 import java.net.InetSocketAddress
@@ -57,11 +44,7 @@ import java.net.Socket
 import java.util.Date
 import java.util.UUID
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.Continuation
 import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 import kotlin.reflect.KClass
 
 @Suppress("unused")
@@ -91,26 +74,6 @@ fun onActivity(action: AppCompatActivity.() -> Unit): Unit =
 @JvmName("onActivityT")
 inline fun <reified T : Activity> onActivity(noinline action: T.() -> Unit): Unit =
         AppEventBus.In.enqueueActivityOperation { if (this is T) action() }
-
-/**
- * Return whether the app has all the given permissions allowed
- * or not. List of valid permissions at [Manifest.permission]
- */
-fun hasPermissions(vararg permissions: String): Boolean {
-    return permissions.all(::hasPermission)
-}
-
-/**
- * Request the given [permissions], returning whether
- * all were granted or not
- */
-internal suspend fun requestPermissionsInternal(
-        fragManager: FragmentManager,
-        lifecycle: Lifecycle,
-        vararg permissions: String
-): Boolean {
-    return permissions.all { requestPermission(fragManager, lifecycle, it) == PermissionRequestResult.Granted }
-}
 
 /**
  * Helper function used to start loading while a request
@@ -272,51 +235,6 @@ fun scheduleOperation(
 
     Timber.i("Operation scheduled")
     return request.id
-}
-
-/**
- * Return the last know location if available or request the
- * current location using the network provider. **Needs permission**
- */
-@SuppressLint("MissingPermission")
-suspend fun getCurrentLocation(): Try<Location> {
-    return Try {
-        val locManager = locationManager
-        val lastGpsLoc: Location? = locManager.getLastKnownLocation(GPS_PROVIDER)
-        val lastNetworkLoc: Location? = locManager.getLastKnownLocation(NETWORK_PROVIDER)
-
-        suspend fun getLoc(provider: String): Location {
-            return suspendCoroutine { continuation ->
-                val locationListener = getLocationListener(continuation)
-                locManager.requestSingleUpdate(provider, locationListener, null)
-            }
-        }
-
-        safeRun { lastGpsLoc }
-                ?: safeRun { lastNetworkLoc }
-                ?: safeRun { getLoc(GPS_PROVIDER) }
-                ?: safeRun { getLoc(NETWORK_PROVIDER) }!!
-    }
-}
-
-/**
- * Location listener using a coroutine continuation to return
- * the location
- */
-private fun getLocationListener(continuation: Continuation<Location>): LocationListener {
-    return object : LocationListener {
-        override fun onLocationChanged(location: Location) {
-            continuation.resume(location)
-        }
-
-        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-
-        override fun onProviderEnabled(provider: String) {}
-
-        override fun onProviderDisabled(provider: String) {
-            continuation.resumeWithException(UnsupportedOperationException("Provider disabled"))
-        }
-    }
 }
 
 /**

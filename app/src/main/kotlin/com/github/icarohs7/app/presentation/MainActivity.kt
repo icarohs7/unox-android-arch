@@ -16,6 +16,7 @@ import com.github.icarohs7.unoxandroidarch.extensions.load
 import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxandroidarch.extensions.requestPermissions
 import com.github.icarohs7.unoxandroidarch.extensions.setupAndroidSchedulers
+import com.github.icarohs7.unoxandroidarch.extensions.startActivity
 import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseBindingActivity
 import com.github.icarohs7.unoxandroidarch.toplevel.appHasInternetConnection
 import com.github.icarohs7.unoxandroidarch.toplevel.getCurrentLocation
@@ -41,16 +42,20 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
 
     override fun onBindingCreated(savedInstanceState: Bundle?) {
         super.onBindingCreated(savedInstanceState)
-        binding.setup()
+        binding.setRefreshHandler { startActivity<MainActivity>(finishActivity = true) }
+        render()
+    }
 
+    private fun render() {
         launch {
+            setupBinding()
             launch { showLocation() }
             launch { showDatabase() }
             launch { showInternetStatus() }
         }
     }
 
-    private fun ActivityMainBinding.setup() {
+    private fun setupBinding(): Unit = with(binding) {
         imgLoading.load("https://google.com", onError = R.drawable.img_placeholder_img_loading)
         setToastIn5Handler { scheduleToastIn5() }
         setNotificationIn20Handler { scheduleNotificationIn20() }

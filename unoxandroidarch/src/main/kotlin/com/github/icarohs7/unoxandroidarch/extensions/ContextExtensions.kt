@@ -28,9 +28,19 @@ import java.util.Calendar
 import kotlin.reflect.KClass
 
 /**
- * Navigate from an activity to another
+ * Launch the given activity
  */
-fun <T : AppCompatActivity> Context.navigateTo(
+inline fun <reified T : AppCompatActivity> Context.startActivity(
+        extras: Bundle = bundleOf(),
+        finishActivity: Boolean = false
+) {
+    startActivity(T::class, extras, finishActivity)
+}
+
+/**
+ * Launch the given activity
+ */
+fun <T : AppCompatActivity> Context.startActivity(
         destination: KClass<T>,
         extras: Bundle = bundleOf(),
         finishActivity: Boolean = false

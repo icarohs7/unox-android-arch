@@ -58,6 +58,7 @@ kotlin {
                 api(AndroidDeps.recyclerView)
                 api(AndroidDeps.roomKtx)
                 api(AndroidDeps.roomRxJava2)
+                api(AndroidDeps.smartLocation)
                 api(AndroidDeps.spinKit)
                 api(AndroidDeps.splittiesAppctx)
                 api(AndroidDeps.splittiesMainhandler)

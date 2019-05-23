@@ -39,7 +39,7 @@ object UnoxAndroidArch {
     var screenTransition: AnimationType by mutableLazy { AnimationType.NO_ANIMATION }
 
     /**
-     * When set to true, every call to navigateTo from
+     * When set to true, every call to startActivity from
      * an activity will also finish it after the navigation
      */
     var finishActivityOnNavigate: Boolean by mutableLazy { false }

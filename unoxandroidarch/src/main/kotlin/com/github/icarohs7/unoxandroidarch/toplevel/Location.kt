@@ -3,10 +3,11 @@ package com.github.icarohs7.unoxandroidarch.toplevel
 import android.Manifest
 import android.location.Location
 import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Bundle
 import androidx.annotation.RequiresPermission
 import arrow.core.Try
+import io.nlopez.smartlocation.SmartLocation
+import splitties.init.appCtx
 import splitties.systemservices.locationManager
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
@@ -22,10 +23,15 @@ import kotlin.coroutines.suspendCoroutine
 @RequiresPermission(anyOf = [Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION])
 suspend fun getCurrentLocation(): Try<Location> {
     return Try {
-        safeRun { getLocationFromProvider(LocationManager.GPS_PROVIDER) }
-                ?: safeRun { getLocationFromProvider(LocationManager.NETWORK_PROVIDER) }
-                ?: safeRun { locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) }
-                ?: safeRun { locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) }!!
+        suspendCoroutine<Location?> { cont ->
+            val smartLocation = SmartLocation.with(appCtx).location()
+            val locationState = smartLocation.state()
+            when {
+                !locationState.locationServicesEnabled() -> cont.resume(null)
+                !locationState.isAnyProviderAvailable -> cont.resume(null)
+                else -> smartLocation.oneFix().start { cont.resume(it) }
+            }
+        }!!
     }
 }
 

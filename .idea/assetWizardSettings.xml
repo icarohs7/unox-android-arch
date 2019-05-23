@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Users/icaro/AppData/Local/JetBrains/Toolbox/apps/AndroidStudio/ch-1/191.5529924/plugins/android/lib/android.jar!/images/material_design_icons/notification/ic_system_update_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Users/icaro/AppData/Local/JetBrains/Toolbox/apps/AndroidStudio/ch-1/191.5549111/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_refresh_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,8 +28,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_system_update_black_24dp" />
-                            <entry key="overrideSize" value="true" />
+                            <entry key="outputName" value="ic_refresh_black_24dp" />
                             <entry key="sourceFile" value="E:\Downloads\spinner-of-dots.svg" />
                           </map>
                         </option>

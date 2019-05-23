@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="save">Salvar</string>
+    <string name="the_app_can_be_updated">O aplicativo %s pode ser atualizado</string>
+    <string name="there_is_an_update_available">Há uma atualização disponível</string>
+</resources>

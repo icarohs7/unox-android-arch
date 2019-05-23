@@ -1,7 +1,7 @@
 package com.github.icarohs7.unoxandroidarch.extensions
 
 import androidx.appcompat.app.AppCompatActivity
-import com.github.icarohs7.unoxandroidarch.TestApplication
+import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric

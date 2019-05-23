@@ -1,11 +1,12 @@
-package com.github.icarohs7.unoxandroidarch
+package com.github.icarohs7.unoxandroidarch.testutils
 
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.transaction
+import androidx.fragment.app.commit
 import arrow.core.Tuple2
 import arrow.core.Tuple3
+import com.github.icarohs7.unoxandroidarch.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.robolectric.Robolectric
@@ -15,14 +16,16 @@ import kotlin.reflect.full.createInstance
 inline fun <reified T : Fragment> mockFragment(): Tuple3<ActivityController<AppCompatActivity>, AppCompatActivity, T> {
     val (controller, act) = mockActivity<AppCompatActivity>()
     val fragment = T::class.createInstance()
-    act.supportFragmentManager.transaction { replace(10, fragment) }
+    act.supportFragmentManager.commit { replace(10, fragment) }
 
     return Tuple3(controller, act, fragment)
 }
 
 inline fun <reified T : AppCompatActivity> mockActivity(): Tuple2<ActivityController<T>, T> {
     val controller = Robolectric.buildActivity(T::class.java)
-    val act = controller.create().get()
+    val act = controller.get()
+    act.setTheme(R.style.Theme_AppCompat)
+    controller.create()
     val layout = FrameLayout(act).apply { id = 10 }
     act.setContentView(layout)
 

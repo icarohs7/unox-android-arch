@@ -26,18 +26,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.work.ListenableWorker
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
+import arrow.core.Failure
+import arrow.core.Success
 import arrow.core.Try
 import arrow.effects.IO
 import com.andrognito.flashbar.Flashbar
 import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxandroidarch.state.LoadableState
+import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
 import com.github.icarohs7.unoxcore.sideEffectBg
-import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.rx2.await
 import kotlinx.coroutines.withContext
 import org.koin.core.get
 import splitties.init.appCtx
@@ -45,9 +45,12 @@ import splitties.permissions.PermissionRequestResult
 import splitties.permissions.hasPermission
 import splitties.permissions.requestPermission
 import splitties.resources.appColor
+import splitties.systemservices.connectivityManager
 import splitties.systemservices.locationManager
 import timber.log.Timber
 import top.defaults.drawabletoolbox.DrawableBuilder
+import java.net.InetSocketAddress
+import java.net.Socket
 import java.util.Date
 import java.util.UUID
 import java.util.concurrent.TimeUnit
@@ -109,26 +112,34 @@ internal suspend fun requestPermissionsInternal(
 /**
  * Helper function used to start loading while a request
  * is made and stop when it's done, running on a single
- * thread background dispatcher
+ * thread background dispatcher by default
  */
-suspend fun <T> whileLoading(context: CoroutineContext = LoadingDispatcher, fn: suspend CoroutineScope.() -> T): T =
-        withContext(context) {
-            try {
-                startLoading()
-                fn()
-            } finally {
-                stopLoading()
-            }
+suspend fun <T> whileLoading(context: CoroutineContext = LoadingDispatcher, fn: suspend CoroutineScope.() -> T): T {
+    return withContext(context) {
+        startLoading()
+        val result = Try { fn() }
+        stopLoading()
+        when (result) {
+            is Success -> result.value
+            is Failure -> throw result.exception
         }
+    }
+}
 
 
 /** Check whether the application has connectivity to the internet */
-suspend fun appHasInternetConnection(): Boolean {
-    return ReactiveNetwork
-            .checkInternetConnectivity()
-            .subscribeOn(Schedulers.io())
-            .onErrorReturn { false }
-            .await()
+suspend fun appHasInternetConnection(): Boolean = onBackground {
+    val adapterOn = connectivityManager.activeNetworkInfo?.isConnected ?: false
+    val tryConnSequence = sequence {
+        for (i in 0 until 3)
+            yield(Try {
+                val s = Socket()
+                s.connect(InetSocketAddress("8.8.8.8", 53), 1500)
+                s.close()
+            })
+    }
+
+    adapterOn && tryConnSequence.any { it is Success }
 }
 
 /**

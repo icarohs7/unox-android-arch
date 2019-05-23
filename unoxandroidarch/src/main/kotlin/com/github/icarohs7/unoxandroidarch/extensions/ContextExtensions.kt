@@ -17,6 +17,11 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
 import com.github.icarohs7.unoxandroidarch.databinding.DialogYesNoBinding
+import com.google.android.play.core.appupdate.AppUpdateInfo
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import splitties.systemservices.activityManager
 import splitties.systemservices.layoutInflater
 import java.util.Calendar
@@ -76,7 +81,7 @@ fun Context.dialogTimePicker(listener: (hour: Int, minute: Int) -> Unit): TimePi
 fun Context.showConfirmDialog(
         title: String = "",
         message: String = "",
-        builder: com.github.icarohs7.unoxandroidarch.databinding.DialogYesNoBinding.(MaterialDialog) -> Unit
+        builder: DialogYesNoBinding.(MaterialDialog) -> Unit
 ) {
     val (binding, dialog) = newConfirmDialog(title, message)
     binding.builder(dialog)
@@ -91,6 +96,19 @@ fun Context.showConfirmDialog(
     val (binding, dialog) = newConfirmDialog(title, message)
     binding.setYesHandler {
         yesHandler.onClick(it)
+        dialog.dismiss()
+    }
+}
+
+/** Show a confirm dialog */
+fun Context.showConfirmDialog(
+        title: String = "",
+        message: String = "",
+        yesHandler: () -> Unit
+) {
+    val (binding, dialog) = newConfirmDialog(title, message)
+    binding.setYesHandler {
+        yesHandler()
         dialog.dismiss()
     }
 }
@@ -139,4 +157,38 @@ fun Context.openDialer(phone: String) {
     val intent = Intent(Intent.ACTION_DIAL)
     intent.data = Uri.parse("tel:$phone")
     startActivity(intent)
+}
+
+/**
+ * Get the update info of the current app from
+ * google play
+ */
+suspend fun Context.awaitAppUpdateInfo(): Tuple2<AppUpdateManager, AppUpdateInfo> {
+    val manager = AppUpdateManagerFactory.create(this)
+    return Tuple2(manager, manager.appUpdateInfo.await())
+}
+
+/**
+ * Whether the current app has updates available
+ * for the google play version
+ */
+suspend fun Context.isUpdateAvailable(appUpdateInfo: AppUpdateInfo? = null): Boolean {
+    val info = appUpdateInfo ?: awaitAppUpdateInfo().b
+    return info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+}
+
+/**
+ * Check if the app has updates available and can be use
+ * the in-app update feature and if possible, start the
+ * update flow
+ */
+suspend fun Activity.startImmediateUpdateFlowIfAvailable(
+        requestCode: Int,
+        managerAndInfo: Tuple2<AppUpdateManager, AppUpdateInfo>? = null
+) {
+    val (manager, info) = managerAndInfo ?: awaitAppUpdateInfo()
+    val hasUpdate = isUpdateAvailable(info)
+    if (hasUpdate && info.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+        manager.startUpdateFlowForResult(info, AppUpdateType.IMMEDIATE, this, requestCode)
+    }
 }

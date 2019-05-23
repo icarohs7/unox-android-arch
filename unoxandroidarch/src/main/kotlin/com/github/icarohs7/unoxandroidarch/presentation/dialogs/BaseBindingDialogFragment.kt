@@ -29,7 +29,7 @@ abstract class BaseBindingDialogFragment<DB : ViewDataBinding> : DialogFragment(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_FullScreenDialog)
+        setStyle(STYLE_NORMAL, R.style.AppTheme_FullScreenDialog)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

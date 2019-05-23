@@ -108,11 +108,6 @@ modules.xml
 .idea/misc.xml 
 *.ipr
 
-
-### Gradle ###
-.gradle
-/build/
-
 # Ignore Gradle GUI config
 gradle-app.setting
 

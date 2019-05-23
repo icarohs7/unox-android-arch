@@ -2,6 +2,7 @@ package com.github.icarohs7.unoxandroidarch
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.widget.Toast
@@ -135,5 +136,33 @@ object Messages {
         context
                 ?.let { Toast.makeText(it, message, duration).show() }
                 ?: onActivity { Toast.makeText(this, message, duration).show() }
+    }
+
+    /**
+     * Emit a notification with vibration and sounds
+     * that when clicked is closed and takes the user
+     * to the SplashActivity of the application
+     */
+    fun defaultVibratingNotification(
+            ctx: Context,
+            title: String,
+            message: String,
+            bigMessage: String? = null,
+            activityPendingIntent: PendingIntent? = null,
+            identifier: Int = 9,
+            builder: Load.() -> Load = { this }
+    ) {
+        textNotification(
+                context = ctx,
+                title = title,
+                message = message,
+                bigMessage = bigMessage,
+                autoClose = true,
+                identifier = identifier,
+                pendingIntent = activityPendingIntent
+        ) {
+            flags(Notification.DEFAULT_ALL)
+            builder()
+        }
     }
 }

@@ -2,8 +2,8 @@ package com.github.icarohs7.unoxandroidarch.extensions
 
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.github.icarohs7.unoxandroidarch.TestApplication
-import com.github.icarohs7.unoxandroidarch.mockActivity
+import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
+import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -35,5 +35,10 @@ class TextViewExtensionsKtTest {
         a shouldEqual "NANI!?"
         b shouldEqual "Hello!"
         c shouldEqual "NANI!?"
+
+        var d = ""
+        editText.onTextChange { text -> d = "$text" }
+        editText.setText("United States of Smash!!!")
+        d shouldEqual "United States of Smash!!!"
     }
 }

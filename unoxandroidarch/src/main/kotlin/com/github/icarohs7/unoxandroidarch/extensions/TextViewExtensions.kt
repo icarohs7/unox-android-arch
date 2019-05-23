@@ -56,3 +56,13 @@ fun TextView.onTextChange(
         }
     })
 }
+
+/**
+ * Add a callback to be called everytime the
+ * text of the given [TextView] change
+ */
+fun TextView.onTextChange(callback: (s: CharSequence) -> Unit) {
+    onTextChange(onChange = { text, _, _, _ ->
+        callback(text?.toString().orEmpty())
+    })
+}

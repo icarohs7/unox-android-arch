@@ -17,6 +17,7 @@ android {
 }
 
 dependencies {
+    implementation("com.github.icarohs7:unox-android-arch-metadata:${Versions.unoxAndroidArch}")
     implementation(project(":unoxandroidarch"))
     implementation(AndroidDeps.splittiesLifecycleCoroutines)
     implementation(AndroidDeps.splittiesToast)

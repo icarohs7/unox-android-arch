@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import com.github.icarohs7.unoxandroidarch.R
-import com.github.icarohs7.unoxandroidarch.matchParent
+import com.github.icarohs7.unoxandroidarch.toplevel.matchParent
 import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -59,7 +59,8 @@ abstract class BaseBindingDialogFragment<DB : ViewDataBinding> : DialogFragment(
      */
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setLayout(matchParent, matchParent)
+        dialog?.window?.setLayout(matchParent,
+                matchParent)
         dialog?.window?.setWindowAnimations(R.style.SlideTheme)
     }
 

@@ -8,6 +8,9 @@ import com.github.icarohs7.unoxandroidarch.state.LoadableState
 import com.github.icarohs7.unoxandroidarch.testutils.TestActivity
 import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
 import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
+import com.github.icarohs7.unoxandroidarch.toplevel.Intent
+import com.github.icarohs7.unoxandroidarch.toplevel.safeRun
+import com.github.icarohs7.unoxandroidarch.toplevel.whileLoading
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.first
@@ -100,7 +103,8 @@ class TopLevelKtTest {
 
     @Test
     fun should_build_spanned_string_from_parts() {
-        val sp1 = buildSpannedString("Omai ", buildSpannedString { append("wa ") }, "mou ", "shindeiru")
+        val sp1 = com.github.icarohs7.unoxandroidarch.toplevel.buildSpannedString("Omai ",
+                buildSpannedString { append("wa ") }, "mou ", "shindeiru")
         sp1 shouldEqual buildSpannedString { append("Omai wa mou shindeiru") }
     }
 

@@ -1,4 +1,4 @@
-package com.github.icarohs7.unoxandroidarch
+package com.github.icarohs7.unoxandroidarch.toplevel
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -31,6 +31,10 @@ import arrow.core.Success
 import arrow.core.Try
 import arrow.effects.IO
 import com.andrognito.flashbar.Flashbar
+import com.github.icarohs7.unoxandroidarch.AppEventBus
+import com.github.icarohs7.unoxandroidarch.Injector
+import com.github.icarohs7.unoxandroidarch.Messages
+import com.github.icarohs7.unoxandroidarch.R
 import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxandroidarch.state.LoadableState
 import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
@@ -189,7 +193,9 @@ fun showSuccessFlashBar(
         context: Activity? = null
 ) {
     fun messageBuilder(act: Activity) {
-        Messages.flashBar(act, message, duration, gravity) { backgroundDrawable(R.drawable.bg_gradient_green) }
+        Messages.flashBar(act, message, duration, gravity) {
+            backgroundDrawable(R.drawable.bg_gradient_green)
+        }
     }
     context?.let(::messageBuilder) ?: onActivity(::messageBuilder)
 }
@@ -202,7 +208,9 @@ fun showInfoFlashBar(
         context: Activity? = null
 ) {
     fun messageBuilder(act: Activity) {
-        Messages.flashBar(act, message, duration, gravity) { backgroundDrawable(R.drawable.bg_gradient_blue) }
+        Messages.flashBar(act, message, duration, gravity) {
+            backgroundDrawable(R.drawable.bg_gradient_blue)
+        }
     }
     context?.let(::messageBuilder) ?: onActivity(::messageBuilder)
 }
@@ -215,7 +223,9 @@ fun showErrorFlashBar(
         context: Activity? = null
 ) {
     fun messageBuilder(act: Activity) {
-        Messages.flashBar(act, message, duration, gravity) { backgroundDrawable(R.drawable.bg_gradient_red) }
+        Messages.flashBar(act, message, duration, gravity) {
+            backgroundDrawable(R.drawable.bg_gradient_red)
+        }
     }
     context?.let(::messageBuilder) ?: onActivity(::messageBuilder)
 }

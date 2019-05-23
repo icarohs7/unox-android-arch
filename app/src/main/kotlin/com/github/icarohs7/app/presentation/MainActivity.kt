@@ -12,14 +12,14 @@ import com.github.icarohs7.app.databinding.ActivityMainBinding
 import com.github.icarohs7.app.domain.NotificationWorker
 import com.github.icarohs7.app.domain.ToastWorker
 import com.github.icarohs7.unoxandroidarch.Injector
-import com.github.icarohs7.unoxandroidarch.appHasInternetConnection
 import com.github.icarohs7.unoxandroidarch.extensions.load
 import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxandroidarch.extensions.requestPermissions
 import com.github.icarohs7.unoxandroidarch.extensions.setupAndroidSchedulers
-import com.github.icarohs7.unoxandroidarch.getCurrentLocation
 import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseBindingActivity
-import com.github.icarohs7.unoxandroidarch.scheduleOperation
+import com.github.icarohs7.unoxandroidarch.toplevel.appHasInternetConnection
+import com.github.icarohs7.unoxandroidarch.toplevel.getCurrentLocation
+import com.github.icarohs7.unoxandroidarch.toplevel.scheduleOperation
 import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -15,9 +15,10 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.async
 
 /**
  * Base ViewModel implementing a [CoroutineScope]
@@ -56,15 +57,9 @@ open class NxMvRxViewModel<S : MvRxState>(initialState: S) : BaseMvRxViewModel<S
             block: suspend () -> T,
             dispatcher: CoroutineDispatcher = Dispatchers.Default,
             reducer: S.(Async<T>) -> S
-    ) {
-        launch(this.coroutineContext + dispatcher) {
-            setState { reducer(Loading()) }
-            try {
-                val result = block()
-                setState { reducer(Success(result)) }
-            } catch (e: Exception) {
-                setState { reducer(Fail(e)) }
-            }
+    ): Deferred<T?> {
+        return async(this.coroutineContext + dispatcher) {
+            execute(block, reducer)
         }
     }
 
@@ -74,13 +69,15 @@ open class NxMvRxViewModel<S : MvRxState>(initialState: S) : BaseMvRxViewModel<S
     suspend fun <T : Any> execute(
             block: suspend () -> T,
             reducer: S.(Async<T>) -> S
-    ) {
+    ): T? {
         setState { reducer(Loading()) }
-        try {
+        return try {
             val result = block()
             setState { reducer(Success(result)) }
+            result
         } catch (e: Exception) {
             setState { reducer(Fail(e)) }
+            null
         }
     }
 

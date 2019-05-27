@@ -9,10 +9,10 @@ import com.github.icarohs7.unoxandroidarch.toplevel.hasPermissions
 import com.github.icarohs7.unoxandroidarch.toplevel.requestPermissionsInternal
 
 /** Invoke the given [observer] whenever a new fragment is attached to the supportFragmentManager */
-fun FragmentActivity.onFragmentAttached(observer: (Fragment) -> Unit) {
+fun FragmentActivity.onFragmentAttached(observer: (fm: FragmentManager, f: Fragment, context: Context) -> Unit) {
     supportFragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context) {
-            observer(f)
+            observer(fm, f, context)
         }
     }, true)
 }

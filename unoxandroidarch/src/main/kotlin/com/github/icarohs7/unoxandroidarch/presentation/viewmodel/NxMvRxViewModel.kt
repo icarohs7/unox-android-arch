@@ -52,7 +52,7 @@ open class NxMvRxViewModel<S : MvRxState>(initialState: S) : BaseMvRxViewModel<S
     /**
      * Helper to map a suspend function to an Async property on the state object.
      */
-    fun <T : Any> CoroutineScope.execute(
+    fun <T : Any> CoroutineScope.executeAsync(
             block: suspend () -> T,
             dispatcher: CoroutineDispatcher = Dispatchers.Default,
             reducer: S.(Async<T>) -> S
@@ -65,6 +65,22 @@ open class NxMvRxViewModel<S : MvRxState>(initialState: S) : BaseMvRxViewModel<S
             } catch (e: Exception) {
                 setState { reducer(Fail(e)) }
             }
+        }
+    }
+
+    /**
+     * Helper to map a suspend function to an Async property on the state object.
+     */
+    suspend fun <T : Any> execute(
+            block: suspend () -> T,
+            reducer: S.(Async<T>) -> S
+    ) {
+        setState { reducer(Loading()) }
+        try {
+            val result = block()
+            setState { reducer(Success(result)) }
+        } catch (e: Exception) {
+            setState { reducer(Fail(e)) }
         }
     }
 

@@ -2,30 +2,11 @@ package com.github.icarohs7.unoxandroidarch.extensions
 
 import android.Manifest
 import android.view.View
-import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.github.icarohs7.unoxandroidarch.databinding.DialogYesNoBinding
 import com.github.icarohs7.unoxandroidarch.toplevel.hasPermissions
 import com.github.icarohs7.unoxandroidarch.toplevel.requestPermissionsInternal
-import splitties.systemservices.inputMethodManager
-
-/**
- * Dismisses the soft keyboard
- * @param containerId The id of the container within the keyboard is being shown
- */
-fun Fragment.hideKeyboard(@IdRes containerId: Int) {
-    val container = requireActivity().findViewById<View>(containerId)
-    inputMethodManager.hideSoftInputFromWindow(container?.windowToken, 0)
-}
-
-/**
- * Dismisses the soft keyboard
- * @param container The container within the keyboard is being shown
- */
-fun Fragment.hideKeyboard(container: View) {
-    inputMethodManager.hideSoftInputFromWindow(container.windowToken, 0)
-}
 
 /** Show a confirm dialog */
 fun Fragment.showConfirmDialog(

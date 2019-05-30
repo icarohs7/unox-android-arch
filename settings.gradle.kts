@@ -1,5 +1,5 @@
-include(":app")
 include(":unoxandroidarch")
+include(":app")
 
 pluginManagement {
     resolutionStrategy {

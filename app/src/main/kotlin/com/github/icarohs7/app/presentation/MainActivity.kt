@@ -15,13 +15,13 @@ import com.github.icarohs7.unoxandroidarch.Injector
 import com.github.icarohs7.unoxandroidarch.extensions.load
 import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxandroidarch.extensions.requestPermissions
-import com.github.icarohs7.unoxandroidarch.extensions.setupAndroidSchedulers
 import com.github.icarohs7.unoxandroidarch.extensions.startActivity
 import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseBindingActivity
 import com.github.icarohs7.unoxandroidarch.toplevel.appHasInternetConnection
 import com.github.icarohs7.unoxandroidarch.toplevel.getCurrentLocation
 import com.github.icarohs7.unoxandroidarch.toplevel.scheduleOperation
 import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
+import com.github.icarohs7.unoxcore.extensions.setupAndroidSchedulers
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.sellmair.disposer.disposeBy

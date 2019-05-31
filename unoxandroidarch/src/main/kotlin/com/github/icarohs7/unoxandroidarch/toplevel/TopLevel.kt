@@ -14,12 +14,15 @@ import androidx.core.text.buildSpannedString
 import androidx.work.ListenableWorker
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
-import arrow.core.Success
 import arrow.core.Try
+import arrow.core.getOrElse
 import arrow.effects.IO
 import com.github.icarohs7.unoxandroidarch.AppEventBus
+import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
 import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
+import com.github.icarohs7.unoxcore.extensions.toIntOr
+import com.github.icarohs7.unoxcore.extensions.valueOr
 import com.github.icarohs7.unoxcore.sideEffectBg
 import kotlinx.coroutines.CoroutineScope
 import splitties.init.appCtx
@@ -61,17 +64,28 @@ inline fun <reified T : Activity> onActivity(noinline action: T.() -> Unit): Uni
 
 /** Check whether the application has connectivity to the internet */
 suspend fun appHasInternetConnection(): Boolean = onBackground {
-    val adapterOn = connectivityManager.activeNetworkInfo?.isConnected ?: false
-    val tryConnSequence = sequence {
-        for (i in 0 until 3)
-            yield(Try {
-                val s = Socket()
-                s.connect(InetSocketAddress("8.8.8.8", 53), 1500)
-                s.close()
+    connectivityManager.activeNetworkInfo
+            ?.isConnected
+            .valueOr(false)
+            .also { adapterOn -> if (!adapterOn) return@onBackground false }
+
+    val checkSequence = sequence {
+        val address = UnoxAndroidArch.connectionCheckAddress.split(":")
+        val ip = address[0]
+        val port = address.getOrElse(1) { "80" }
+        val host = InetSocketAddress(ip, port.toIntOr(80))
+
+        while (true) {
+            yield(Socket().use { s ->
+                Try {
+                    s.connect(host, 500)
+                    true
+                }.getOrElse { false }
             })
+        }
     }
 
-    adapterOn && tryConnSequence.any { it is Success }
+    checkSequence.take(5).any()
 }
 
 /**

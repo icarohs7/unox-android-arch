@@ -45,6 +45,12 @@ object UnoxAndroidArch {
     var finishActivityOnNavigate: Boolean by mutableLazy { false }
 
     /**
+     * Ip used to check if the app has connection to
+     * the internet
+     */
+    var connectionCheckAddress: String = "1.1.1.1:53"
+
+    /**
      * Animations available at the [screenTransition]
      */
     enum class AnimationType(@AnimRes val enterRes: Int, @AnimRes val exitRes: Int, val executeFn: (Context) -> Unit) {

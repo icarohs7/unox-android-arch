@@ -21,6 +21,10 @@
         <variable
             name="refreshHandler"
             type="android.view.View.OnClickListener" />
+
+        <variable
+            name="checkConnectionHandler"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -84,6 +88,12 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{ cancelTasksHandler::onClick }"
                     android:text="Cancel all scheduled tasks" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{ checkConnectionHandler::onClick }"
+                    android:text="Check internet connection" />
 
             </LinearLayout>
         </ScrollView>

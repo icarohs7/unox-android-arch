@@ -21,7 +21,6 @@ import com.github.icarohs7.unoxandroidarch.toplevel.appHasInternetConnection
 import com.github.icarohs7.unoxandroidarch.toplevel.getCurrentLocation
 import com.github.icarohs7.unoxandroidarch.toplevel.scheduleOperation
 import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
-import com.github.icarohs7.unoxcore.extensions.setupAndroidSchedulers
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.sellmair.disposer.disposeBy
@@ -34,6 +33,7 @@ import org.koin.core.inject
 import splitties.lifecycle.coroutines.awaitResumed
 import splitties.toast.toast
 import java.util.concurrent.TimeUnit
+import kotlin.system.measureTimeMillis
 
 @SuppressLint("SetTextI18n")
 class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
@@ -51,7 +51,6 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
             setupBinding()
             launch { showLocation() }
             launch { showDatabase() }
-            launch { showInternetStatus() }
         }
     }
 
@@ -60,6 +59,7 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
         setToastIn5Handler { scheduleToastIn5() }
         setNotificationIn20Handler { scheduleNotificationIn20() }
         setCancelTasksHandler { cancelTasks() }
+        setCheckConnectionHandler { launch { showInternetStatus() } }
     }
 
     private suspend fun showLocation() {
@@ -87,12 +87,13 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
         }
     }
 
-    private fun showInternetStatus() {
-        timer5.setupAndroidSchedulers().subscribe {
-            launch {
-                binding.txtHasInternet.text = "Connected to internet? ${appHasInternetConnection()}"
-            }
-        }.disposeBy(onDestroy)
+    private suspend fun showInternetStatus() {
+        var isConnected = false
+        val time = measureTimeMillis { isConnected = appHasInternetConnection() }
+        binding.txtHasInternet.text = """
+            Connected to internet? $isConnected
+            Time to check: ${time}ms
+        """.trimIndent()
     }
 
     private fun scheduleToastIn5() {

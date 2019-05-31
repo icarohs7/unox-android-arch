@@ -9,7 +9,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateFormat
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import arrow.core.Tuple2
@@ -95,19 +94,6 @@ fun Context.showConfirmDialog(
 ) {
     val (binding, dialog) = newConfirmDialog(title, message)
     binding.builder(dialog)
-}
-
-/** Show a confirm dialog */
-fun Context.showConfirmDialog(
-        title: String = "",
-        message: String = "",
-        yesHandler: View.OnClickListener
-) {
-    val (binding, dialog) = newConfirmDialog(title, message)
-    binding.setYesHandler {
-        yesHandler.onClick(it)
-        dialog.dismiss()
-    }
 }
 
 /** Show a confirm dialog */

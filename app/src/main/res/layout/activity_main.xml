@@ -25,6 +25,10 @@
         <variable
             name="checkConnectionHandler"
             type="android.view.View.OnClickListener" />
+
+        <variable
+            name="changeConnectionIpHandler"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -94,6 +98,12 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{ checkConnectionHandler::onClick }"
                     android:text="Check internet connection" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{ changeConnectionIpHandler::onClick }"
+                    android:text="Change connection check ip" />
 
             </LinearLayout>
         </ScrollView>

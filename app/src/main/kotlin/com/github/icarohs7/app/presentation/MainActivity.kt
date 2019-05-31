@@ -35,7 +35,6 @@ import khronos.seconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.inject
-import splitties.lifecycle.coroutines.awaitResumed
 import splitties.toast.toast
 import kotlin.system.measureTimeMillis
 
@@ -52,13 +51,13 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     private fun render() {
         launch {
             setupBinding()
-            launch { showLocation() }
             launch { showDatabase() }
         }
     }
 
     private fun setupBinding(): Unit = with(binding) {
         imgLoading.load("https://google.com", onError = R.drawable.img_placeholder_img_loading)
+        setGetLocationHandler { launch { showLocation() } }
         setToastIn5Handler { scheduleToastIn5() }
         setNotificationIn20Handler { scheduleNotificationIn20() }
         setCancelTasksHandler { cancelTasks() }
@@ -67,9 +66,13 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     }
 
     private suspend fun showLocation() {
-        lifecycle.awaitResumed()
         requestPermissions(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION)
-        binding.txtLocation.text = getCurrentLocation().toString()
+        var loc = ""
+        val time = measureTimeMillis { loc = getCurrentLocation().toString() }
+        binding.txtLocation.text = """
+            Current location is: $loc
+            Time to get: ${time}ms
+        """.trimIndent()
     }
 
     private suspend fun showDatabase(): Unit = with(personDao) {

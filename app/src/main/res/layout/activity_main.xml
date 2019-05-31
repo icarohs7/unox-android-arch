@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.MainActivity">
 
     <data>
+
+        <variable
+            name="getLocationHandler"
+            type="android.view.View.OnClickListener" />
 
         <variable
             name="toastIn5Handler"
@@ -31,7 +34,7 @@
             type="android.view.View.OnClickListener" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -78,6 +81,12 @@
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="@{ getLocationHandler::onClick }"
+                    android:text="Get location" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:onClick="@{ toastIn5Handler::onClick }"
                     android:text="Toast in 5 seconds" />
 
@@ -111,11 +120,10 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:onClick="@{ refreshHandler::onClick }"
-            android:src="@drawable/ic_refresh_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:src="@drawable/ic_refresh_black_24dp" />
+    </FrameLayout>
 </layout>

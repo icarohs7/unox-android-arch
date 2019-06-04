@@ -1,6 +1,6 @@
 package com.github.icarohs7.unoxandroidarch.data.repository
 
-import arrow.effects.IO
+import arrow.core.Try
 import io.reactivex.Flowable
 
 /**
@@ -9,34 +9,34 @@ import io.reactivex.Flowable
  */
 interface BaseRepository<T> {
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.insert] */
-    suspend fun insert(item: T): IO<Long> = IO.just(0L)
+    suspend fun insert(item: T): Try<Long> = Try.just(0L)
 
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.insertAll] */
-    suspend fun insertAll(items: List<T>): IO<List<Long>> = IO.just(emptyList())
+    suspend fun insertAll(items: List<T>): Try<List<Long>> = Try.just(emptyList())
 
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.insertAll] */
-    suspend fun insertAll(vararg items: T): IO<List<Long>> = insertAll(items.toList())
+    suspend fun insertAll(vararg items: T): Try<List<Long>> = insertAll(items.toList())
 
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.update] */
-    suspend fun update(item: T): IO<Int> = IO.just(0)
+    suspend fun update(item: T): Try<Int> = Try.just(0)
 
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.updateAll] */
-    suspend fun updateAll(items: List<T>): IO<Int> = IO.just(0)
+    suspend fun updateAll(items: List<T>): Try<Int> = Try.just(0)
 
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.updateAll] */
-    suspend fun updateAll(vararg items: T): IO<Int> = updateAll(items.toList())
+    suspend fun updateAll(vararg items: T): Try<Int> = updateAll(items.toList())
 
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.delete] */
-    suspend fun delete(item: T): IO<Int> = IO.just(0)
+    suspend fun delete(item: T): Try<Int> = Try.just(0)
 
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.deleteAll] */
-    suspend fun deleteAll(items: List<T>): IO<Int> = IO.just(0)
+    suspend fun deleteAll(items: List<T>): Try<Int> = Try.just(0)
 
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.deleteAll] */
-    suspend fun deleteAll(vararg items: T): IO<Int> = deleteAll(items.toList())
+    suspend fun deleteAll(vararg items: T): Try<Int> = deleteAll(items.toList())
 
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.eraseTable] */
-    suspend fun eraseTable(): IO<Unit> = IO.unit
+    suspend fun eraseTable(): Try<Unit> = Try { Unit }
 
     /** [com.github.icarohs7.unoxandroidarch.data.db.BaseDao.getAll] */
     suspend fun getAll(): List<T> = emptyList()

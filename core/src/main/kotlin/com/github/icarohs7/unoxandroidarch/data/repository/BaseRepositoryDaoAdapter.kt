@@ -1,9 +1,9 @@
 package com.github.icarohs7.unoxandroidarch.data.repository
 
-import arrow.effects.IO
+import arrow.core.Try
 import com.github.icarohs7.unoxandroidarch.data.db.BaseDao
 import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
-import com.github.icarohs7.unoxcore.sideEffectBg
+import com.github.icarohs7.unoxcore.tryBg
 import io.reactivex.Flowable
 
 /**
@@ -13,38 +13,38 @@ import io.reactivex.Flowable
 abstract class BaseRepositoryDaoAdapter<T, DAO : BaseDao<T>>(val dao: DAO) : BaseRepository<T> {
 
     /** [BaseRepository.insert] */
-    override suspend fun insert(item: T): IO<Long> {
-        return sideEffectBg { dao.insert(item) }
+    override suspend fun insert(item: T): Try<Long> {
+        return tryBg { dao.insert(item) }
     }
 
     /** [BaseRepository.insertAll] */
-    override suspend fun insertAll(items: List<T>): IO<List<Long>> {
-        return sideEffectBg { dao.insertAll(items) }
+    override suspend fun insertAll(items: List<T>): Try<List<Long>> {
+        return tryBg { dao.insertAll(items) }
     }
 
     /** [BaseRepository.update] */
-    override suspend fun update(item: T): IO<Int> {
-        return sideEffectBg { dao.update(item) }
+    override suspend fun update(item: T): Try<Int> {
+        return tryBg { dao.update(item) }
     }
 
     /** [BaseRepository.updateAll] */
-    override suspend fun updateAll(items: List<T>): IO<Int> {
-        return sideEffectBg { dao.updateAll(items) }
+    override suspend fun updateAll(items: List<T>): Try<Int> {
+        return tryBg { dao.updateAll(items) }
     }
 
     /** [BaseRepository.delete] */
-    override suspend fun delete(item: T): IO<Int> {
-        return sideEffectBg { dao.delete(item) }
+    override suspend fun delete(item: T): Try<Int> {
+        return tryBg { dao.delete(item) }
     }
 
     /** [BaseRepository.deleteAll] */
-    override suspend fun deleteAll(items: List<T>): IO<Int> {
-        return sideEffectBg { dao.deleteAll(items) }
+    override suspend fun deleteAll(items: List<T>): Try<Int> {
+        return tryBg { dao.deleteAll(items) }
     }
 
     /** [BaseRepository.eraseTable] */
-    override suspend fun eraseTable(): IO<Unit> {
-        return sideEffectBg { dao.eraseTable() }
+    override suspend fun eraseTable(): Try<Unit> {
+        return tryBg { dao.eraseTable() }
     }
 
     /** [BaseRepository.getAll] */

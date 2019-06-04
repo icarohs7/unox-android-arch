@@ -14,21 +14,22 @@ import androidx.core.text.buildSpannedString
 import androidx.work.ListenableWorker
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
+import arrow.core.Failure
 import arrow.core.Try
 import arrow.core.getOrElse
-import arrow.effects.IO
 import com.github.icarohs7.unoxandroidarch.AppEventBus
 import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
 import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
 import com.github.icarohs7.unoxcore.extensions.toIntOr
 import com.github.icarohs7.unoxcore.extensions.valueOr
-import com.github.icarohs7.unoxcore.sideEffectBg
+import com.github.icarohs7.unoxcore.tryBg
 import kotlinx.coroutines.CoroutineScope
 import splitties.init.appCtx
 import splitties.systemservices.connectivityManager
 import timber.log.Timber
 import top.defaults.drawabletoolbox.DrawableBuilder
+import java.net.ConnectException
 import java.net.InetSocketAddress
 import java.net.Socket
 import java.util.Date
@@ -148,11 +149,11 @@ inline fun <T> safeRun(block: () -> T): T? {
 /**
  * Invoke the given side effect causing operation
  * and return its result if there's internet connection,
- * otherwise fail and return an [IO.never]
+ * otherwise fail and return a [Failure]
  */
-suspend fun <T> connectedSideEffectBg(block: suspend CoroutineScope.() -> T): IO<T> {
-    if (!appHasInternetConnection()) return IO.never
-    return sideEffectBg(block)
+suspend fun <T> connectedSideEffectBg(block: suspend CoroutineScope.() -> T): Try<T> {
+    if (!appHasInternetConnection()) return Failure(ConnectException())
+    return tryBg(block)
 }
 
 /**

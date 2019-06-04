@@ -85,7 +85,7 @@ suspend fun appHasInternetConnection(): Boolean = onBackground {
         }
     }
 
-    checkSequence.take(5).any()
+    checkSequence.take(5).any { it }
 }
 
 /**

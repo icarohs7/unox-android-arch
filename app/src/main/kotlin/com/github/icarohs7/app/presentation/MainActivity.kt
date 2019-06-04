@@ -22,9 +22,9 @@ import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxandroidarch.extensions.requestPermissions
 import com.github.icarohs7.unoxandroidarch.extensions.showConfirmDialog
 import com.github.icarohs7.unoxandroidarch.extensions.startActivity
+import com.github.icarohs7.unoxandroidarch.location.getCurrentLocation
 import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseBindingActivity
 import com.github.icarohs7.unoxandroidarch.toplevel.appHasInternetConnection
-import com.github.icarohs7.unoxandroidarch.toplevel.getCurrentLocation
 import com.github.icarohs7.unoxandroidarch.toplevel.scheduleOperation
 import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
 import io.reactivex.android.schedulers.AndroidSchedulers

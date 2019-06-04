@@ -1,10 +1,8 @@
-package com.github.icarohs7.unoxandroidarch.toplevel
+package com.github.icarohs7.unoxandroidarch.location
 
-import android.Manifest
 import android.location.Location
 import android.location.LocationListener
 import android.os.Bundle
-import androidx.annotation.RequiresPermission
 import arrow.core.Try
 import io.nlopez.smartlocation.SmartLocation
 import splitties.init.appCtx
@@ -20,7 +18,6 @@ import kotlin.coroutines.suspendCoroutine
  * - Try to get the last known location acquired through GPS
  * - Try to get the last known location acquired through the Network
  */
-@RequiresPermission(anyOf = [Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION])
 suspend fun getCurrentLocation(): Try<Location> {
     return Try {
         suspendCoroutine<Location?> { cont ->
@@ -39,7 +36,6 @@ suspend fun getCurrentLocation(): Try<Location> {
  * Request the location from the given provider
  * ### Requires either [android.Manifest.permission.ACCESS_COARSE_LOCATION] or [android.Manifest.permission.ACCESS_FINE_LOCATION]
  */
-@RequiresPermission(anyOf = [Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION])
 suspend fun getLocationFromProvider(provider: String): Location? {
     return suspendCoroutine { continuation ->
         if (!locationManager.isProviderEnabled(provider)) {

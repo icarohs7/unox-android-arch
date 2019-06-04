@@ -151,7 +151,7 @@ inline fun <T> safeRun(block: () -> T): T? {
  * and return its result if there's internet connection,
  * otherwise fail and return a [Failure]
  */
-suspend fun <T> connectedSideEffectBg(block: suspend CoroutineScope.() -> T): Try<T> {
+suspend fun <T> connectedTryBg(block: suspend CoroutineScope.() -> T): Try<T> {
     if (!appHasInternetConnection()) return Failure(ConnectException())
     return tryBg(block)
 }

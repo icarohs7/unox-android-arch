@@ -17,7 +17,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":unoxandroidarch"))
+    implementation(project(":core"))
 
     implementation(AndroidDeps.splittiesLifecycleCoroutines)
     implementation(AndroidDeps.splittiesToast)

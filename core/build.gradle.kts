@@ -16,13 +16,8 @@ android {
 }
 
 kotlin {
-    metadata { mavenPublication { artifactId = "unox-android-arch-metadata" } }
-
-    android {
-        mavenPublication { artifactId = "unox-android-arch" }
-        publishLibraryVariants("debug")
-        compilations.all { kotlinOptions.jvmTarget = "1.6" }
-    }
+    setupMetadataTarget("unox-android-arch-core-metadata")
+    setupAndroidTarget(rootProject, project, "unox-android-arch-core")
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {

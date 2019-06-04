@@ -1,4 +1,6 @@
-include(":unoxandroidarch")
+rootProject.name = "unoxandroidarch"
+
+include(":core")
 include(":app")
 
 pluginManagement {

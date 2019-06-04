@@ -17,7 +17,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":location"))
 
     implementation(AndroidDeps.splittiesLifecycleCoroutines)
     implementation(AndroidDeps.splittiesToast)

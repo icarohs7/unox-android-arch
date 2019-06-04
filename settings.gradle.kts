@@ -1,7 +1,8 @@
 rootProject.name = "unoxandroidarch"
 
-include(":core")
 include(":app")
+include(":core")
+include(":location")
 
 pluginManagement {
     resolutionStrategy {

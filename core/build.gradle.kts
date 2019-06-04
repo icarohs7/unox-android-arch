@@ -16,8 +16,9 @@ android {
 }
 
 kotlin {
-    setupMetadataTarget("unox-android-arch-core-metadata")
-    setupAndroidTarget(rootProject, project, "unox-android-arch-core")
+    val libraryName = "unox-android-arch-core"
+    setupMetadataTarget("$libraryName-metadata")
+    setupAndroidTarget(rootProject, project, libraryName)
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
@@ -53,7 +54,6 @@ kotlin {
                 api(AndroidDeps.recyclerView)
                 api(AndroidDeps.roomKtx)
                 api(AndroidDeps.roomRxJava2)
-                api(AndroidDeps.smartLocation)
                 api(AndroidDeps.spinKit)
                 api(AndroidDeps.splittiesAppctx)
                 api(AndroidDeps.splittiesMainhandler)

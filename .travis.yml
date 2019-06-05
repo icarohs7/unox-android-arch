@@ -31,6 +31,7 @@ before_install:
 script:
   - ./gradlew -p core -Pcoverage clean build jacocoTestReport -x lint --stacktrace
   - ./gradlew -p location -Pcoverage clean build jacocoTestReport -x lint --stacktrace
+  - ./gradlew -p scheduling -Pcoverage clean build jacocoTestReport -x lint --stacktrace
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

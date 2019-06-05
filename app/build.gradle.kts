@@ -18,6 +18,7 @@ android {
 
 dependencies {
     implementation(project(":location"))
+    implementation(project(":scheduling"))
 
     implementation(AndroidDeps.splittiesLifecycleCoroutines)
     implementation(AndroidDeps.splittiesToast)

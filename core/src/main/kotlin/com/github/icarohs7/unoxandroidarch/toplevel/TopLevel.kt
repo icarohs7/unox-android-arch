@@ -11,15 +11,11 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.buildSpannedString
-import androidx.work.ListenableWorker
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import arrow.core.Failure
 import arrow.core.Try
 import arrow.core.getOrElse
 import com.github.icarohs7.unoxandroidarch.AppEventBus
 import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
-import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
 import com.github.icarohs7.unoxcore.extensions.toIntOr
 import com.github.icarohs7.unoxcore.extensions.valueOr
@@ -32,10 +28,6 @@ import top.defaults.drawabletoolbox.DrawableBuilder
 import java.net.ConnectException
 import java.net.InetSocketAddress
 import java.net.Socket
-import java.util.Date
-import java.util.UUID
-import java.util.concurrent.TimeUnit
-import kotlin.reflect.KClass
 
 /** [ViewGroup.LayoutParams.MATCH_PARENT] */
 val matchParent
@@ -97,40 +89,6 @@ fun rippleBackgroundDrawable(@ColorInt color: Int): DrawableBuilder {
     return DrawableBuilder()
             .ripple()
             .rippleColor(color)
-}
-
-/**
- * Schedule the worker defined by the given type [T]
- * to happen on the given [timestamp]
- *
- * @return The id of the operation request
- */
-inline fun <reified T : ListenableWorker> scheduleOperation(timestamp: Date, tag: String? = null): UUID? {
-    return scheduleOperation(T::class, timestamp, tag)
-}
-
-/**
- * Schedule the worker defined by the given [workerClass]
- * to happen on the given [timestamp]
- *
- * @return The id of the operation request
- */
-fun scheduleOperation(
-        workerClass: KClass<out ListenableWorker>,
-        timestamp: Date,
-        tag: String? = null
-): UUID? {
-    if (timestamp < now) return null
-
-    val interval = timestamp.time - now.time
-    val request = OneTimeWorkRequest.Builder(workerClass.java)
-            .setInitialDelay(interval, TimeUnit.MILLISECONDS)
-            .apply { tag?.let(::addTag) }
-            .build()
-    WorkManager.getInstance().enqueue(request)
-
-    Timber.i("Operation scheduled")
-    return request.id
 }
 
 /**

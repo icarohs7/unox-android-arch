@@ -68,7 +68,6 @@ kotlin {
                 api(AndroidDeps.stethoOkHttp)
                 api(AndroidDeps.timber)
                 api(AndroidDeps.unoxCoreAndroid)
-                api(AndroidDeps.workManagerKtx)
             }
         }
 

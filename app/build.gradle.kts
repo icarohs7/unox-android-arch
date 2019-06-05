@@ -17,10 +17,13 @@ android {
 }
 
 dependencies {
-    implementation("com.github.icarohs7:unox-android-arch-metadata:${Versions.unoxAndroidArch}")
-    implementation(project(":unoxandroidarch"))
+    implementation(project(":location"))
+    implementation(project(":scheduling"))
+
     implementation(AndroidDeps.splittiesLifecycleCoroutines)
     implementation(AndroidDeps.splittiesToast)
+    implementation(AndroidDeps.materialDialogsInput)
+    implementation(AndroidDeps.materialDialogsBottomSheets)
 
     AndroidKaptDeps.core.forEach(::kapt)
 }

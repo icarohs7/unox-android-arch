@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="getLocationHandler"
+            type="android.view.View.OnClickListener" />
+
+        <variable
             name="toastIn5Handler"
             type="android.view.View.OnClickListener" />
 
@@ -16,66 +20,110 @@
         <variable
             name="cancelTasksHandler"
             type="android.view.View.OnClickListener" />
+
+        <variable
+            name="refreshHandler"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="checkConnectionHandler"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="changeConnectionIpHandler"
+            type="android.view.View.OnClickListener" />
     </data>
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="HardcodedText">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="HardcodedText">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/img_loading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/bg_border"
+                    tools:src="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/txt_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    tools:text="djiajdjsidjiajsdijsdi" />
+
+                <TextView
+                    android:id="@+id/txt_database"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="3"
+                    android:padding="4dp"
+                    tools:text="djiajdjsidjiajsdijsdi" />
+
+                <TextView
+                    android:id="@+id/txt_has_internet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{ getLocationHandler::onClick }"
+                    android:text="Get location" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{ toastIn5Handler::onClick }"
+                    android:text="Toast in 5 seconds" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{ notificationIn20Handler::onClick }"
+                    android:text="Notification in 20 seconds" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{ cancelTasksHandler::onClick }"
+                    android:text="Cancel all scheduled tasks" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{ checkConnectionHandler::onClick }"
+                    android:text="Check internet connection" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{ changeConnectionIpHandler::onClick }"
+                    android:text="Change connection check ip" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/img_loading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@drawable/bg_border"
-                tools:src="@tools:sample/avatars" />
-
-            <TextView
-                android:id="@+id/txt_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                tools:text="djiajdjsidjiajsdijsdi" />
-
-            <TextView
-                android:id="@+id/txt_database"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lines="3"
-                android:padding="4dp"
-                tools:text="djiajdjsidjiajsdijsdi" />
-
-            <TextView
-                android:id="@+id/txt_has_internet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:textSize="16sp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{ toastIn5Handler::onClick }"
-                android:text="Toast in 5 seconds" />
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{ notificationIn20Handler::onClick }"
-                android:text="Notification in 20 seconds" />
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{ cancelTasksHandler::onClick }"
-                android:text="Cancel all scheduled tasks" />
-
-        </LinearLayout>
-    </ScrollView>
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:onClick="@{ refreshHandler::onClick }"
+            android:src="@drawable/ic_refresh_black_24dp" />
+    </FrameLayout>
 </layout>

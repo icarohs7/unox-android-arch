@@ -57,7 +57,11 @@ repositories {
     maven { url "https://dl.bintray.com/icarohs7" }
 }
 dependencies {
-    implementation "com.github.icarohs7:unox-android-arch:$unoxandroidarch_version"
+    //Core features
+    implementation "com.github.icarohs7:unox-android-arch-core:$unoxandroidarch_version"
+    
+    //Location helpers
+    implementation "com.github.icarohs7:unox-android-arch-location:$unoxandroidarch_version"
 }
 ```
 
@@ -67,6 +71,10 @@ repositories {
     maven("https://dl.bintray.com/icarohs7/libraries")
 }
 dependencies {
-    implementation("com.github.icarohs7:unox-android-arch:$unoxandroidarch_version")
+    //Core features
+    implementation("com.github.icarohs7:unox-android-arch-core:$unoxandroidarch_version")
+    
+    //Location helpers
+    implementation("com.github.icarohs7:unox-android-arch-location:$unoxandroidarch_version")
 }
 ```

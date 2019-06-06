@@ -2,8 +2,6 @@ plugins {
     kotlin("multiplatform")
     kotlin("kapt")
     id("com.android.library")
-    id("kotlinx-serialization")
-    id("androidx.navigation.safeargs.kotlin")
     id("jacoco")
     id("maven-publish")
     id("com.jfrog.bintray")
@@ -30,11 +28,6 @@ kotlin {
 
                 api(Deps.coroutinesRx2)
                 api(Deps.khronos)
-                api(Deps.kotlinxSerialization)
-                api(Deps.okHttp)
-                api(Deps.okHttpLoggingInterceptor)
-                api(Deps.retrofit)
-                api(Deps.retrofitKotlinxSerializationConverter)
                 api(Deps.rxRelay)
 
                 api(AndroidDeps.bungee)
@@ -65,8 +58,6 @@ kotlin {
                 api(AndroidDeps.splittiesViewsAppcompat)
                 api(AndroidDeps.spotsDialog)
                 api(AndroidDeps.stateViews)
-                api(AndroidDeps.stetho)
-                api(AndroidDeps.stethoOkHttp)
                 api(AndroidDeps.timber)
                 api(AndroidDeps.unoxCoreAndroid)
             }

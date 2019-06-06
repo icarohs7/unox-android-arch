@@ -2,8 +2,6 @@ plugins {
     kotlin("multiplatform")
     kotlin("kapt")
     id("com.android.library")
-    id("kotlinx-serialization")
-    id("androidx.navigation.safeargs.kotlin")
     id("jacoco")
     id("maven-publish")
     id("com.jfrog.bintray")

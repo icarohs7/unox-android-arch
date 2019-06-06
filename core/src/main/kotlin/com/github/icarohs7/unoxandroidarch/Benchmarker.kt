@@ -11,11 +11,13 @@ import timber.log.Timber
  * Object used to globally benchmark time differences
  */
 object Benchmarker {
-    private val l: MutableList<Pair<String, Long>> = mutableListOf()
-    private val actor = GlobalScope.actor<Pair<String, Long>>(capacity = 10) {
-        channel.forEach {
-            if (it == Pair("die", -1L)) endBenchmark()
-            else l += it
+    private val l by lazy { mutableListOf<Pair<String, Long>>() }
+    private val actor by lazy {
+        GlobalScope.actor<Pair<String, Long>>(capacity = 10) {
+            channel.forEach {
+                if (it == Pair("die", -1L)) endBenchmark()
+                else l += it
+            }
         }
     }
 

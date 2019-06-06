@@ -17,7 +17,8 @@ android {
 
 kotlin {
     val libraryName = "unox-android-arch-location"
-    setupMetadataTarget("$libraryName-metadata")
+    setupMetaInfoNameOnAll(rootProject, project)
+    setupMetadataTarget(rootProject, project, "$libraryName-metadata")
     setupAndroidTarget(rootProject, project, libraryName)
 
     @Suppress("UNUSED_VARIABLE")

@@ -1,4 +1,4 @@
-package com.github.icarohs7.unoxandroidarch
+package com.github.icarohs7.unoxandroidarch.benchmark
 
 import arrow.core.Try
 import com.github.icarohs7.unoxcore.extensions.coroutines.forEach
@@ -62,14 +62,4 @@ object Benchmarker {
     private fun log(message: String) {
         Timber.tag("BENCHMARKER").i(message)
     }
-}
-
-/** [Benchmarker.measure] */
-fun addToBenchmark(identifier: Any) {
-    Benchmarker.measure(identifier)
-}
-
-/** [Benchmarker.calculate] */
-fun finishBenchmark() {
-    Benchmarker.calculate()
 }

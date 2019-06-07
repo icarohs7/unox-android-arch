@@ -62,6 +62,12 @@ dependencies {
     
     //Location helpers
     implementation "com.github.icarohs7:unox-android-arch-location:$unoxandroidarch_version"
+    
+    //Task scheduling helpers
+    implementation "com.github.icarohs7:unox-android-arch-scheduling:$unoxandroidarch_version"
+    
+    //Execution time helpers
+    implementation "com.github.icarohs7:unox-android-arch-benchmark:$unoxandroidarch_version"
 }
 ```
 
@@ -76,5 +82,11 @@ dependencies {
     
     //Location helpers
     implementation("com.github.icarohs7:unox-android-arch-location:$unoxandroidarch_version")
+    
+    //Task scheduling helpers
+    implementation("com.github.icarohs7:unox-android-arch-scheduling:$unoxandroidarch_version")
+        
+    //Execution time helpers
+    implementation("com.github.icarohs7:unox-android-arch-benchmark:$unoxandroidarch_version")
 }
 ```

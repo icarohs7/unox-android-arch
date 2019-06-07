@@ -68,6 +68,9 @@ dependencies {
     
     //Execution time helpers
     implementation "com.github.icarohs7:unox-android-arch-benchmark:$unoxandroidarch_version"
+    
+    //Helpers and extensions around Material Spinner(https://github.com/jaredrummler/MaterialSpinner/)
+    implementation "com.github.icarohs7:unox-android-arch-spinner:$unoxandroidarch_version"
 }
 ```
 
@@ -88,5 +91,8 @@ dependencies {
         
     //Execution time helpers
     implementation("com.github.icarohs7:unox-android-arch-benchmark:$unoxandroidarch_version")
+    
+    //Helpers and extensions around Material Spinner(https://github.com/jaredrummler/MaterialSpinner/)
+    implementation("com.github.icarohs7:unox-android-arch-spinner:$unoxandroidarch_version")
 }
 ```

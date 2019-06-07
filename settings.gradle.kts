@@ -5,6 +5,7 @@ include(":core")
 include(":location")
 include(":scheduling")
 include(":benchmark")
+include(":spinner")
 
 pluginManagement {
     resolutionStrategy {

@@ -1,4 +1,4 @@
-package com.github.icarohs7.unoxandroidarch.extensions
+package com.github.icarohs7.unoxandroidarch.spinner
 
 import com.jaredrummler.materialspinner.MaterialSpinner
 

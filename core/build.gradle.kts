@@ -39,7 +39,6 @@ kotlin {
                 api(AndroidDeps.koinAndroid)
                 api(AndroidDeps.materialDesign)
                 api(AndroidDeps.materialDialogs)
-                api(AndroidDeps.materialSpinner)
                 api(AndroidDeps.mvRx)
                 api(AndroidDeps.picasso)
                 api(AndroidDeps.pugNotification)

@@ -105,7 +105,7 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     }
 
     private fun cancelTasks() {
-        WorkManager.getInstance().cancelAllWorkByTag("workToDo")
+        WorkManager.getInstance(this).cancelAllWorkByTag("workToDo")
         toast("Tasks cancelled")
     }
 

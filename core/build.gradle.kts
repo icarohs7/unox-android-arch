@@ -31,9 +31,9 @@ kotlin {
                 api(Deps.rxRelay)
 
                 api(AndroidDeps.bungee)
-                api(AndroidDeps.constraintLayout)
                 api(AndroidDeps.drawableToolbox)
                 api(AndroidDeps.flashbar)
+                api(AndroidDeps.flexboxLayout)
                 api(AndroidDeps.fragmentKtx)
                 api(AndroidDeps.googlePlayCore)
                 api(AndroidDeps.koinAndroid)

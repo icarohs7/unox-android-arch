@@ -8,12 +8,15 @@ import io.reactivex.Flowable
 
 @Dao
 interface PersonDao : BaseDao<Person> {
-    @Query("DELETE FROM Person")
-    override fun eraseTable()
+    @Query("DELETE FROM `Person`")
+    override suspend fun eraseTable()
 
-    @Query("SELECT * FROM Person")
-    override fun getAll(): List<Person>
+    @Query("SELECT * FROM `Person`")
+    suspend fun getAll(): List<Person>
 
-    @Query("SELECT * FROM Person")
+    @Query("SELECT * FROM `Person` WHERE id = :id LIMIT 1")
+    suspend fun getById(id: Int): Person?
+
+    @Query("SELECT * FROM `Person`")
     override fun flowable(): Flowable<List<Person>>
 }

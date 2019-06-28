@@ -14,7 +14,7 @@ interface BaseDao<T> {
      *      affected item
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(item: T): Long
+    suspend fun insert(item: T): Long
 
     /**
      * Insert a collection of items
@@ -23,7 +23,7 @@ interface BaseDao<T> {
      *      of the affected items
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(items: List<T>): List<Long>
+    suspend fun insertAll(items: List<T>): List<Long>
 
     /**
      * Update an item registered
@@ -32,7 +32,7 @@ interface BaseDao<T> {
      *      rows
      */
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(item: T): Int
+    suspend fun update(item: T): Int
 
     /**
      * Update a collection of items
@@ -41,7 +41,7 @@ interface BaseDao<T> {
      *      rows
      */
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateAll(items: List<T>): Int
+    suspend fun updateAll(items: List<T>): Int
 
     /**
      * Remove an item from the given table
@@ -49,7 +49,7 @@ interface BaseDao<T> {
      *      rows
      */
     @Delete
-    fun delete(item: T): Int
+    suspend fun delete(item: T): Int
 
     /**
      * Remove a collection of items
@@ -58,18 +58,12 @@ interface BaseDao<T> {
      *      rows
      */
     @Delete
-    fun deleteAll(items: List<T>): Int
+    suspend fun deleteAll(items: List<T>): Int
 
     /**
      * Remove all items from the given table
      */
-    fun eraseTable(): Unit = Unit
-
-    /**
-     * Get all items stored in the
-     * given table
-     */
-    fun getAll(): List<T> = emptyList()
+    suspend fun eraseTable(): Unit = Unit
 
     /**
      * Get a flowable emitting the

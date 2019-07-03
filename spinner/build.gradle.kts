@@ -27,7 +27,9 @@ kotlin {
                 compileOnly("javax.annotation:javax.annotation-api:1.3.2")
                 api(project(":core"))
 
-                api(AndroidDeps.materialSpinner)
+                implementation(Deps.kotlinStdLib)
+
+                implementation(AndroidDeps.materialSpinner)
             }
         }
 

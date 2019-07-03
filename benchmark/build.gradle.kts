@@ -26,6 +26,11 @@ kotlin {
             dependencies {
                 compileOnly("javax.annotation:javax.annotation-api:1.3.2")
                 api(project(":core"))
+
+                implementation(Deps.arrowCoreData)
+                implementation(Deps.coroutinesRx2)
+
+                implementation(AndroidDeps.timber)
             }
         }
 

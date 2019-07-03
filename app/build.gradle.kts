@@ -19,10 +19,21 @@ dependencies {
     implementation(project(":location"))
     implementation(project(":scheduling"))
 
+    implementation(Deps.arrowCoreData)
+    implementation(Deps.khronos)
+
+    implementation(AndroidDeps.disposer)
+    implementation(AndroidDeps.koinAndroid)
+    implementation(AndroidDeps.materialComponents)
+    implementation(AndroidDeps.materialDialogs)
+    implementation(AndroidDeps.materialDialogsBottomSheets)
+    implementation(AndroidDeps.materialDialogsInput)
+    implementation(AndroidDeps.mvRx)
+    implementation(AndroidDeps.roomKtx)
+    implementation(AndroidDeps.roomRxJava2)
     implementation(AndroidDeps.splittiesLifecycleCoroutines)
     implementation(AndroidDeps.splittiesToast)
-    implementation(AndroidDeps.materialDialogsInput)
-    implementation(AndroidDeps.materialDialogsBottomSheets)
+    implementation(AndroidDeps.workManagerKtx)
 
     AndroidKaptDeps.core.forEach(::kapt)
 }

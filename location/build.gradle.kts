@@ -27,7 +27,12 @@ kotlin {
                 compileOnly("javax.annotation:javax.annotation-api:1.3.2")
                 api(project(":core"))
 
-                api(AndroidDeps.smartLocation)
+                implementation(Deps.arrowCoreData)
+                implementation(Deps.coroutinesRx2)
+
+                implementation(AndroidDeps.smartLocation)
+                implementation(AndroidDeps.splittiesAppctx)
+                implementation(AndroidDeps.splittiesSystemservices)
             }
         }
 

@@ -60,6 +60,10 @@ abstract class BaseTimeoutActivity<DB : ViewDataBinding>(
         }
     }
 
+    /** Called before the timer is started */
+    open fun beforeTimeout() {
+    }
+
     /** Called after the timeout is finished */
     abstract fun onTimeout()
 }

@@ -31,6 +31,7 @@ abstract class BaseTimeoutActivity<DB : ViewDataBinding>(
         super.onCreate(savedInstanceState)
         if (checkAppUpdate) GlobalScope.launch { checkAppUpdates() }
         GlobalScope.launch(Dispatchers.Main) {
+            beforeTimeout()
             delay(timeout.toLong())
             onTimeout()
         }
@@ -61,7 +62,7 @@ abstract class BaseTimeoutActivity<DB : ViewDataBinding>(
     }
 
     /** Called before the timer is started */
-    open fun beforeTimeout() {
+    open suspend fun beforeTimeout() {
     }
 
     /** Called after the timeout is finished */

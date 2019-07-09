@@ -5,11 +5,9 @@ import android.app.AlertDialog
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
-import android.widget.Toast
 import br.com.goncalves.pugnotification.notification.Load
 import br.com.goncalves.pugnotification.notification.PugNotification
 import com.andrognito.flashbar.Flashbar
-import com.github.icarohs7.unoxandroidarch.toplevel.onActivity
 import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
 import com.github.icarohs7.unoxcore.extensions.coroutines.onForeground
 import dmax.dialog.SpotsDialog
@@ -130,15 +128,6 @@ object Messages {
                 .builder()
                 .simple()
                 .build()
-    }
-
-    /** Show a toast in the given context or delegate it to the activity actions stream */
-    fun toast(message: String, duration: Int = Toast.LENGTH_LONG, context: Context? = null) {
-        context
-                ?.let { Toast.makeText(it, message, duration).show() }
-                ?: onActivity {
-                    Toast.makeText(this, message, duration).show()
-                }
     }
 
     /**

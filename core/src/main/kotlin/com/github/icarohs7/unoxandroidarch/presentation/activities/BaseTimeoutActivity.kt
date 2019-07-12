@@ -9,6 +9,7 @@ import com.github.icarohs7.unoxandroidarch.Messages
 import com.github.icarohs7.unoxandroidarch.R
 import com.github.icarohs7.unoxandroidarch.extensions.awaitAppUpdateInfo
 import com.github.icarohs7.unoxandroidarch.extensions.isUpdateAvailable
+import com.github.icarohs7.unoxcore.tryBg
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -29,8 +30,8 @@ abstract class BaseTimeoutActivity<DB : ViewDataBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (checkAppUpdate) GlobalScope.launch { checkAppUpdates() }
         GlobalScope.launch(Dispatchers.Main) {
+            tryBg { checkAppUpdates() }
             beforeTimeout()
             delay(timeout.toLong())
             onTimeout()

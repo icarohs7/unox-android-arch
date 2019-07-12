@@ -57,10 +57,10 @@ class TopLevelKtTest {
         runBlocking {
             isLoading().shouldBeFalse()
             val as1 = async { whileLoading { c1.first(); 1000 } }
-            delay(200)
+            delay(300)
             isLoading().shouldBeTrue()
 
-            c1.offer(1)
+            c1.send(1)
             as1.await() shouldEqual 1000
             isLoading().shouldBeFalse()
         }
@@ -74,10 +74,10 @@ class TopLevelKtTest {
                     }
                 }
             }
-            delay(200)
+            delay(300)
             isLoading().shouldBeTrue()
 
-            c2.offer(1)
+            c2.send(1)
             delay(200)
             as2.await()
             isLoading().shouldBeFalse()

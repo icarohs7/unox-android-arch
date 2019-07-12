@@ -18,13 +18,14 @@ class BaseTimeoutActivityTest {
     fun should_launch_activity() {
         val (controller, activity) = mockActivity<TestBaseTimeoutActivity>()
         controller.start()
-        runBlocking { delay(200) }
+        runBlocking { delay(600) }
         controller.resume()
-        runBlocking { delay(200) }
+        runBlocking { delay(600) }
         controller.pause()
         runBlocking { delay(200) }
         controller.stop()
         runBlocking { delay(200) }
+        activity.onTimeout()
         activity.someVariable shouldEqual 1532
         controller.destroy()
         runBlocking { delay(200) }

@@ -1,5 +1,6 @@
 package com.github.icarohs7.unoxandroidarch.presentation.activities
 
+import android.os.Build
 import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
 import com.github.icarohs7.unoxandroidarch.testutils.TestBaseTimeoutActivity
 import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
@@ -12,7 +13,7 @@ import org.robolectric.annotation.Config
 import se.lovef.assert.v1.shouldEqual
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestApplication::class)
+@Config(application = TestApplication::class, sdk = [Build.VERSION_CODES.O])
 class BaseTimeoutActivityTest {
     @Test
     fun should_launch_activity() {

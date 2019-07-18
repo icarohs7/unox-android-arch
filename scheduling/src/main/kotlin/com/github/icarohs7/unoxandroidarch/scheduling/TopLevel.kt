@@ -4,6 +4,7 @@ import androidx.work.ListenableWorker
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.github.icarohs7.unoxandroidarch.extensions.now
+import splitties.init.appCtx
 import timber.log.Timber
 import java.util.Date
 import java.util.UUID
@@ -38,7 +39,7 @@ fun scheduleOperation(
             .setInitialDelay(interval, TimeUnit.MILLISECONDS)
             .apply { tag?.let(::addTag) }
             .build()
-    WorkManager.getInstance().enqueue(request)
+    WorkManager.getInstance(appCtx).enqueue(request)
 
     Timber.i("Operation scheduled")
     return request.id

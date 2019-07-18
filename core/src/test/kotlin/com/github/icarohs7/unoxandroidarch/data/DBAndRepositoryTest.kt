@@ -1,5 +1,6 @@
 package com.github.icarohs7.unoxandroidarch.data
 
+import android.os.Build
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.github.icarohs7.unoxandroidarch.Injector
@@ -19,11 +20,13 @@ import org.koin.core.context.stopKoin
 import org.koin.core.get
 import org.koin.dsl.module
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import se.lovef.assert.v1.shouldContain
 import se.lovef.assert.v1.shouldEqual
 import se.lovef.assert.v1.shouldNotContain
 
 @RunWith(RobolectricTestRunner::class)
+@Config(sdk = [Build.VERSION_CODES.O])
 class DBAndRepositoryTest {
     private val testRepository by lazy { Injector.get<TestRepository>() }
 

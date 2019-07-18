@@ -1,6 +1,7 @@
 package com.github.icarohs7.unoxandroidarch
 
 import android.content.Intent
+import android.os.Build
 import androidx.core.net.toUri
 import androidx.core.text.buildSpannedString
 import arrow.core.Try
@@ -33,7 +34,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestApplication::class)
+@Config(application = TestApplication::class, sdk = [Build.VERSION_CODES.O])
 class TopLevelKtTest {
     private val loadableState by lazy { Injector.get<LoadableState>() }
 

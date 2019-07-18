@@ -40,7 +40,6 @@ kotlin {
                 implementation(AndroidDeps.googlePlayCore)
                 implementation(AndroidDeps.koinAndroid)
                 implementation(AndroidDeps.materialComponents)
-                implementation(AndroidDeps.materialDialogs)
                 implementation(AndroidDeps.mvRx)
                 implementation(AndroidDeps.picasso)
                 implementation(AndroidDeps.pugNotification)

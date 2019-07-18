@@ -28,6 +28,7 @@ kotlin {
                 api(project(":core"))
 
                 implementation(AndroidDeps.timber)
+                implementation(AndroidDeps.splittiesAppctx)
                 implementation(AndroidDeps.workManagerKtx)
             }
         }

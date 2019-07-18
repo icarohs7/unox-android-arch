@@ -3,26 +3,20 @@ package com.github.icarohs7.unoxandroidarch.extensions
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.PendingIntent
-import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.format.DateFormat
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import arrow.core.Tuple2
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.customview.customView
 import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
-import com.github.icarohs7.unoxandroidarch.databinding.DialogYesNoBinding
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import splitties.systemservices.activityManager
-import splitties.systemservices.layoutInflater
 import java.util.Calendar
 import kotlin.reflect.KClass
 
@@ -68,60 +62,6 @@ fun Context.dialogDatePicker(listener: (year: Int, month: Int, day: Int) -> Unit
             year,
             month,
             day)
-}
-
-/**
- * Return a time picker dialog
- */
-fun Context.dialogTimePicker(listener: (hour: Int, minute: Int) -> Unit): TimePickerDialog {
-    val c = Calendar.getInstance()
-    val hour = c.get(Calendar.HOUR_OF_DAY)
-    val minute = c.get(Calendar.MINUTE)
-
-    return TimePickerDialog(
-            this,
-            { _, h, m -> listener(h, m) },
-            hour,
-            minute,
-            DateFormat.is24HourFormat(this))
-}
-
-/** Show a confirm dialog */
-fun Context.showConfirmDialog(
-        title: String = "",
-        message: String = "",
-        builder: DialogYesNoBinding.(MaterialDialog) -> Unit
-) {
-    val (binding, dialog) = newConfirmDialog(title, message)
-    binding.builder(dialog)
-}
-
-/** Show a confirm dialog */
-fun Context.showConfirmDialog(
-        title: String = "",
-        message: String = "",
-        yesHandler: () -> Unit
-) {
-    val (binding, dialog) = newConfirmDialog(title, message)
-    binding.setYesHandler {
-        yesHandler()
-        dialog.dismiss()
-    }
-}
-
-/** Helper used to create an instance of the dialog */
-internal fun Context.newConfirmDialog(
-        title: String = "",
-        message: String = ""
-): Tuple2<DialogYesNoBinding, MaterialDialog> {
-    val binding = DialogYesNoBinding.inflate(layoutInflater)
-    binding.title = title
-    binding.message = message
-    val dialog = MaterialDialog(this)
-            .customView(view = binding.linearLayoutDialogyesno, noVerticalPadding = true)
-            .apply { show() }
-    binding.setNoHandler { dialog.dismiss() }
-    return Tuple2(binding, dialog)
 }
 
 /** @return A pending intent used to start the given activity */

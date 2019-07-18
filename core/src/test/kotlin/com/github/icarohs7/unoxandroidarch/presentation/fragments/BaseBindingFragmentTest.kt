@@ -1,5 +1,6 @@
 package com.github.icarohs7.unoxandroidarch.presentation.fragments
 
+import android.os.Build
 import com.github.icarohs7.unoxandroidarch.R
 import com.github.icarohs7.unoxandroidarch.databinding.MockViewBinding
 import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
@@ -11,7 +12,7 @@ import org.robolectric.annotation.Config
 import se.lovef.assert.v1.shouldEqual
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestApplication::class)
+@Config(application = TestApplication::class, sdk = [Build.VERSION_CODES.O])
 class BaseBindingFragmentTest {
     @Test
     fun `should start fragment`() {

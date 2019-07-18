@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    defaultSettings()
+    defaultSettings(project)
 }
 
 kotlin {

@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    defaultSettings()
+    defaultSettings(project)
     defaultConfig {
         applicationId = "com.github.icarohs7.app"
         versionCode = 1

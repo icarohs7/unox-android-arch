@@ -1,70 +1,14 @@
 package com.github.icarohs7.unoxandroidarch
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import br.com.goncalves.pugnotification.notification.Load
 import br.com.goncalves.pugnotification.notification.PugNotification
 import com.andrognito.flashbar.Flashbar
-import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
-import com.github.icarohs7.unoxcore.extensions.coroutines.onForeground
-import dmax.dialog.SpotsDialog
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 object Messages {
-    /**
-     * @return An instance of a loading dialog
-     */
-    fun newLoadingDialog(context: Context, message: String): AlertDialog {
-        return SpotsDialog
-                .Builder()
-                .setContext(context)
-                .setMessage(message)
-                .build()
-    }
-
-    /**
-     * Execute an operation, starting a loading dialog before the beginning or after
-     * some period of time defined by [timeout] and dismissing it after the operation
-     * is done or the [maxTime] in miliseconds has elapsed
-     * @return The return value of the [block] invocation
-     */
-    suspend fun <T> withinLoadingDialog(
-            context: Context,
-            message: String,
-            timeout: Int = 0,
-            maxTime: Int = -1,
-            block: suspend () -> T
-    ): T {
-        return onForeground {
-            val dialog = newLoadingDialog(context, message)
-
-            val delayedLaunch = CoroutineScope(coroutineContext).launch {
-                delay(timeout.toLong())
-                dialog.show()
-            }
-
-            val delayedMaxTime = CoroutineScope(coroutineContext).launch {
-                if (maxTime < 0 || maxTime < timeout) return@launch
-                delay(maxTime.toLong())
-                dialog.dismiss()
-            }
-
-            try {
-                onBackground { block() }
-            } finally {
-                delayedLaunch.cancelAndJoin()
-                delayedMaxTime.cancelAndJoin()
-                dialog.dismiss()
-            }
-        }
-    }
-
     /** Show a flashbar snackbar */
     fun flashBar(
             context: Activity,

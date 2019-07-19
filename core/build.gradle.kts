@@ -55,8 +55,6 @@ kotlin {
                 implementation(AndroidDeps.splittiesResources)
                 implementation(AndroidDeps.splittiesSystemservices)
                 implementation(AndroidDeps.splittiesViews)
-                implementation(AndroidDeps.splittiesViewsAppcompat)
-                implementation(AndroidDeps.spotsDialog)
                 implementation(AndroidDeps.stateViews)
                 implementation(AndroidDeps.timber)
                 api(AndroidDeps.unoxCoreAndroid)

@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.buildSpannedString
-import arrow.core.Failure
 import arrow.core.Try
 import arrow.core.getOrElse
 import com.github.icarohs7.unoxandroidarch.AppEventBus
@@ -18,13 +17,10 @@ import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
 import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
 import com.github.icarohs7.unoxcore.extensions.toIntOr
 import com.github.icarohs7.unoxcore.extensions.valueOr
-import com.github.icarohs7.unoxcore.tryBg
-import kotlinx.coroutines.CoroutineScope
 import splitties.init.appCtx
 import splitties.systemservices.connectivityManager
 import timber.log.Timber
 import top.defaults.drawabletoolbox.DrawableBuilder
-import java.net.ConnectException
 import java.net.InetSocketAddress
 import java.net.Socket
 
@@ -36,7 +32,11 @@ val matchParent
 val wrapContent
     get() = ViewGroup.LayoutParams.WRAP_CONTENT
 
-/** Current orientation of the phone */
+/**
+ * Current orientation of the phone
+ * @see Configuration.ORIENTATION_LANDSCAPE
+ * @see Configuration.ORIENTATION_PORTRAIT
+ */
 val appOrientation: Int
     get() = appCtx.resources.configuration.orientation
 
@@ -101,16 +101,6 @@ inline fun <T> safeRun(block: () -> T): T? {
         Timber.tag("UnoxAndroidArch").e(e)
         null
     }
-}
-
-/**
- * Invoke the given side effect causing operation
- * and return its result if there's internet connection,
- * otherwise fail and return a [Failure]
- */
-suspend fun <T> connectedTryBg(block: suspend CoroutineScope.() -> T): Try<T> {
-    if (!appHasInternetConnection()) return Failure(ConnectException())
-    return tryBg(block)
 }
 
 /**

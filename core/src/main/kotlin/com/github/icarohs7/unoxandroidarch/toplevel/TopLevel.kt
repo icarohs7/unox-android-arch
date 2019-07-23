@@ -3,7 +3,6 @@ package com.github.icarohs7.unoxandroidarch.toplevel
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.net.Uri
 import android.text.Spanned
@@ -137,13 +136,4 @@ inline fun <reified T> Intent(packageContext: Context): Intent {
 @Suppress("FunctionName")
 inline fun <reified T> Intent(action: String, uri: Uri, packageContext: Context): Intent {
     return Intent(action, uri, packageContext, T::class.java)
-}
-
-/**
- * Create a [ColorStateList] from
- * a color int
- */
-@Suppress("FunctionName", "NOTHING_TO_INLINE")
-inline fun ColorStateList(@ColorInt color: Int): ColorStateList {
-    return ColorStateList.valueOf(color)
 }

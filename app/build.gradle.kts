@@ -18,6 +18,7 @@ android {
 dependencies {
     implementation(project(":location"))
     implementation(project(":scheduling"))
+    implementation(project(":notification"))
 
     implementation(Deps.arrowCoreData)
     implementation(Deps.khronos)

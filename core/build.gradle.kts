@@ -45,7 +45,6 @@ kotlin {
                 implementation(AndroidDeps.materialComponents)
                 implementation(AndroidDeps.mvRx)
                 implementation(AndroidDeps.picasso)
-                implementation(AndroidDeps.pugNotification)
                 implementation(AndroidDeps.quantum)
                 implementation(AndroidDeps.quantumRx)
                 implementation(AndroidDeps.recyclerView)

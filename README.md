@@ -71,6 +71,9 @@ dependencies {
     
     //Helpers and extensions around Material Spinner(https://github.com/jaredrummler/MaterialSpinner/)
     implementation "com.github.icarohs7:unox-android-arch-spinner:$unoxandroidarch_version"
+    
+    //Push notification helpers, wrapping the library Pug Notification(https://github.com/halysongoncalves/Pugnotification)
+    implementation "com.github.icarohs7:unox-android-arch-notification:$unoxandroidarch_version"
 }
 ```
 

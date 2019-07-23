@@ -9,6 +9,8 @@ plugins {
     defaults.`android-module`
 }
 
+useExperimentalFeatures()
+
 android {
     defaultSettings(project)
 }

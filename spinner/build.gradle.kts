@@ -13,6 +13,8 @@ android {
     defaultSettings(project)
 }
 
+useExperimentalFeatures()
+
 kotlin {
     val libraryName = "unox-android-arch-spinner"
     setupMetaInfoNameOnAll(rootProject, project)

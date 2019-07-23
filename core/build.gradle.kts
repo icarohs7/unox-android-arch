@@ -9,6 +9,8 @@ plugins {
     defaults.`android-module`
 }
 
+useExperimentalFeatures()
+
 android {
     defaultSettings(project)
 }
@@ -29,6 +31,7 @@ kotlin {
                 implementation(Deps.arrowCoreData)
                 implementation(Deps.coroutinesRx2)
                 implementation(Deps.khronos)
+                implementation(Deps.rxJava2)
                 implementation(Deps.rxRelay)
 
                 implementation(AndroidDeps.bungee)
@@ -50,7 +53,6 @@ kotlin {
                 implementation(AndroidDeps.roomRxJava2)
                 implementation(AndroidDeps.spinKit)
                 implementation(AndroidDeps.splittiesAppctx)
-                implementation(AndroidDeps.splittiesMainhandler)
                 implementation(AndroidDeps.splittiesPermissions)
                 implementation(AndroidDeps.splittiesResources)
                 implementation(AndroidDeps.splittiesSystemservices)

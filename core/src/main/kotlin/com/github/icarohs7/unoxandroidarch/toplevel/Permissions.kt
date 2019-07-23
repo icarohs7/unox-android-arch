@@ -24,7 +24,6 @@ internal suspend fun requestPermissionsInternal(
         vararg permissions: String
 ): Boolean {
     return permissions.all {
-        requestPermission(fragManager, lifecycle,
-                it) == PermissionRequestResult.Granted
+        requestPermission(fragManager, lifecycle, it) == PermissionRequestResult.Granted
     }
 }

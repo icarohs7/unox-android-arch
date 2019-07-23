@@ -1,9 +1,11 @@
 package com.github.icarohs7.unoxandroidarch.data
 
+import android.os.Build
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.github.icarohs7.unoxandroidarch.Injector
 import com.github.icarohs7.unoxandroidarch.data.db.TestDatabase
+import com.github.icarohs7.unoxandroidarch.data.db.flowable
 import com.github.icarohs7.unoxandroidarch.data.entities.TestClass
 import com.github.icarohs7.unoxandroidarch.data.repository.TestRepository
 import io.reactivex.subscribers.TestSubscriber
@@ -18,11 +20,13 @@ import org.koin.core.context.stopKoin
 import org.koin.core.get
 import org.koin.dsl.module
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import se.lovef.assert.v1.shouldContain
 import se.lovef.assert.v1.shouldEqual
 import se.lovef.assert.v1.shouldNotContain
 
 @RunWith(RobolectricTestRunner::class)
+@Config(sdk = [Build.VERSION_CODES.O])
 class DBAndRepositoryTest {
     private val testRepository by lazy { Injector.get<TestRepository>() }
 
@@ -78,7 +82,7 @@ class DBAndRepositoryTest {
         assertItemsNotStored(newobj2)
         assertItemsStored(oldobj3)
         assertItemsNotStored(newobj3)
-        runBlocking { testRepository.updateAll(newobj2, newobj3) }
+        runBlocking { testRepository.updateAll(listOf(newobj2, newobj3)) }
         assertItemsStored(newobj2)
         assertItemsNotStored(oldobj2)
         assertItemsStored(newobj3)
@@ -100,7 +104,7 @@ class DBAndRepositoryTest {
         assertItemsNotStored(oldobj1)
 
         assertItemsStored(oldobj2, oldobj3)
-        runBlocking { testRepository.deleteAll(oldobj2, oldobj3) }
+        runBlocking { testRepository.deleteAll(listOf(oldobj2, oldobj3)) }
         assertStoredItemCount(0)
         assertItemsNotStored(oldobj2, oldobj3)
     }
@@ -171,7 +175,7 @@ class DBAndRepositoryTest {
     private fun insertMockData() {
         assertStoredItemCount(0)
         runBlocking { testRepository.insert(TestClass(1, "Omai wa mou shindeiru!")) }
-        runBlocking { testRepository.insertAll(TestClass(2, "NANI!?"), TestClass(3, "ZA WARUDO!")) }
+        runBlocking { testRepository.insertAll(listOf(TestClass(2, "NANI!?"), TestClass(3, "ZA WARUDO!"))) }
     }
 
     private fun assertItemsStored(vararg items: TestClass) {

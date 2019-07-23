@@ -5,10 +5,10 @@ import androidx.databinding.ViewDataBinding
 import arrow.core.Try
 import arrow.core.Tuple2
 import arrow.core.getOrElse
-import com.github.icarohs7.unoxandroidarch.Messages
 import com.github.icarohs7.unoxandroidarch.R
 import com.github.icarohs7.unoxandroidarch.extensions.awaitAppUpdateInfo
 import com.github.icarohs7.unoxandroidarch.extensions.isUpdateAvailable
+import com.github.icarohs7.unoxcore.tryBg
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -29,8 +29,9 @@ abstract class BaseTimeoutActivity<DB : ViewDataBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (checkAppUpdate) GlobalScope.launch { checkAppUpdates() }
         GlobalScope.launch(Dispatchers.Main) {
+            tryBg { checkAppUpdates() }
+            beforeTimeout()
             delay(timeout.toLong())
             onTimeout()
         }
@@ -49,15 +50,10 @@ abstract class BaseTimeoutActivity<DB : ViewDataBinding>(
     }
 
     open suspend fun onAppHasUpdate(appUpdateInfo: AppUpdateInfo) {
-        Messages.defaultVibratingNotification(
-                ctx = this,
-                title = str(R.string.there_is_an_update_available),
-                message = str(R.string.the_app_can_be_updated).format(str(R.string.app_name)),
-                bigMessage = str(R.string.the_app_can_be_updated).format(str(R.string.app_name))
-        ) {
-            smallIcon(R.drawable.ic_system_update_black_24dp)
-                    .largeIcon(R.drawable.ic_system_update_black_24dp)
-        }
+    }
+
+    /** Called before the timer is started */
+    open suspend fun beforeTimeout() {
     }
 
     /** Called after the timeout is finished */

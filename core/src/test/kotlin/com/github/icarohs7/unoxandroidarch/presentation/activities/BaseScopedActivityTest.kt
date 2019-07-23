@@ -1,5 +1,6 @@
 package com.github.icarohs7.unoxandroidarch.presentation.activities
 
+import android.os.Build
 import com.github.icarohs7.unoxandroidarch.testutils.TestActivity
 import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
 import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
@@ -13,7 +14,7 @@ import se.lovef.assert.v1.shouldBeFalse
 import se.lovef.assert.v1.shouldBeTrue
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestApplication::class)
+@Config(application = TestApplication::class, sdk = [Build.VERSION_CODES.O])
 class BaseScopedActivityTest {
     @Test
     fun `should cancel coroutines when destroyed`() {

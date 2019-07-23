@@ -1,5 +1,6 @@
 package com.github.icarohs7.unoxandroidarch.extensions
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
 import org.junit.Test
@@ -10,7 +11,7 @@ import org.robolectric.annotation.Config
 import se.lovef.assert.v1.shouldEqual
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestApplication::class)
+@Config(application = TestApplication::class, sdk = [Build.VERSION_CODES.O])
 class LifecycleOwnerExtensionsKtTest {
     @Test
     fun should_add_observer_to_lifecycle_owner_using_dsl() {

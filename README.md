@@ -62,6 +62,18 @@ dependencies {
     
     //Location helpers
     implementation "com.github.icarohs7:unox-android-arch-location:$unoxandroidarch_version"
+    
+    //Task scheduling helpers
+    implementation "com.github.icarohs7:unox-android-arch-scheduling:$unoxandroidarch_version"
+    
+    //Execution time helpers
+    implementation "com.github.icarohs7:unox-android-arch-benchmark:$unoxandroidarch_version"
+    
+    //Helpers and extensions around Material Spinner(https://github.com/jaredrummler/MaterialSpinner/)
+    implementation "com.github.icarohs7:unox-android-arch-spinner:$unoxandroidarch_version"
+    
+    //Push notification helpers, wrapping the library Pug Notification(https://github.com/halysongoncalves/Pugnotification)
+    implementation "com.github.icarohs7:unox-android-arch-notification:$unoxandroidarch_version"
 }
 ```
 
@@ -76,5 +88,14 @@ dependencies {
     
     //Location helpers
     implementation("com.github.icarohs7:unox-android-arch-location:$unoxandroidarch_version")
+    
+    //Task scheduling helpers
+    implementation("com.github.icarohs7:unox-android-arch-scheduling:$unoxandroidarch_version")
+        
+    //Execution time helpers
+    implementation("com.github.icarohs7:unox-android-arch-benchmark:$unoxandroidarch_version")
+    
+    //Helpers and extensions around Material Spinner(https://github.com/jaredrummler/MaterialSpinner/)
+    implementation("com.github.icarohs7:unox-android-arch-spinner:$unoxandroidarch_version")
 }
 ```

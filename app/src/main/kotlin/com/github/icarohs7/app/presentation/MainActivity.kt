@@ -20,7 +20,6 @@ import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
 import com.github.icarohs7.unoxandroidarch.extensions.load
 import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxandroidarch.extensions.requestPermissions
-import com.github.icarohs7.unoxandroidarch.extensions.showConfirmDialog
 import com.github.icarohs7.unoxandroidarch.extensions.startActivity
 import com.github.icarohs7.unoxandroidarch.location.getCurrentLocation
 import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseBindingActivity
@@ -95,8 +94,13 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     }
 
     private fun scheduleToastIn5() {
-        showConfirmDialog("Confirm Toast", "Show toast in 5?") { ->
-            scheduleOperation<ToastWorker>(now + 5.seconds, "workToDo")
+        MaterialDialog(this).show {
+            title(text = "Confirm Toast")
+            message(text = "Show toast in 5?")
+            negativeButton { }
+            positiveButton {
+                scheduleOperation<ToastWorker>(now + 5.seconds, "workToDo")
+            }
         }
     }
 
@@ -105,7 +109,7 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     }
 
     private fun cancelTasks() {
-        WorkManager.getInstance().cancelAllWorkByTag("workToDo")
+        WorkManager.getInstance(this).cancelAllWorkByTag("workToDo")
         toast("Tasks cancelled")
     }
 

@@ -1,5 +1,6 @@
 package com.github.icarohs7.unoxandroidarch.extensions
 
+import android.os.Build
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.view.contains
@@ -15,7 +16,7 @@ import se.lovef.assert.v1.shouldBeFalse
 import se.lovef.assert.v1.shouldBeTrue
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestApplication::class)
+@Config(application = TestApplication::class, sdk = [Build.VERSION_CODES.O])
 class ViewExtensionsKtTest {
     @Test
     fun should_remove_view_from_parent() {

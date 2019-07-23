@@ -6,5 +6,5 @@ import com.github.icarohs7.unoxandroidarch.data.entities.TestClass
 
 @Database(entities = [TestClass::class], version = 1)
 abstract class TestDatabase : RoomDatabase() {
-    abstract fun testDao(): TestDao
+    abstract fun testDao(): TestClassDao
 }

@@ -2,8 +2,6 @@ plugins {
     kotlin("multiplatform")
     kotlin("kapt")
     id("com.android.library")
-    id("kotlinx-serialization")
-    id("androidx.navigation.safeargs.kotlin")
     id("jacoco")
     id("maven-publish")
     id("com.jfrog.bintray")
@@ -11,13 +9,16 @@ plugins {
     defaults.`android-module`
 }
 
+useExperimentalFeatures()
+
 android {
-    defaultSettings()
+    defaultSettings(project)
 }
 
 kotlin {
     val libraryName = "unox-android-arch-location"
-    setupMetadataTarget("$libraryName-metadata")
+    setupMetaInfoNameOnAll(rootProject, project)
+    setupMetadataTarget(rootProject, project, "$libraryName-metadata")
     setupAndroidTarget(rootProject, project, libraryName)
 
     @Suppress("UNUSED_VARIABLE")
@@ -28,7 +29,12 @@ kotlin {
                 compileOnly("javax.annotation:javax.annotation-api:1.3.2")
                 api(project(":core"))
 
-                api(AndroidDeps.smartLocation)
+                implementation(Deps.arrowCoreData)
+                implementation(Deps.coroutinesRx2)
+
+                implementation(AndroidDeps.smartLocation)
+                implementation(AndroidDeps.splittiesAppctx)
+                implementation(AndroidDeps.splittiesSystemservices)
             }
         }
 

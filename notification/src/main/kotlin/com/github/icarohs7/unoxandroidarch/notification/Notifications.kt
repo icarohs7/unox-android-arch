@@ -1,34 +1,19 @@
-package com.github.icarohs7.unoxandroidarch
+package com.github.icarohs7.unoxandroidarch.notification
 
-import android.app.Activity
-import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import br.com.goncalves.pugnotification.notification.Load
 import br.com.goncalves.pugnotification.notification.PugNotification
-import com.andrognito.flashbar.Flashbar
+import com.github.icarohs7.unoxandroidarch.R
 
-object Messages {
-    /** Show a flashbar snackbar */
-    fun flashBar(
-            context: Activity,
-            message: String,
-            duration: Int = 2000,
-            gravity: Flashbar.Gravity = Flashbar.Gravity.TOP,
-            customizer: Flashbar.Builder.() -> Flashbar.Builder = { this }
-    ) {
-        Flashbar.Builder(context)
-                .gravity(gravity)
-                .duration(duration.toLong())
-                .message(message)
-                .messageSizeInSp(16f)
-                .customizer()
-                .build()
-                .show()
+object Notifications {
+    /** Build a notification using a fluent api */
+    fun Builder(context: Context): Load {
+        return PugNotification.with(context).load()
     }
 
     /** Emit a progress push notification */
-    fun progressNotification(
+    fun progress(
             context: Context,
             title: String,
             message: String,
@@ -36,8 +21,7 @@ object Messages {
             maxProgress: Int,
             identifier: Int = 9
     ) {
-        PugNotification.with(context)
-                .load()
+        Builder(context)
                 .title(title)
                 .message(message)
                 .identifier(identifier)
@@ -49,7 +33,7 @@ object Messages {
     }
 
     /** Emit a text push notification */
-    fun textNotification(
+    fun simple(
             context: Context,
             title: String,
             message: String,
@@ -59,8 +43,7 @@ object Messages {
             identifier: Int = 9,
             builder: Load.() -> Load = { this }
     ) {
-        PugNotification.with(context)
-                .load()
+        Builder(context)
                 .title(title)
                 .message(message)
                 .apply { bigMessage?.let { bigTextStyle(it) } }
@@ -79,7 +62,7 @@ object Messages {
      * that when clicked is closed and takes the user
      * to the SplashActivity of the application
      */
-    fun defaultVibratingNotification(
+    fun vibrating(
             ctx: Context,
             title: String,
             message: String,
@@ -88,7 +71,7 @@ object Messages {
             identifier: Int = 9,
             builder: Load.() -> Load = { this }
     ) {
-        textNotification(
+        simple(
                 context = ctx,
                 title = title,
                 message = message,
@@ -97,7 +80,7 @@ object Messages {
                 identifier = identifier,
                 pendingIntent = activityPendingIntent
         ) {
-            flags(Notification.DEFAULT_ALL)
+            flags(android.app.Notification.DEFAULT_ALL)
             builder()
         }
     }

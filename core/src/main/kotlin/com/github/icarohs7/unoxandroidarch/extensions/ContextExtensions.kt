@@ -9,13 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import arrow.core.Tuple2
 import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
-import com.google.android.play.core.appupdate.AppUpdateInfo
-import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.UpdateAvailability
 import splitties.systemservices.activityManager
 import java.util.Calendar
 import kotlin.reflect.KClass
@@ -93,38 +87,4 @@ fun Context.openDialer(phone: String) {
     val intent = Intent(Intent.ACTION_DIAL)
     intent.data = Uri.parse("tel:$phone")
     startActivity(intent)
-}
-
-/**
- * Get the update info of the current app from
- * google play
- */
-suspend fun Context.awaitAppUpdateInfo(): Tuple2<AppUpdateManager, AppUpdateInfo> {
-    val manager = AppUpdateManagerFactory.create(this)
-    return Tuple2(manager, manager.appUpdateInfo.await())
-}
-
-/**
- * Whether the current app has updates available
- * for the google play version
- */
-suspend fun Context.isUpdateAvailable(appUpdateInfo: AppUpdateInfo? = null): Boolean {
-    val info = appUpdateInfo ?: awaitAppUpdateInfo().b
-    return info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-}
-
-/**
- * Check if the app has updates available and can be use
- * the in-app update feature and if possible, start the
- * update flow
- */
-suspend fun Activity.startImmediateUpdateFlowIfAvailable(
-        requestCode: Int,
-        managerAndInfo: Tuple2<AppUpdateManager, AppUpdateInfo>? = null
-) {
-    val (manager, info) = managerAndInfo ?: awaitAppUpdateInfo()
-    val hasUpdate = isUpdateAvailable(info)
-    if (hasUpdate && info.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-        manager.startUpdateFlowForResult(info, AppUpdateType.IMMEDIATE, this, requestCode)
-    }
 }

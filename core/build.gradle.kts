@@ -40,7 +40,6 @@ kotlin {
                 implementation(AndroidDeps.flashbar)
                 implementation(AndroidDeps.flexboxLayout)
                 implementation(AndroidDeps.fragmentKtx)
-                implementation(AndroidDeps.googlePlayCore)
                 implementation(AndroidDeps.koinAndroid)
                 implementation(AndroidDeps.materialComponents)
                 implementation(AndroidDeps.mvRx)

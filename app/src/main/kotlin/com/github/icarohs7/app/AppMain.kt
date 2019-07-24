@@ -18,7 +18,7 @@ class AppMain : Application() {
     }
 
     private fun onCreateKoinModules(): List<Module> = listOf(module {
-        val database = buildDatabase<AppDatabase>().build()
+        val database = buildDatabase<AppDatabase>(dbFileName = "app.db").build()
 
         single { database }
         single { database.personDao() }

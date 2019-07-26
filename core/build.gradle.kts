@@ -47,8 +47,6 @@ kotlin {
                 implementation(AndroidDeps.quantum)
                 implementation(AndroidDeps.quantumRx)
                 implementation(AndroidDeps.recyclerView)
-                implementation(AndroidDeps.roomKtx)
-                implementation(AndroidDeps.roomRxJava2)
                 implementation(AndroidDeps.spinKit)
                 implementation(AndroidDeps.splittiesAppctx)
                 implementation(AndroidDeps.splittiesPermissions)
@@ -73,11 +71,6 @@ kotlin {
             }
         }
     }
-}
-
-dependencies {
-    AndroidKaptDeps.core.forEach { "kapt"(it) }
-    AndroidKaptDeps.core.forEach { "kaptTest"(it) }
 }
 
 setupBintrayPublish(bintray, "metadata", "androidDebug")

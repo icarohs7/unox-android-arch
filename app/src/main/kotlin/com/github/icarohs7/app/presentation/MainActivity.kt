@@ -10,12 +10,9 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.input.input
 import com.github.icarohs7.app.R
-import com.github.icarohs7.app.data.db.PersonDao
-import com.github.icarohs7.app.data.entities.Person
 import com.github.icarohs7.app.databinding.ActivityMainBinding
 import com.github.icarohs7.app.domain.NotificationWorker
 import com.github.icarohs7.app.domain.ToastWorker
-import com.github.icarohs7.unoxandroidarch.Injector
 import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
 import com.github.icarohs7.unoxandroidarch.extensions.load
 import com.github.icarohs7.unoxandroidarch.extensions.now
@@ -25,21 +22,14 @@ import com.github.icarohs7.unoxandroidarch.location.getCurrentLocation
 import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseBindingActivity
 import com.github.icarohs7.unoxandroidarch.scheduling.scheduleOperation
 import com.github.icarohs7.unoxandroidarch.toplevel.appHasInternetConnection
-import com.github.icarohs7.unoxcore.extensions.coroutines.onBackground
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.sellmair.disposer.disposeBy
-import io.sellmair.disposer.onDestroy
 import khronos.plus
 import khronos.seconds
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.core.inject
 import splitties.toast.toast
 import kotlin.system.measureTimeMillis
 
 @SuppressLint("SetTextI18n")
 class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
-    private val personDao: PersonDao by Injector.inject()
 
     override fun onBindingCreated(savedInstanceState: Bundle?) {
         super.onBindingCreated(savedInstanceState)
@@ -50,7 +40,6 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     private fun render() {
         launch {
             setupBinding()
-            launch { showDatabase() }
         }
     }
 
@@ -72,25 +61,6 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
             Current location is: $loc
             Time to get: ${time}ms
         """.trimIndent()
-    }
-
-    private suspend fun showDatabase(): Unit = with(personDao) {
-        personDao.flowable().observeOn(AndroidSchedulers.mainThread()).subscribe {
-            binding.txtDatabase.text = it.joinToString(System.lineSeparator())
-        }.disposeBy(onDestroy)
-
-        onBackground {
-            while (true) {
-                eraseTable()
-                delay(500)
-                insert(Person(name = "Icaro"))
-                delay(500)
-                insert(Person(name = "Hugo"))
-                delay(500)
-                insert(Person(name = "Carlos"))
-                delay(500)
-            }
-        }
     }
 
     private fun scheduleToastIn5() {

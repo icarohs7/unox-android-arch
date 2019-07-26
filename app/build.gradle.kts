@@ -30,8 +30,6 @@ dependencies {
     implementation(AndroidDeps.materialDialogsBottomSheets)
     implementation(AndroidDeps.materialDialogsInput)
     implementation(AndroidDeps.mvRx)
-    implementation(AndroidDeps.roomKtx)
-    implementation(AndroidDeps.roomRxJava2)
     implementation(AndroidDeps.splittiesLifecycleCoroutines)
     implementation(AndroidDeps.splittiesToast)
     implementation(AndroidDeps.workManagerKtx)

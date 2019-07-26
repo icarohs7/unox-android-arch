@@ -50,11 +50,6 @@ kotlin {
     }
 }
 
-dependencies {
-    AndroidKaptDeps.core.forEach { "kapt"(it) }
-    AndroidKaptDeps.core.forEach { "kaptTest"(it) }
-}
-
 setupBintrayPublish(bintray, "metadata", "androidDebug")
 
 setupJacoco {

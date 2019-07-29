@@ -55,4 +55,18 @@ class AppEventBusTest {
 
         async1.await() shouldEqual 1532
     }
+
+    @Test
+    fun `should not cache last emission`() {
+        var number1 = 0
+        var number2 = 0
+        onActivity { number1 = 1532 }
+
+        val (controller, _) = mockActivity<TestActivity>()
+        controller.resume()
+
+        number1 shouldEqual 0
+        onActivity { number2 = 1532 }
+        number2 shouldEqual 1532
+    }
 }

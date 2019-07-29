@@ -3,13 +3,11 @@ package com.github.icarohs7.unoxandroidarch.toplevel
 import arrow.core.Failure
 import arrow.core.Success
 import arrow.core.Try
-import com.github.icarohs7.unoxandroidarch.Injector
-import com.github.icarohs7.unoxandroidarch.state.LoadableState
+import com.github.icarohs7.unoxandroidarch.state.LoadingStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.withContext
-import org.koin.core.get
 import kotlin.coroutines.CoroutineContext
 
 @Suppress("unused")
@@ -39,8 +37,7 @@ suspend fun <T> whileLoading(context: CoroutineContext = LoadingDispatcher, fn: 
  * to true
  */
 fun startLoading() {
-    val stateManager: LoadableState = Injector.get()
-    stateManager.toggleLoadingTo(true)
+    LoadingStore.toggleLoading(true)
 }
 
 /**
@@ -48,6 +45,5 @@ fun startLoading() {
  * to false
  */
 fun stopLoading() {
-    val stateManager: LoadableState = Injector.get()
-    stateManager.toggleLoadingTo(false)
+    LoadingStore.toggleLoading(false)
 }

@@ -30,7 +30,8 @@ kotlin {
                 api(project(":core"))
 
                 implementation(Deps.arrowCoreData)
-                implementation(Deps.coroutinesRx2)
+                implementation(Deps.coroutinesCore)
+                implementation(Deps.kotlinStdLib)
 
                 implementation(AndroidDeps.smartLocation)
                 implementation(AndroidDeps.splittiesAppctx)

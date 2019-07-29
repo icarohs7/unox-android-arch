@@ -3,12 +3,9 @@ package com.github.icarohs7.unoxandroidarch
 import android.content.Context
 import androidx.annotation.AnimRes
 import com.github.icarohs7.unoxandroidarch.domain.BungeeAnim
-import com.github.icarohs7.unoxandroidarch.state.LoadableState
 import com.github.icarohs7.unoxcore.UnoxCore
 import com.github.icarohs7.unoxcore.delegates.mutableLazy
 import kotlinx.coroutines.Dispatchers
-import org.koin.core.context.loadKoinModules
-import org.koin.dsl.module
 import spencerstudios.com.bungeelib.Bungee
 import timber.log.Timber
 
@@ -21,10 +18,6 @@ object UnoxAndroidArch {
             foregroundDispatcher = Dispatchers.Main
             logger = { Timber.tag("UnoxCore").i("$it") }
         }
-
-        loadKoinModules(module {
-            single { LoadableState.create() }
-        })
     }
 
     /**

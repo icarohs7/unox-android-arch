@@ -17,7 +17,7 @@ abstract class BaseSplashNxActivity(
     @CallSuper
     override fun onBindingCreated(savedInstanceState: Bundle?) {
         super.onBindingCreated(savedInstanceState)
-        addOnLoadingListener(::toggleLoading)
+        addOnLoadingListener { toggleLoading(it) }
         binding.txtVersion.text = version
         binding.imgLogo.alpha = 0f
         binding.imgLogo.animateFadeIn((timeout).toLong())

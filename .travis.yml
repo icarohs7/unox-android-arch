@@ -37,6 +37,7 @@ script:
   - ./gradlew -p benchmark -Pcoverage clean build jacocoTestReport -x lint --stacktrace
   - ./gradlew -p spinner -Pcoverage clean build jacocoTestReport -x lint --stacktrace
   - ./gradlew -p notification -Pcoverage clean build jacocoTestReport -x lint --stacktrace
+  - ./gradlew -p rx -Pcoverage clean build jacocoTestReport -x lint --stacktrace
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

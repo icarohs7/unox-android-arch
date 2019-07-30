@@ -32,7 +32,6 @@ kotlin {
                 implementation(Deps.coroutinesCore)
                 implementation(Deps.khronos)
 
-                implementation(AndroidDeps.bungee)
                 implementation(AndroidDeps.drawableToolbox)
                 implementation(AndroidDeps.flashbar)
                 implementation(AndroidDeps.flexboxLayout)

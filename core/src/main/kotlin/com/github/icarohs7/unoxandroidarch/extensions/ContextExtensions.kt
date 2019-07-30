@@ -30,13 +30,14 @@ inline fun <reified T : AppCompatActivity> Context.startActivity(
 fun <T : AppCompatActivity> Context.startActivity(
         destination: KClass<T>,
         extras: Bundle = bundleOf(),
-        finishActivity: Boolean = false
+        finishActivity: Boolean = false,
+        activityTransition: UnoxAndroidArch.ActivityTransitionAnimation = UnoxAndroidArch.defaultActivityTransition
 ) {
     val intent = Intent(this, destination.java)
     intent.putExtras(extras)
     startActivity(intent)
     if (this is Activity) {
-        UnoxAndroidArch.screenTransition.executeFn(this)
+        overridePendingTransition(activityTransition.enterRes, activityTransition.exitRes)
         if (UnoxAndroidArch.finishActivityOnNavigate || finishActivity) finish()
     }
 }

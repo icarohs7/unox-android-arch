@@ -45,10 +45,6 @@ https://github.com/icarohs7/unox-android-arch/commits/master)
 [![BADGINATOR](https://badginator.herokuapp.com/icarohs7/unox-android-arch.svg)](
 https://github.com/defunctzombie/badginator)
 
-## Description
-Opinionated, extended version of [unox-android](https://github.com/icarohs7/unox-android), expanding  it's
-functionalities with some traits of the architecture I use in most of my Android projects
-
 ## Adding to the project
 
 ```kotlin

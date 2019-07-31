@@ -10,6 +10,7 @@ import com.github.icarohs7.unoxandroidarch.testutils.TestActivity
 import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
 import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
 import com.github.icarohs7.unoxandroidarch.toplevel.Intent
+import com.github.icarohs7.unoxandroidarch.toplevel.randomColor
 import com.github.icarohs7.unoxandroidarch.toplevel.safeRun
 import com.github.icarohs7.unoxandroidarch.toplevel.whileLoading
 import kotlinx.coroutines.async
@@ -26,6 +27,8 @@ import org.koin.core.context.stopKoin
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import se.lovef.assert.v1.shouldBeFalse
+import se.lovef.assert.v1.shouldBeGreaterThan
+import se.lovef.assert.v1.shouldBeLessThan
 import se.lovef.assert.v1.shouldBeNull
 import se.lovef.assert.v1.shouldBeTrue
 import se.lovef.assert.v1.shouldEqual
@@ -114,5 +117,14 @@ class TopLevelKtTest {
         i2.component shouldEqual e2.component
         i2.data shouldEqual e2.data
         i2.extras shouldEqual e2.extras
+    }
+
+    @Test
+    fun should_generate_random_colors() {
+        repeat(1_000_000) {
+            val color = randomColor()
+            color shouldBeLessThan 1
+            color shouldBeGreaterThan -16777217
+        }
     }
 }

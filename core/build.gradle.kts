@@ -31,6 +31,7 @@ kotlin {
                 implementation(Deps.arrowCoreData)
                 implementation(Deps.coroutinesCore)
                 implementation(Deps.khronos)
+                api(Deps.unoxCoreJvm)
 
                 implementation(AndroidDeps.drawableToolbox)
                 implementation(AndroidDeps.flashbar)
@@ -50,7 +51,6 @@ kotlin {
                 implementation(AndroidDeps.swipeRefreshLayout)
                 implementation(AndroidDeps.stateViews)
                 implementation(AndroidDeps.timber)
-                api(AndroidDeps.unoxCoreAndroid)
             }
         }
 

@@ -7,7 +7,6 @@ import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
 import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
 import com.github.icarohs7.unoxcore.UnoxCore
 import com.github.icarohs7.unoxcore.extensions.coroutines.onForeground
-import com.github.icarohs7.unoxcore.extensions.valueOr
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

@@ -5,13 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import com.github.icarohs7.unoxandroidarch.testutils.TestActivity
 import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
 import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
+import com.github.icarohs7.unoxandroidarch.testutils.runAllMainLooperMessages
 import com.github.icarohs7.unoxcore.UnoxCore
 import com.github.icarohs7.unoxcore.extensions.coroutines.onForeground
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -39,22 +40,35 @@ class LiveDataExtensionsKtTest {
     }
 
     @Test
-    fun should_convert_live_data_to_flow(): Unit = runBlockingTest {
+    fun should_convert_live_data_to_flow() {
+        UnoxCore.foregroundDispatcher = Dispatchers.Main
         val (controller, act) = mockActivity<TestActivity>()
         controller.resume()
         val ld1 = MutableLiveData<String>()
-        val f1 = ld1.asFlow("Ho, Mukatte Kuru no Ka?")
 
+        val f1 = ld1.asFlow("Ho, Mukatte Kuru no Ka?")
         var last = ""
         f1.onEach { last = it }.launchIn(act)
-        last shouldEqual "Ho, Mukatte Kuru no Ka?"
 
-        ld1.value = "Chikadzukanakya, teme o buchi nomesenainde na"
-        last shouldEqual "Chikadzukanakya, teme o buchi nomesenainde na"
+        runBlocking {
+            ld1.value = "Omai wa mou shindeiru!"
+            runAllMainLooperMessages()
+            ld1.asFlow(null).first() shouldEqual "Omai wa mou shindeiru!"
+        }
+
+        runBlocking {
+            ld1.value = "Chikadzukanakya, teme o buchi nomesenainde na"
+            runAllMainLooperMessages()
+            ld1.asFlow(null).first() shouldEqual "Chikadzukanakya, teme o buchi nomesenainde na"
+        }
 
         //Assert cancellation
         controller.destroy()
+        runAllMainLooperMessages()
+
         ld1.value = "NANI!?"
+        runAllMainLooperMessages()
+
         last shouldEqual "Chikadzukanakya, teme o buchi nomesenainde na"
     }
 }

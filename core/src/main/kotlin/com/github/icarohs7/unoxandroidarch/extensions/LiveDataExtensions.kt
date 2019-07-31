@@ -3,9 +3,11 @@ package com.github.icarohs7.unoxandroidarch.extensions
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import arrow.core.Try
+import com.github.icarohs7.unoxcore.UnoxCore
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
 
 /** Retrieve the value of the livedata or return the fallback if null */
 fun <T> LiveData<T>.valueOr(fallback: T): T =
@@ -28,5 +30,5 @@ fun <T> LiveData<T>.asFlow(emissionIfNull: T?): Flow<T> {
         val observer = Observer<T> { offer(it) }
         observeForever(observer)
         awaitClose { removeObserver(observer) }
-    }
+    }.flowOn(UnoxCore.foregroundDispatcher)
 }

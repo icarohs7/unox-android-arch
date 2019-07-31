@@ -5,6 +5,7 @@ include(":benchmark")
 include(":core")
 include(":location")
 include(":notification")
+include(":rx")
 include(":scheduling")
 include(":spinner")
 

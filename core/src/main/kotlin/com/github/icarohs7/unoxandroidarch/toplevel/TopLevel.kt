@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Color
 import android.net.Uri
 import android.text.Spanned
 import android.view.ViewGroup
@@ -126,4 +127,13 @@ inline fun <reified T> Intent(packageContext: Context): Intent {
 @Suppress("FunctionName")
 inline fun <reified T> Intent(action: String, uri: Uri, packageContext: Context): Intent {
     return Intent(action, uri, packageContext, T::class.java)
+}
+
+/**
+ * @return A randomly generated color
+ */
+@ColorInt
+fun randomColor(): Int {
+    val nextInt = { (0..255).random() }
+    return Color.rgb(nextInt(), nextInt(), nextInt())
 }

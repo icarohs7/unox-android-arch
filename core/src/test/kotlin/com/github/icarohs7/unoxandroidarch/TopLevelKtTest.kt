@@ -5,11 +5,12 @@ import android.os.Build
 import androidx.core.net.toUri
 import androidx.core.text.buildSpannedString
 import arrow.core.Try
-import com.github.icarohs7.unoxandroidarch.state.LoadableState
+import com.github.icarohs7.unoxandroidarch.state.LoadingStore
 import com.github.icarohs7.unoxandroidarch.testutils.TestActivity
 import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
 import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
 import com.github.icarohs7.unoxandroidarch.toplevel.Intent
+import com.github.icarohs7.unoxandroidarch.toplevel.randomColor
 import com.github.icarohs7.unoxandroidarch.toplevel.safeRun
 import com.github.icarohs7.unoxandroidarch.toplevel.whileLoading
 import kotlinx.coroutines.async
@@ -23,21 +24,18 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
-import org.koin.core.get
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import se.lovef.assert.v1.shouldBeFalse
+import se.lovef.assert.v1.shouldBeGreaterThan
+import se.lovef.assert.v1.shouldBeLessThan
 import se.lovef.assert.v1.shouldBeNull
 import se.lovef.assert.v1.shouldBeTrue
 import se.lovef.assert.v1.shouldEqual
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = TestApplication::class, sdk = [Build.VERSION_CODES.O])
 class TopLevelKtTest {
-    private val loadableState by lazy { Injector.get<LoadableState>() }
-
     @Before
     fun setUp() {
         startKoin { }
@@ -56,14 +54,14 @@ class TopLevelKtTest {
         val c2 = Channel<Int>()
 
         runBlocking {
-            isLoading().shouldBeFalse()
+            LoadingStore.isLoading.shouldBeFalse()
             val as1 = async { whileLoading { c1.first(); 1000 } }
             delay(300)
-            isLoading().shouldBeTrue()
+            LoadingStore.isLoading.shouldBeTrue()
 
             c1.send(1)
             as1.await() shouldEqual 1000
-            isLoading().shouldBeFalse()
+            LoadingStore.isLoading.shouldBeFalse()
         }
 
         runBlocking {
@@ -76,20 +74,12 @@ class TopLevelKtTest {
                 }
             }
             delay(300)
-            isLoading().shouldBeTrue()
+            LoadingStore.isLoading.shouldBeTrue()
 
             c2.send(1)
             delay(200)
             as2.await()
-            isLoading().shouldBeFalse()
-        }
-    }
-
-    private fun isLoading(): Boolean {
-        return runBlocking {
-            suspendCoroutine<Boolean> { continuation ->
-                loadableState.use { continuation.resume(isLoading) }
-            }
+            LoadingStore.isLoading.shouldBeFalse()
         }
     }
 
@@ -127,5 +117,14 @@ class TopLevelKtTest {
         i2.component shouldEqual e2.component
         i2.data shouldEqual e2.data
         i2.extras shouldEqual e2.extras
+    }
+
+    @Test
+    fun should_generate_random_colors() {
+        repeat(1_000_000) {
+            val color = randomColor()
+            color shouldBeLessThan 1
+            color shouldBeGreaterThan -16777217
+        }
     }
 }

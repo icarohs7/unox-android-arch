@@ -45,10 +45,6 @@ https://github.com/icarohs7/unox-android-arch/commits/master)
 [![BADGINATOR](https://badginator.herokuapp.com/icarohs7/unox-android-arch.svg)](
 https://github.com/defunctzombie/badginator)
 
-## Description
-Opinionated, extended version of [unox-android](https://github.com/icarohs7/unox-android), expanding  it's
-functionalities with some traits of the architecture I use in most of my Android projects
-
 ## Adding to the project
 
 ```kotlin
@@ -73,5 +69,8 @@ dependencies {
     
     //Push notification helpers, wrapping the library Pug Notification(https://github.com/halysongoncalves/Pugnotification)
     implementation("com.github.icarohs7:unox-android-arch-notification:$unoxandroidarch_version")
+    
+    //RxJava helpers and extensions
+    implementation("com.github.icarohs7:unox-android-arch-rx:$unoxandroidarch_version")
 }
 ```

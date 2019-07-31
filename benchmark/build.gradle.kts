@@ -30,7 +30,7 @@ kotlin {
                 api(project(":core"))
 
                 implementation(Deps.arrowCoreData)
-                implementation(Deps.coroutinesRx2)
+                implementation(Deps.coroutinesCore)
 
                 implementation(AndroidDeps.timber)
             }
@@ -48,11 +48,6 @@ kotlin {
             }
         }
     }
-}
-
-dependencies {
-    AndroidKaptDeps.core.forEach { "kapt"(it) }
-    AndroidKaptDeps.core.forEach { "kaptTest"(it) }
 }
 
 setupBintrayPublish(bintray, "metadata", "androidDebug")

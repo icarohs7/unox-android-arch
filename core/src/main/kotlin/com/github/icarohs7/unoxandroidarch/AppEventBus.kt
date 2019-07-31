@@ -1,12 +1,12 @@
 package com.github.icarohs7.unoxandroidarch
 
-import androidx.appcompat.app.AppCompatActivity
 import arrow.core.Try
-import com.jakewharton.rxrelay2.PublishRelay
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import io.sellmair.disposer.disposeBy
-import io.sellmair.disposer.onDestroy
+import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.broadcast
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 /**
@@ -14,7 +14,8 @@ import timber.log.Timber
  * or fragment anywhere on the application
  */
 object AppEventBus {
-    private val activityOperationsStream: PublishRelay<AppCompatActivity.() -> Unit> = PublishRelay.create()
+    private val activityOpStream = Channel<BaseScopedActivity.() -> Unit>()
+    private val activityOpFlow = activityOpStream.broadcast().asFlow()
 
     /**
      * Object aggregating event emmiters
@@ -24,8 +25,8 @@ object AppEventBus {
         /**
          * Run an operation within the scope of an activity
          */
-        fun enqueueActivityOperation(fn: AppCompatActivity.() -> Unit) {
-            activityOperationsStream.accept(fn)
+        fun enqueueActivityOperation(fn: BaseScopedActivity.() -> Unit) {
+            activityOpStream.offer(fn)
         }
     }
 
@@ -37,13 +38,10 @@ object AppEventBus {
          * Subscribe the given activity to the stream of actions
          * being delegated to an activity on the application
          */
-        fun subscribeActivity(activity: AppCompatActivity): Unit =
-                activity.run {
-                    activityOperationsStream
-                            .subscribeOn(Schedulers.computation())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe { action -> Try { action() }.fold(Timber::e) {} }
-                            .disposeBy(onDestroy)
-                }
+        fun subscribeActivity(activity: BaseScopedActivity): Unit = with(activity) {
+            activityOpFlow
+                    .onEach { action -> Try { action() }.fold(Timber::e) {} }
+                    .launchIn(activity)
+        }
     }
 }

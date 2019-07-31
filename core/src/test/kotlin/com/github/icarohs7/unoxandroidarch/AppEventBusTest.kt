@@ -7,6 +7,7 @@ import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedAct
 import com.github.icarohs7.unoxandroidarch.testutils.TestActivity
 import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
 import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
+import com.github.icarohs7.unoxandroidarch.testutils.runAllMainLooperMessages
 import com.github.icarohs7.unoxandroidarch.toplevel.onActivity
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -54,5 +55,22 @@ class AppEventBusTest {
         controller.destroy()
 
         async1.await() shouldEqual 1532
+    }
+
+    @Test
+    fun `should not cache last emission`() {
+        var number1 = 0
+        var number2 = 0
+        onActivity { number1 = 1532 }
+        runAllMainLooperMessages()
+
+        val (controller, _) = mockActivity<TestActivity>()
+        controller.resume()
+        runAllMainLooperMessages()
+
+        number1 shouldEqual 0
+        onActivity { number2 = 1532 }
+        runAllMainLooperMessages()
+        number2 shouldEqual 1532
     }
 }

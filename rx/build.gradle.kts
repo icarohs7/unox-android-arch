@@ -31,7 +31,6 @@ kotlin {
 
                 implementation(Deps.arrowCoreData)
                 implementation(Deps.coroutinesRx2)
-                implementation(Deps.kotlinStdLib)
                 implementation(Deps.rxJava2)
 
                 implementation(AndroidDeps.disposer)

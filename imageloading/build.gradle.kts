@@ -16,7 +16,7 @@ android {
 }
 
 kotlin {
-    val libraryName = "unox-android-arch-core"
+    val libraryName = "unox-android-arch-imageloading"
     setupMetaInfoNameOnAll(rootProject, project)
     setupMetadataTarget(rootProject, project, "$libraryName-metadata")
     setupAndroidTarget(rootProject, project, libraryName)
@@ -27,30 +27,9 @@ kotlin {
             kotlin.srcDir("src/main/kotlin")
             dependencies {
                 compileOnly("javax.annotation:javax.annotation-api:1.3.2")
+                api(project(":core"))
 
-                api(Deps.kotlinStdLib)
-                api(Deps.unoxCoreJvm)
-                implementation(Deps.arrowCoreData)
-                implementation(Deps.coroutinesCore)
-                implementation(Deps.khronos)
-
-                implementation(AndroidDeps.drawableToolbox)
-                implementation(AndroidDeps.flashbar)
-                implementation(AndroidDeps.flexboxLayout)
-                implementation(AndroidDeps.fragmentKtx)
-                implementation(AndroidDeps.koinAndroid)
-                implementation(AndroidDeps.materialComponents)
-                implementation(AndroidDeps.mvRx)
-                implementation(AndroidDeps.recyclerView)
-                implementation(AndroidDeps.spinKit)
-                implementation(AndroidDeps.splittiesAppctx)
-                implementation(AndroidDeps.splittiesPermissions)
-                implementation(AndroidDeps.splittiesResources)
-                implementation(AndroidDeps.splittiesSystemservices)
-                implementation(AndroidDeps.splittiesViews)
-                implementation(AndroidDeps.swipeRefreshLayout)
-                implementation(AndroidDeps.stateViews)
-                implementation(AndroidDeps.timber)
+                implementation(AndroidDeps.picasso)
             }
         }
 

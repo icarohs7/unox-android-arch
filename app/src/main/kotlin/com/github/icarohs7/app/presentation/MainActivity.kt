@@ -14,10 +14,10 @@ import com.github.icarohs7.app.databinding.ActivityMainBinding
 import com.github.icarohs7.app.domain.NotificationWorker
 import com.github.icarohs7.app.domain.ToastWorker
 import com.github.icarohs7.unoxandroidarch.UnoxAndroidArch
-import com.github.icarohs7.unoxandroidarch.extensions.load
 import com.github.icarohs7.unoxandroidarch.extensions.now
 import com.github.icarohs7.unoxandroidarch.extensions.requestPermissions
 import com.github.icarohs7.unoxandroidarch.extensions.startActivity
+import com.github.icarohs7.unoxandroidarch.imageloading.domain.extensions.load
 import com.github.icarohs7.unoxandroidarch.location.getCurrentLocation
 import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseBindingActivity
 import com.github.icarohs7.unoxandroidarch.scheduling.scheduleOperation
@@ -44,8 +44,9 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     }
 
     private fun setupBinding(): Unit = with(binding) {
-        imgLoading.load("https://google.com", onError = R.drawable.img_placeholder_img_loading)
+        imgLoading.load("https://google.com", onErrorRes = R.drawable.img_placeholder_img_loading)
         setGetLocationHandler { launch { showLocation() } }
+        setToastNowHandler { toast("Some message here") }
         setToastIn5Handler { scheduleToastIn5() }
         setNotificationIn20Handler { scheduleNotificationIn20() }
         setCancelTasksHandler { cancelTasks() }

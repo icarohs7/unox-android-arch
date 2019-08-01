@@ -10,6 +10,10 @@
             type="android.view.View.OnClickListener" />
 
         <variable
+            name="toastNowHandler"
+            type="android.view.View.OnClickListener" />
+
+        <variable
             name="toastIn5Handler"
             type="android.view.View.OnClickListener" />
 
@@ -75,6 +79,12 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{ getLocationHandler::onClick }"
                     android:text="Get location" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{ toastNowHandler::onClick }"
+                    android:text="Toast now" />
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"

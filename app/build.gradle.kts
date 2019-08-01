@@ -16,6 +16,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":imageloading"))
     implementation(project(":location"))
     implementation(project(":scheduling"))
     implementation(project(":notification"))
@@ -23,7 +24,6 @@ dependencies {
     implementation(Deps.arrowCoreData)
     implementation(Deps.khronos)
 
-    implementation(AndroidDeps.disposer)
     implementation(AndroidDeps.koinAndroid)
     implementation(AndroidDeps.materialComponents)
     implementation(AndroidDeps.materialDialogs)

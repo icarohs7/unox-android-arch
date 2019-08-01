@@ -31,7 +31,6 @@ kotlin {
 
                 implementation(Deps.arrowCoreData)
                 implementation(Deps.coroutinesCore)
-                implementation(Deps.kotlinStdLib)
 
                 implementation(AndroidDeps.smartLocation)
                 implementation(AndroidDeps.splittiesAppctx)

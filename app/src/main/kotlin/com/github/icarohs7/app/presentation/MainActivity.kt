@@ -4,6 +4,7 @@ import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.work.WorkManager
 import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
@@ -19,7 +20,7 @@ import com.github.icarohs7.unoxandroidarch.extensions.requestPermissions
 import com.github.icarohs7.unoxandroidarch.extensions.startActivity
 import com.github.icarohs7.unoxandroidarch.imageloading.domain.extensions.load
 import com.github.icarohs7.unoxandroidarch.location.getCurrentLocation
-import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseBindingActivity
+import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
 import com.github.icarohs7.unoxandroidarch.scheduling.scheduleOperation
 import com.github.icarohs7.unoxandroidarch.toplevel.appHasInternetConnection
 import khronos.plus
@@ -29,10 +30,13 @@ import splitties.toast.toast
 import kotlin.system.measureTimeMillis
 
 @SuppressLint("SetTextI18n")
-class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
+class MainActivity : BaseScopedActivity() {
+    private lateinit var binding: ActivityMainBinding
 
-    override fun onBindingCreated(savedInstanceState: Bundle?) {
-        super.onBindingCreated(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.lifecycleOwner = this
         binding.setRefreshHandler { startActivity<MainActivity>(finishActivity = true) }
         render()
     }
@@ -100,9 +104,5 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
                 UnoxAndroidArch.connectionCheckAddress = "$s"
             }
         }
-    }
-
-    override fun getLayout(): Int {
-        return R.layout.activity_main
     }
 }

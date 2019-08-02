@@ -6,10 +6,7 @@ import com.airbnb.mvrx.BaseMvRxActivity
 import com.github.icarohs7.unoxandroidarch.AppEventBus
 import com.github.icarohs7.unoxcore.extensions.coroutines.cancelCoroutineScope
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.launchIn
 
 /**
  * Activity containing a coroutine scope,
@@ -31,12 +28,6 @@ abstract class BaseScopedActivity : BaseMvRxActivity(), CoroutineScope by MainSc
     open fun onSetSoftInputMode(): Int {
         return WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
     }
-
-    /**
-     * Launch the collection of the given Flow
-     * on the coroutine scope of this component
-     */
-    fun Flow<*>.launchInScope(): Job = launchIn(this@BaseScopedActivity)
 
     override fun onDestroy() {
         cancelCoroutineScope()

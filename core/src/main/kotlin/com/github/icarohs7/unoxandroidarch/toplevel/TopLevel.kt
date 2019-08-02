@@ -21,7 +21,6 @@ import com.github.icarohs7.unoxcore.extensions.valueOr
 import splitties.init.appCtx
 import splitties.systemservices.connectivityManager
 import timber.log.Timber
-import top.defaults.drawabletoolbox.DrawableBuilder
 import java.net.InetSocketAddress
 import java.net.Socket
 
@@ -79,16 +78,6 @@ suspend fun appHasInternetConnection(): Boolean = onBackground {
     }
 
     checkSequence.take(5).any { it }
-}
-
-/**
- * Create a [DrawableBuilder] with a preset ripple
- * effect of the given color
- */
-fun rippleBackgroundDrawable(@ColorInt color: Int): DrawableBuilder {
-    return DrawableBuilder()
-            .ripple()
-            .rippleColor(color)
 }
 
 /**

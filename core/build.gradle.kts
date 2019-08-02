@@ -34,7 +34,6 @@ kotlin {
                 implementation(Deps.coroutinesCore)
                 implementation(Deps.khronos)
 
-                implementation(AndroidDeps.drawableToolbox)
                 implementation(AndroidDeps.flashbar)
                 implementation(AndroidDeps.flexboxLayout)
                 implementation(AndroidDeps.fragmentKtx)

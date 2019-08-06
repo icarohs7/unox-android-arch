@@ -25,12 +25,12 @@ dependencies {
     implementation(Deps.khronos)
 
     implementation(AndroidDeps.koinAndroid)
+    implementation(AndroidDeps.lifecycleRuntimeKtx)
     implementation(AndroidDeps.materialComponents)
     implementation(AndroidDeps.materialDialogs)
     implementation(AndroidDeps.materialDialogsBottomSheets)
     implementation(AndroidDeps.materialDialogsInput)
     implementation(AndroidDeps.mvRx)
-    implementation(AndroidDeps.splittiesLifecycleCoroutines)
     implementation(AndroidDeps.splittiesToast)
     implementation(AndroidDeps.workManagerKtx)
 

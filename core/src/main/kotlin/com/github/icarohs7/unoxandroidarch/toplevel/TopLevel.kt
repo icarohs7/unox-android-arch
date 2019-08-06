@@ -9,8 +9,8 @@ import android.net.Uri
 import android.text.Spanned
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.buildSpannedString
+import androidx.fragment.app.FragmentActivity
 import arrow.core.Try
 import arrow.core.getOrElse
 import com.github.icarohs7.unoxandroidarch.AppEventBus
@@ -45,7 +45,7 @@ val isOnLandscapeOrientation: Boolean
     get() = appOrientation == Configuration.ORIENTATION_LANDSCAPE
 
 /** [AppEventBus.In.enqueueActivityOperation] */
-fun onActivity(action: AppCompatActivity.() -> Unit): Unit =
+fun onActivity(action: FragmentActivity.() -> Unit): Unit =
         AppEventBus.In.enqueueActivityOperation(action)
 
 /** [AppEventBus.In.enqueueActivityOperation] */

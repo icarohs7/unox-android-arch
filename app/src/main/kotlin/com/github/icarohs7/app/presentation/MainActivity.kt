@@ -5,6 +5,7 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.work.WorkManager
 import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
@@ -20,7 +21,7 @@ import com.github.icarohs7.unoxandroidarch.extensions.requestPermissions
 import com.github.icarohs7.unoxandroidarch.extensions.startActivity
 import com.github.icarohs7.unoxandroidarch.imageloading.domain.extensions.load
 import com.github.icarohs7.unoxandroidarch.location.getCurrentLocation
-import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
+import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseArchActivity
 import com.github.icarohs7.unoxandroidarch.scheduling.scheduleOperation
 import com.github.icarohs7.unoxandroidarch.toplevel.appHasInternetConnection
 import khronos.plus
@@ -30,7 +31,7 @@ import splitties.toast.toast
 import kotlin.system.measureTimeMillis
 
 @SuppressLint("SetTextI18n")
-class MainActivity : BaseScopedActivity() {
+class MainActivity : BaseArchActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,19 +43,19 @@ class MainActivity : BaseScopedActivity() {
     }
 
     private fun render() {
-        launch {
+        lifecycleScope.launch {
             setupBinding()
         }
     }
 
     private fun setupBinding(): Unit = with(binding) {
         imgLoading.load("https://google.com", onErrorRes = R.drawable.img_placeholder_img_loading)
-        setGetLocationHandler { launch { showLocation() } }
+        setGetLocationHandler { lifecycleScope.launch { showLocation() } }
         setToastNowHandler { toast("Some message here") }
         setToastIn5Handler { scheduleToastIn5() }
         setNotificationIn20Handler { scheduleNotificationIn20() }
         setCancelTasksHandler { cancelTasks() }
-        setCheckConnectionHandler { launch { showInternetStatus() } }
+        setCheckConnectionHandler { lifecycleScope.launch { showInternetStatus() } }
         setChangeConnectionIpHandler { changeConnectionIp() }
     }
 

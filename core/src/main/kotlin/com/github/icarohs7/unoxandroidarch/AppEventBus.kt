@@ -1,7 +1,8 @@
 package com.github.icarohs7.unoxandroidarch
 
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import arrow.core.Try
-import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.broadcast
 import kotlinx.coroutines.flow.asFlow
@@ -14,7 +15,7 @@ import timber.log.Timber
  * or fragment anywhere on the application
  */
 object AppEventBus {
-    private val activityOpStream = Channel<BaseScopedActivity.() -> Unit>()
+    private val activityOpStream = Channel<FragmentActivity.() -> Unit>()
     private val activityOpFlow = activityOpStream.broadcast().asFlow()
 
     /**
@@ -25,7 +26,7 @@ object AppEventBus {
         /**
          * Run an operation within the scope of an activity
          */
-        fun enqueueActivityOperation(fn: BaseScopedActivity.() -> Unit) {
+        fun enqueueActivityOperation(fn: FragmentActivity.() -> Unit) {
             activityOpStream.offer(fn)
         }
     }
@@ -38,10 +39,10 @@ object AppEventBus {
          * Subscribe the given activity to the stream of actions
          * being delegated to an activity on the application
          */
-        fun subscribeActivity(activity: BaseScopedActivity): Unit = with(activity) {
+        fun subscribeActivity(activity: FragmentActivity): Unit = with(activity) {
             activityOpFlow
                     .onEach { action -> Try { action() }.fold(Timber::e) {} }
-                    .launchIn(activity)
+                    .launchIn(activity.lifecycleScope)
         }
     }
 }

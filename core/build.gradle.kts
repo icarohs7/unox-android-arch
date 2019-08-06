@@ -38,6 +38,7 @@ kotlin {
                 implementation(AndroidDeps.flexboxLayout)
                 implementation(AndroidDeps.fragmentKtx)
                 implementation(AndroidDeps.koinAndroid)
+                implementation(AndroidDeps.lifecycleRuntimeKtx)
                 implementation(AndroidDeps.materialComponents)
                 implementation(AndroidDeps.mvRx)
                 implementation(AndroidDeps.recyclerView)
@@ -47,8 +48,8 @@ kotlin {
                 implementation(AndroidDeps.splittiesResources)
                 implementation(AndroidDeps.splittiesSystemservices)
                 implementation(AndroidDeps.splittiesViews)
-                implementation(AndroidDeps.swipeRefreshLayout)
                 implementation(AndroidDeps.stateViews)
+                implementation(AndroidDeps.swipeRefreshLayout)
                 implementation(AndroidDeps.timber)
             }
         }

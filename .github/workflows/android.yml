@@ -13,6 +13,8 @@ jobs:
           java-version: 1.8
       - name: Build with Gradle
         run: |
+          chmod +x gradlew
+          git clone https://github.com/icarohs7/unox-buildsrc buildSrc
           ./gradlew -p core -Pcoverage clean build jacocoTestReport -x lint --stacktrace
           ./gradlew -p scheduling -Pcoverage clean build jacocoTestReport -x lint --stacktrace
           ./gradlew -p benchmark -Pcoverage clean build jacocoTestReport -x lint --stacktrace

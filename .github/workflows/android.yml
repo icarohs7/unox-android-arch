@@ -1,7 +1,5 @@
 name: Android CI
-
 on: [push]
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,4 +20,4 @@ jobs:
           ./gradlew -p notification -Pcoverage clean build jacocoTestReport -x lint --stacktrace
           ./gradlew -p rx -Pcoverage clean build jacocoTestReport -x lint --stacktrace
       - name: Send coverage to codecov
-        run: bash <(curl -s https://codecov.io/bash)
+        uses: codecov/codecov-action@v1.0.2

@@ -44,6 +44,7 @@ kotlin {
             dependsOn(androidMain)
             kotlin.srcDir("src/test/kotlin")
             dependencies {
+                implementation(AndroidDeps.appCompat)
                 TestDeps.androidCore.forEach {
                     implementation(it) {
                         exclude(group = "org.apache.maven")

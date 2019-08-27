@@ -32,7 +32,6 @@ before_install:
 
 script:
   - ./gradlew -p core -Pcoverage clean build jacocoTestReport -x lint --stacktrace
-  - ./gradlew -p location -Pcoverage clean build jacocoTestReport -x lint --stacktrace
   - ./gradlew -p scheduling -Pcoverage clean build jacocoTestReport -x lint --stacktrace
   - ./gradlew -p benchmark -Pcoverage clean build jacocoTestReport -x lint --stacktrace
   - ./gradlew -p spinner -Pcoverage clean build jacocoTestReport -x lint --stacktrace

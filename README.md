@@ -58,12 +58,6 @@ dependencies {
     //Execution time helpers
     implementation("com.github.icarohs7:unox-android-arch-benchmark:$unoxandroidarch_version")
     
-    //Image loading helpers, extensions of Picasso(https://github.com/square/picasso)
-    implementation("com.github.icarohs7:unox-android-arch-imageloading:$unoxandroidarch_version")
-    
-    //Location helpers
-    implementation("com.github.icarohs7:unox-android-arch-location:$unoxandroidarch_version")
-    
     //Push notification helpers, wrapping the library Pug Notification(https://github.com/halysongoncalves/Pugnotification)
     implementation("com.github.icarohs7:unox-android-arch-notification:$unoxandroidarch_version")
     

@@ -20,4 +20,4 @@ jobs:
           ./gradlew -p notification -Pcoverage clean build jacocoTestReport -x lint --stacktrace
           ./gradlew -p rx -Pcoverage clean build jacocoTestReport -x lint --stacktrace
       - name: Send coverage to codecov
-        uses: codecov/codecov-action@v1.0.2
+        run: bash <(curl -s https://codecov.io/bash)

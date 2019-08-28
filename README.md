@@ -10,6 +10,8 @@ https://forthebadge.com/)
 
 [![Bintray Version](https://api.bintray.com/packages/icarohs7/libraries/unox-android-arch/images/download.svg)](
 https://bintray.com/icarohs7/libraries/unox-android-arch/_latestVersion)
+[![Actions Status](https://github.com/icarohs7/unox-android-arch/workflows/ci/badge.svg)](
+https://github.com/icarohs7/unox-android-arch/actions)
 [![GitHub top language](https://img.shields.io/github/languages/top/icarohs7/unox-android-arch.svg)](
 https://github.com/icarohs7/unox-android-arch/search?l=kotlin)
 [![HitCount](http://hits.dwyl.io/icarohs7/unox-android-arch.svg)](

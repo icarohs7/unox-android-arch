@@ -57,7 +57,7 @@ inline fun <reified T : Activity> onActivity(noinline action: T.() -> Unit): Uni
 /** Check whether the application has connectivity to the internet */
 suspend fun appHasInternetConnection(): Boolean = onBackground {
     connectivityManager.activeNetworkInfo
-            ?.isConnected
+            ?.isConnectedOrConnecting
             .valueOr(false)
             .also { adapterOn -> if (!adapterOn) return@onBackground false }
 

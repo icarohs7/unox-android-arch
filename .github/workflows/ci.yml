@@ -12,10 +12,12 @@ jobs:
       - name: Install
         run: |
           chmod +x gradlew
+          rm settings.gradle.kts
+          mv settings_ci.gradle.kts settings.gradle.kts
           git clone https://github.com/icarohs7/unox-buildsrc buildSrc
       - name: Build
         run: |
-          ./gradlew -Pcoverage clean build jacocoTestReport -x lint :app:clean :app:build --stacktrace
+          ./gradlew -Pcoverage clean build jacocoTestReport -x lint --stacktrace
       - name: Send coverage to codecov
         uses: codecov/codecov-action@v1.0.2
         with:

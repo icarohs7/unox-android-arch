@@ -2,6 +2,7 @@ package com.github.icarohs7.unoxandroidarch.extensions
 
 import android.os.Build
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import com.github.icarohs7.unoxandroidarch.testutils.TestActivity
 import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
 import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
@@ -48,7 +49,7 @@ class LiveDataExtensionsKtTest {
 
         val f1 = ld1.asFlow("Ho, Mukatte Kuru no Ka?")
         var last = ""
-        f1.onEach { last = it }.launchIn(act)
+        f1.onEach { last = it }.launchIn(act.lifecycleScope)
 
         runBlocking {
             ld1.value = "Omai wa mou shindeiru!"

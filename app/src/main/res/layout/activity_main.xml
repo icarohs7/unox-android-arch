@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="getLocationHandler"
+            name="toastNowHandler"
             type="android.view.View.OnClickListener" />
 
         <variable
@@ -57,13 +57,6 @@
                     tools:src="@tools:sample/avatars" />
 
                 <TextView
-                    android:id="@+id/txt_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    tools:text="djiajdjsidjiajsdijsdi" />
-
-                <TextView
                     android:id="@+id/txt_has_internet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -73,8 +66,8 @@
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{ getLocationHandler::onClick }"
-                    android:text="Get location" />
+                    android:onClick="@{ toastNowHandler::onClick }"
+                    android:text="Toast now" />
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"

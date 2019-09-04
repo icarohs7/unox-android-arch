@@ -16,21 +16,19 @@ android {
 }
 
 dependencies {
-    implementation(project(":location"))
     implementation(project(":scheduling"))
     implementation(project(":notification"))
 
     implementation(Deps.arrowCoreData)
     implementation(Deps.khronos)
 
-    implementation(AndroidDeps.disposer)
     implementation(AndroidDeps.koinAndroid)
+    implementation(AndroidDeps.lifecycleRuntimeKtx)
     implementation(AndroidDeps.materialComponents)
     implementation(AndroidDeps.materialDialogs)
     implementation(AndroidDeps.materialDialogsBottomSheets)
     implementation(AndroidDeps.materialDialogsInput)
     implementation(AndroidDeps.mvRx)
-    implementation(AndroidDeps.splittiesLifecycleCoroutines)
     implementation(AndroidDeps.splittiesToast)
     implementation(AndroidDeps.workManagerKtx)
 

@@ -9,8 +9,8 @@ import android.net.Uri
 import android.text.Spanned
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.buildSpannedString
+import androidx.fragment.app.FragmentActivity
 import arrow.core.Try
 import arrow.core.getOrElse
 import com.github.icarohs7.unoxandroidarch.AppEventBus
@@ -21,7 +21,6 @@ import com.github.icarohs7.unoxcore.extensions.valueOr
 import splitties.init.appCtx
 import splitties.systemservices.connectivityManager
 import timber.log.Timber
-import top.defaults.drawabletoolbox.DrawableBuilder
 import java.net.InetSocketAddress
 import java.net.Socket
 
@@ -46,7 +45,7 @@ val isOnLandscapeOrientation: Boolean
     get() = appOrientation == Configuration.ORIENTATION_LANDSCAPE
 
 /** [AppEventBus.In.enqueueActivityOperation] */
-fun onActivity(action: AppCompatActivity.() -> Unit): Unit =
+fun onActivity(action: FragmentActivity.() -> Unit): Unit =
         AppEventBus.In.enqueueActivityOperation(action)
 
 /** [AppEventBus.In.enqueueActivityOperation] */
@@ -58,7 +57,7 @@ inline fun <reified T : Activity> onActivity(noinline action: T.() -> Unit): Uni
 /** Check whether the application has connectivity to the internet */
 suspend fun appHasInternetConnection(): Boolean = onBackground {
     connectivityManager.activeNetworkInfo
-            ?.isConnected
+            ?.isConnectedOrConnecting
             .valueOr(false)
             .also { adapterOn -> if (!adapterOn) return@onBackground false }
 
@@ -79,16 +78,6 @@ suspend fun appHasInternetConnection(): Boolean = onBackground {
     }
 
     checkSequence.take(5).any { it }
-}
-
-/**
- * Create a [DrawableBuilder] with a preset ripple
- * effect of the given color
- */
-fun rippleBackgroundDrawable(@ColorInt color: Int): DrawableBuilder {
-    return DrawableBuilder()
-            .ripple()
-            .rippleColor(color)
 }
 
 /**

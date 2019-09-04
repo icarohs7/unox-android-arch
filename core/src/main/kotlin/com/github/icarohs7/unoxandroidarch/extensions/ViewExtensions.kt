@@ -1,15 +1,12 @@
 package com.github.icarohs7.unoxandroidarch.extensions
 
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import com.github.icarohs7.unoxandroidarch.toplevel.rippleBackgroundDrawable
 import splitties.systemservices.inputMethodManager
 
 /**
@@ -154,12 +151,3 @@ val View.location: Pair<Int, Int>
         getLocationOnScreen(array)
         return array[0] to array[1]
     }
-
-/**
- * Add a ripple background to the view and define
- * its click listener
- */
-fun View.rippleOnClick(@ColorInt rippleColor: Int = Color.parseColor("#888888"), listener: (View) -> Unit) {
-    background = rippleBackgroundDrawable(rippleColor).build()
-    setOnClickListener(listener)
-}

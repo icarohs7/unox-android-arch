@@ -5,15 +5,17 @@ plugins {
     id("jacoco")
     id("maven-publish")
     id("com.jfrog.bintray")
-    id("com.github.b3er.local.properties") version "1.1"
+    id("com.github.b3er.local.properties")
     defaults.`android-module`
+}
+
+compileKotlin {
+    useExperimentalFeatures()
 }
 
 android {
     defaultSettings(project)
 }
-
-useExperimentalFeatures()
 
 kotlin {
     val libraryName = "unox-android-arch-spinner"
@@ -28,8 +30,6 @@ kotlin {
             dependencies {
                 compileOnly("javax.annotation:javax.annotation-api:1.3.2")
                 api(project(":core"))
-
-                implementation(Deps.kotlinStdLib)
 
                 implementation(AndroidDeps.materialSpinner)
             }

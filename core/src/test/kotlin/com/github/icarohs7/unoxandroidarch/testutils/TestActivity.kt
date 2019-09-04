@@ -1,5 +1,5 @@
 package com.github.icarohs7.unoxandroidarch.testutils
 
-import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
+import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseArchActivity
 
-class TestActivity : BaseScopedActivity()
+class TestActivity : BaseArchActivity()

@@ -5,11 +5,13 @@ plugins {
     id("jacoco")
     id("maven-publish")
     id("com.jfrog.bintray")
-    id("com.github.b3er.local.properties") version "1.1"
+    id("com.github.b3er.local.properties")
     defaults.`android-module`
 }
 
-useExperimentalFeatures()
+compileKotlin {
+    useExperimentalFeatures()
+}
 
 android {
     defaultSettings(project)
@@ -28,19 +30,19 @@ kotlin {
             dependencies {
                 compileOnly("javax.annotation:javax.annotation-api:1.3.2")
 
+                api(Deps.kotlinStdLib)
+                api(Deps.unoxCoreJvm)
                 implementation(Deps.arrowCoreData)
                 implementation(Deps.coroutinesCore)
                 implementation(Deps.khronos)
-                api(Deps.unoxCoreJvm)
 
-                implementation(AndroidDeps.drawableToolbox)
                 implementation(AndroidDeps.flashbar)
                 implementation(AndroidDeps.flexboxLayout)
                 implementation(AndroidDeps.fragmentKtx)
                 implementation(AndroidDeps.koinAndroid)
+                implementation(AndroidDeps.lifecycleRuntimeKtx)
                 implementation(AndroidDeps.materialComponents)
                 implementation(AndroidDeps.mvRx)
-                implementation(AndroidDeps.picasso)
                 implementation(AndroidDeps.recyclerView)
                 implementation(AndroidDeps.spinKit)
                 implementation(AndroidDeps.splittiesAppctx)
@@ -48,8 +50,8 @@ kotlin {
                 implementation(AndroidDeps.splittiesResources)
                 implementation(AndroidDeps.splittiesSystemservices)
                 implementation(AndroidDeps.splittiesViews)
-                implementation(AndroidDeps.swipeRefreshLayout)
                 implementation(AndroidDeps.stateViews)
+                implementation(AndroidDeps.swipeRefreshLayout)
                 implementation(AndroidDeps.timber)
             }
         }

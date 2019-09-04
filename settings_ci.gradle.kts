@@ -1,6 +1,5 @@
 rootProject.name = "unoxandroidarch"
 
-include(":app")
 include(":benchmark")
 include(":core")
 include(":notification")

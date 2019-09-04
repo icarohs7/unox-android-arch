@@ -3,7 +3,7 @@ package com.github.icarohs7.unoxandroidarch
 import android.app.Activity
 import android.os.Build
 import com.github.icarohs7.unoxandroidarch.extensions.addOnDestroyObserver
-import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseScopedActivity
+import com.github.icarohs7.unoxandroidarch.presentation.activities.BaseArchActivity
 import com.github.icarohs7.unoxandroidarch.testutils.TestActivity
 import com.github.icarohs7.unoxandroidarch.testutils.TestApplication
 import com.github.icarohs7.unoxandroidarch.testutils.mockActivity
@@ -34,7 +34,7 @@ class AppEventBusTest {
         v shouldEqual act
         v shouldBe act
 
-        onActivity<BaseScopedActivity> { v = null }
+        onActivity<BaseArchActivity> { v = null }
         v shouldEqual null
         v shouldBe null
 

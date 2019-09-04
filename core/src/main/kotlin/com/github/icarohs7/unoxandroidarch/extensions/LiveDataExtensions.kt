@@ -15,17 +15,17 @@ fun <T> LiveData<T>.valueOr(fallback: T): T =
 
 /**
  * Convert the given [LiveData] to [Flow]
- * @param emissionIfNull First emission of the Flow
+ * @param firstEmissionIfNull First emission of the Flow
  *                      if the LiveData starts without
  *                      a value, use null to ignore
  *                      and start emitting only after
  *                      the liveData is assigned for the
  *                      first time
  */
-fun <T> LiveData<T>.asFlow(emissionIfNull: T?): Flow<T> {
+fun <T> LiveData<T>.asFlow(firstEmissionIfNull: T? = null): Flow<T> {
     return callbackFlow {
-        val hasFirstEmission = emissionIfNull != null
-        if (hasFirstEmission && value == null) Try { send(emissionIfNull!!) }
+        val hasFirstEmission = firstEmissionIfNull != null
+        if (hasFirstEmission && value == null) Try { send(firstEmissionIfNull!!) }
 
         val observer = Observer<T> { offer(it) }
         observeForever(observer)

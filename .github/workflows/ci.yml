@@ -15,10 +15,6 @@ jobs:
           git clone https://github.com/icarohs7/unox-buildsrc buildSrc
       - name: Build
         run: |
-          ./gradlew -p core -Pcoverage clean build jacocoTestReport -x lint --stacktrace
-          ./gradlew -p scheduling -Pcoverage clean build jacocoTestReport -x lint --stacktrace
-          ./gradlew -p benchmark -Pcoverage clean build jacocoTestReport -x lint --stacktrace
-          ./gradlew -p spinner -Pcoverage clean build jacocoTestReport -x lint --stacktrace
-          ./gradlew -p notification -Pcoverage clean build jacocoTestReport -x lint --stacktrace
+          ./gradlew -Pcoverage clean build jacocoTestReport -x lint :app:clean :app:build --stacktrace
       - name: Send coverage to codecov
         run: bash <(curl -s https://codecov.io/bash)

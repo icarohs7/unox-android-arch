@@ -61,9 +61,6 @@ dependencies {
     //Push notification helpers, wrapping the library Pug Notification(https://github.com/halysongoncalves/Pugnotification)
     implementation("com.github.icarohs7:unox-android-arch-notification:$unoxandroidarch_version")
     
-    //RxJava helpers and extensions
-    implementation("com.github.icarohs7:unox-android-arch-rx:$unoxandroidarch_version")
-    
     //Task scheduling helpers
     implementation("com.github.icarohs7:unox-android-arch-scheduling:$unoxandroidarch_version")
         

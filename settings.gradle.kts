@@ -4,7 +4,6 @@ include(":app")
 include(":benchmark")
 include(":core")
 include(":notification")
-include(":rx")
 include(":scheduling")
 include(":spinner")
 

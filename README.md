@@ -1,5 +1,10 @@
 # unox-android-arch
 
+---
+### Deprecated
+- Features moved to [resmodules repository](https://github.com/icarohs7/unox-android-resmodules)
+---
+
 [![Kotlin](https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Kotlin-logo.svg/240px-Kotlin-logo.svg.png)](
 https://kotlinlang.org)
 
